@@ -1,0 +1,47 @@
+.case-view {
+  position: relative;
+  flex: none;
+}
+
+.case-art {
+  position: absolute;
+  inset: 0;
+}
+
+.case-art img,
+.case-tint {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.case-tint {
+  mix-blend-mode: multiply;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.case-item {
+  position: absolute;
+  user-select: none;
+}
+
+.case-sticker {
+  display: block;
+  height: auto;
+  pointer-events: none;
+}
+
+.case-engrave {
+  display: block;
+  white-space: nowrap;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+.case-engrave.is-empty {
+  opacity: 0.75;
+}

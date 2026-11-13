@@ -1,0 +1,232 @@
+/* P02-S02 상품 요약 */
+.detail-summary-wrap {
+  padding: 48px var(--page-gutter) 0;
+}
+
+.detail-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 56px;
+  align-items: center;
+}
+
+.detail-mockup {
+  flex: 1 1 480px;
+  aspect-ratio: 1 / 1;
+  max-width: 600px;
+  border-radius: var(--radius-dialog);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.detail-mockup img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-summary-info {
+  flex: 1 1 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tag-lg {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.detail-price {
+  font-size: 30px;
+  line-height: 1.3;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.divider {
+  height: 1px;
+  background: var(--line);
+}
+
+.detail-dl {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  row-gap: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.detail-dl dt {
+  color: var(--ink-muted);
+}
+
+.detail-note {
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.detail-note svg {
+  flex: none;
+}
+
+/* P02-S03 제작 안내 */
+.detail-steps-wrap {
+  padding: 80px var(--page-gutter) 0;
+}
+
+.detail-steps {
+  background: var(--bg-surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-dialog);
+  padding: 40px 40px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.detail-h2 {
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+.detail-steps-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.detail-steps-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.detail-step-icon {
+  width: 88px;
+  height: 88px;
+}
+
+.detail-step-n {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.detail-step-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* P02-S04 탭 */
+.detail-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-top: 80px;
+  background: var(--bg-page);
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-tabs-inner {
+  padding: 12px var(--page-gutter);
+  display: flex;
+  gap: 8px;
+}
+
+.detail-tab {
+  text-decoration: none;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.detail-tab {
+  transition: background var(--motion), border-color var(--motion);
+}
+
+.detail-tab:hover:not(.is-active) {
+  background: var(--bg-soft);
+}
+
+.detail-tab.is-active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* P02-S05~S07 */
+.detail-section {
+  padding: 72px var(--page-gutter) 0;
+}
+
+.detail-info {
+  padding-top: 56px;
+}
+
+.detail-last {
+  padding-bottom: 96px;
+}
+
+.detail-section-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.detail-image {
+  border-radius: var(--radius-box);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.detail-image img {
+  width: 100%;
+  height: auto;
+}
+
+.detail-desc {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.detail-box {
+  padding: 28px 32px;
+}
+
+/* P02-S08 하단 고정 바 */
+.detail-bar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-bar-name {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.detail-bar-price {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.detail-start {
+  min-width: 280px;
+}

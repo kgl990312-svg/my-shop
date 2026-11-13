@@ -1,0 +1,190 @@
+/* 로고 */
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+}
+
+.logo-en {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-right: -0.12em; /* 자간 때문에 생기는 오른쪽 여백 보정 */
+  color: var(--accent);
+}
+
+.logo-ko {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.logo-small .logo-en {
+  font-size: 20px;
+}
+
+.logo-small .logo-ko {
+  font-size: 11px;
+}
+
+/* 네비게이션 바 */
+.nav {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+  height: var(--nav-height);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.nav-left {
+  justify-self: start;
+}
+
+.nav-logo {
+  justify-self: center;
+  text-decoration: none;
+}
+
+.nav-cart {
+  justify-self: end;
+  position: relative;
+}
+
+.nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 푸터 */
+.footer {
+  margin-top: auto;
+  background: var(--bg-footer);
+  border-top: 1px solid var(--line);
+}
+
+.footer-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 48px var(--page-gutter) 56px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-muted);
+}
+
+.footer-company {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-company .logo {
+  align-self: flex-start;
+}
+
+.footer-cs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-cs-title {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.footer-cs-phone {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.footer-links button {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  line-height: 1.8;
+}
+
+.footer-links button.is-strong {
+  font-weight: 700;
+}
+
+/* 하단 고정 바 (P02·P04·P07) */
+.bottom-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid var(--line);
+  box-shadow: var(--shadow-bar);
+}
+
+.bottom-bar-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 16px var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.bottom-total {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.bottom-total-label {
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+.bottom-total-value {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.bottom-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}

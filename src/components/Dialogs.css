@@ -1,0 +1,183 @@
+.dlg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(38, 29, 24, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.dlg-overlay-dark {
+  background: var(--overlay-dim);
+}
+
+.dlg {
+  width: 480px;
+  max-width: 100%;
+  background: var(--bg-surface);
+  border-radius: var(--radius-dialog);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 확인 안내창 (M01, M02, M05) */
+.dlg-confirm {
+  height: 300px;
+  padding: 40px 32px 28px;
+  align-items: center;
+  text-align: center;
+}
+
+.dlg-confirm-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.dlg-confirm-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dlg-confirm-title {
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.dlg-actions {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.dlg-btn {
+  height: 54px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.dlg-btn-ok {
+  box-shadow: none;
+}
+
+/* 내용 안내창 (M03, M04, M06) */
+.dlg-content {
+  height: 600px;
+  max-height: calc(100vh - 48px);
+  padding: 32px 32px 28px;
+  gap: 20px;
+}
+
+.dlg-content-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dlg-content-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.dlg-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.dlg-text {
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px 22px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.dlg-help {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dlg-help-item {
+  background: var(--bg-subtle);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dlg-help-item strong {
+  font-size: 15px;
+}
+
+.dlg-help-item span {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+/* M07 미리보기 */
+.dlg-preview-close {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dlg-preview-frame {
+  border-radius: 36px;
+  background: var(--bg-soft);
+  box-shadow: var(--shadow-preview);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 토스트 */
+.toast-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 120px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 120;
+}
+
+.toast {
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--overlay-text);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
