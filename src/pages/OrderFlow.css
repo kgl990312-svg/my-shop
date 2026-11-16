@@ -1049,3 +1049,22 @@
     font-size: 16px;
   }
 }
+
+/* ===== 반응형 — P05 결제하기 화면 아래 고정 (휴대폰: 폭 767px 이하 터치 기기) =====
+ * 순서는 그대로(금액 → 결제하기 → 푸터). 스크롤하는 동안 화면 아래에 붙어 따라오고, 주문서 끝에서는 제자리에 멈춤.
+ */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .order-pay {
+    position: sticky;
+    bottom: 12px;
+    z-index: 5;
+    box-shadow: 0 8px 20px rgba(196, 81, 63, 0.25), 0 0 0 6px rgba(251, 246, 240, 0.9);
+  }
+
+  /* 비활성일 때 투명도(40%)를 쓰면 뒤 글자가 비쳐 보여서, 같은 색감의 불투명한 색으로 */
+  .order-pay[aria-disabled='true'] {
+    opacity: 1;
+    background: #E5B4A9;
+    box-shadow: 0 0 0 6px rgba(251, 246, 240, 0.9);
+  }
+}
