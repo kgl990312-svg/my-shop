@@ -306,17 +306,15 @@
   transition: background var(--motion), border-color var(--motion), transform 0.15s ease;
 }
 
-@media (hover: hover) {
-  .cz-tool:hover:not(.is-on) {
-    background: var(--bg-subtle);
-  }
+.cz-tool:hover:not(.is-on) {
+  background: var(--bg-subtle);
+}
 
-  .cz-sticker-cell:hover,
-  .cz-engrave-cell:hover .cz-engrave-sample,
-  .cz-type-cell:hover:not(.is-on) {
-    border-color: var(--line-accent);
-    background: var(--bg-soft);
-  }
+.cz-sticker-cell:hover,
+.cz-engrave-cell:hover .cz-engrave-sample,
+.cz-type-cell:hover:not(.is-on) {
+  border-color: var(--line-accent);
+  background: var(--bg-soft);
 }
 
 .cz-sticker-cell:active {
@@ -389,14 +387,6 @@
   padding: 14px;
   cursor: grab;
   touch-action: none;
-}
-
-/* 터치: 끌어다 놓기 대신 탭으로 붙이므로, 스티커 칸 위에서 목록을 옆으로 넘길 수 있게 */
-@media (pointer: coarse) {
-  .cz-sticker-cell {
-    touch-action: pan-x;
-    cursor: pointer;
-  }
 }
 
 .cz-sticker-cell img {
@@ -569,8 +559,9 @@
   transform: translate(-50%, -50%);
 }
 
-/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
-@media (hover: none) and (pointer: coarse) {
+
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
   /* 15: 마우스 전용 커서 끄기 */
   .cz-item,
   .cz-select,
@@ -592,15 +583,21 @@
   display: none;
 }
 
-/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
-@media (hover: none) and (pointer: coarse) {
-  /* 29: 되돌리기·다시 실행은 아이콘만 */
-  .cz-top-right .cz-btn-label {
-    display: none;
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  /*
+   * 29: 되돌리기·다시 실행은 아이콘만 — 기존 버튼 코드는 그대로 두고 글자만 안 보이게(font-size 0).
+   * 글자는 화면 낭독기에는 그대로 읽힘. 아이콘은 크기가 따로 정해져 있어 그대로 보임.
+   * 상단 바 오른쪽 순서: 1 되돌리기 · 2 다시 실행 · 3 전체 초기화 · 4 더보기(모바일 전용) · 5 완료
+   */
+  .cz-top-right > .btn-small:nth-child(1),
+  .cz-top-right > .btn-small:nth-child(2) {
+    font-size: 0;
+    gap: 0;
   }
 
-  /* 30: 전체 초기화는 더보기 메뉴로 */
-  .cz-top-right .cz-reset {
+  /* 30: 전체 초기화는 상단 바에서 숨기고 더보기 메뉴로 */
+  .cz-top-right > .btn-small:nth-child(3) {
     display: none;
   }
 
@@ -647,8 +644,8 @@
   }
 }
 
-/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
-@media (hover: none) and (pointer: coarse) {
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
   /* 32: 배율은 두 손가락으로 조절 — [−][+] 버튼은 숨기고 배율 표시와 [리셋]만 남김 */
   .cz-zoom-ctrl button[aria-label='축소'],
   .cz-zoom-ctrl button[aria-label='확대'] {
@@ -658,5 +655,77 @@
   /* 33: 두 손가락으로 조절하는 동안에는 손가락을 바로 따라가게 (전환 효과 끔). 리셋할 때는 그대로 */
   .cz-zoom.is-pinching {
     transition: none;
+  }
+}
+
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  /*
+   * 47: 삭제 X 버튼을 손가락으로 누르기 쉽게 — 보이는 크기 28 → 32px, 눌리는 범위 44px.
+   * 제자리에서 키우면 눌리는 범위가 오른쪽 위 크기 손잡이(보이지 않는 범위 포함, 선택 상자 밖 16px까지)와 겹쳐
+   * 손잡이를 잡으려다 삭제될 수 있음 → 버튼을 바깥으로 옮겨 눌리는 범위가 손잡이 밖(16px)에서 시작하게 함.
+   * (버튼 가운데: 상자 오른쪽에서 38px 바깥, 높이는 지금과 같음)
+   */
+  .cz-delete {
+    top: -18px;
+    right: -54px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .cz-delete::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: var(--radius-pill);
+  }
+}
+
+/* 터치: 끌어다 놓기 대신 탭으로 붙이므로, 스티커 칸 위에서 목록을 옆으로 넘길 수 있게 */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  .cz-sticker-cell {
+    touch-action: pan-x;
+    cursor: pointer;
+  }
+}
+
+/* ===== 모바일 전용 — 13: 도구·셀 hover 강조 끄기 (원래 값으로) ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  .cz-tool:hover:not(.is-on) {
+    background: transparent;
+  }
+
+  .cz-sticker-cell:hover,
+  .cz-engrave-cell:hover .cz-engrave-sample {
+    border-color: var(--line);
+    background: var(--bg-subtle);
+  }
+
+  .cz-type-cell:hover:not(.is-on) {
+    border-color: var(--line-strong);
+    background: #fff;
+  }
+}
+
+/* 43: 모바일 안내 문구 — 기존 "드래그해주세요"는 그대로 두고, 모바일용 문구를 따로 덧붙임. 데스크탑에서는 숨김 */
+.cz-hint-touch {
+  display: none;
+}
+
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  /* 43: "드래그해주세요" 대신 "눌러서 붙이고, 끌어서 옮겨요"가 보이게 */
+  .cz-hint {
+    font-size: 0;
+    gap: 0;
+  }
+
+  .cz-hint svg {
+    margin-right: 8px;
+  }
+
+  .cz-hint-touch {
+    display: inline;
+    font-size: 14px;
   }
 }

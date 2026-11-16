@@ -4,7 +4,7 @@ import { useNavigate, useQuery, useRouter } from '../router';
 import { newDesign, useShop } from '../store/ShopContext';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
 import { IconChevronRight, Sparkle } from '../components/Icons';
-import { STEPS, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
+import { COMPAT_NOTE, COMPAT_TAG, STEPS, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
 import './DetailPage.css';
 
 const TABS = [
@@ -65,8 +65,10 @@ export default function DetailPage() {
           </div>
           <div className="detail-summary-info">
             <h1 className="page-title">{type.name}</h1>
-            <div>
-              <span className="tag tag-lg">크기 {fmtSize(type.size)}</span>
+            <div className="detail-tags">
+              <span className="tag tag-lg">크기 {fmtSize(type.size, true)}</span>
+              {/* 모든 종류 공통 호환 규격 — 자세한 설명은 아래 "사이즈 > 호환 규격 안내" */}
+              <span className="tag tag-lg">{COMPAT_TAG}</span>
             </div>
             <span className="detail-price">{fmtPrice(type.price)}원</span>
             <div className="divider" />
@@ -132,9 +134,9 @@ export default function DetailPage() {
           <h2 className="detail-h2">사이즈</h2>
           <div className="box info-grid detail-box">
             <span className="label">크기</span>
-            <span>{fmtSize(type.size)}</span>
+            <span>{fmtSize(type.size, true)}</span>
             <span className="label">호환 규격 안내</span>
-            <span>[내 쿠션에 맞는 종류를 확인하는 방법]</span>
+            <span>{COMPAT_NOTE}</span>
           </div>
         </div>
       </section>

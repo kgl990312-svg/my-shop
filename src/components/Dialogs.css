@@ -221,3 +221,39 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  /* 10: 안내창 안 스크롤이 끝까지 가도 뒤 화면으로 이어지지 않게 */
+  .dlg-scroll {
+    overscroll-behavior: contain;
+  }
+}
+
+/* 63: 버튼이 있는 알림 (장바구니 삭제 → 되돌리기). 알림 영역은 눌리지 않으므로 이 알림만 눌리게 */
+.toast.has-action {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 8px 6px 22px;
+}
+
+.toast-action {
+  min-height: 36px;
+  padding: 0 14px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 터치 기기: 되돌리기 버튼을 손가락으로 누르기 쉽게 44px */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  .toast-action {
+    min-height: 44px;
+  }
+}

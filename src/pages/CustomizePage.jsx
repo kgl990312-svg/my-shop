@@ -32,6 +32,7 @@ import {
   fmtSize,
   getCaseType,
 } from '../data/catalog';
+import { isMobile } from '../utils/device';
 import '../components/CaseView.css';
 import './CustomizePage.css';
 
@@ -363,8 +364,11 @@ export default function CustomizePage() {
   selectedIdRef.current = selectedId;
   const zoomRef = useRef(zoom);
   zoomRef.current = zoom;
-  const stageRef = useRef(null);
   const [pinching, setPinching] = useState(false);
+  // 33(모바일): 두 손가락으로 배율을 바꾸는 동안 배율 영역에 is-pinching (CSS에서 전환 효과 끔). 기존 JSX는 고치지 않고 요소에 직접 붙임
+  useLayoutEffect(() => {
+    caseRef.current?.closest('.cz-zoom')?.classList.toggle('is-pinching', pinching);
+  }, [pinching]);
 
   const pinchGeom = (a, b) => ({
     dist: Math.hypot(b.x - a.x, b.y - a.y) || 1,
@@ -374,7 +378,7 @@ export default function CustomizePage() {
   const pinchHandlers = useRef({});
   pinchHandlers.current = {
     down(e) {
-      if (e.pointerType !== 'touch') return;
+      if (e.pointerType !== 'touch' || !isMobile()) return;
       const touches = touchesRef.current;
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (touches.size === 1) {
@@ -449,7 +453,7 @@ export default function CustomizePage() {
   };
 
   useEffect(() => {
-    const el = stageRef.current;
+    const el = caseRef.current?.closest('.cz-stage');
     if (!el) return undefined;
     const down = (e) => pinchHandlers.current.down(e);
     const move = (e) => pinchHandlers.current.move(e);
@@ -500,7 +504,7 @@ export default function CustomizePage() {
   };
 
   const onStickerPointerDown = (e, sticker) => {
-    if (e.pointerType === 'touch') {
+    if (e.pointerType === 'touch' && isMobile()) {
       onStickerTouchDown(e, sticker);
       return;
     }
@@ -563,13 +567,21 @@ export default function CustomizePage() {
     return undefined;
   }, [hint]);
 
+  // 36(모바일): 도구를 바꿔 새 패널이 그려지면, 화면에 보이기 전에 is-switch를 붙임 (CSS에서 올라오는 애니메이션 끔)
+  useLayoutEffect(() => {
+    document.querySelector('.cz-panel')?.classList.toggle('is-switch', panelSwitched);
+  }, [panel, panelSwitched]);
+
+  // 36(모바일): 다른 패널이 열려 있을 때 각인을 골라 각인 패널로 바뀌면 "도구를 바꾼 것"으로 기록
+  useEffect(() => {
+    if (selected?.kind === 'engrave' && panel !== 'engrave') setPanelSwitched(panel !== null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
+
   // 캔버스에서 각인을 고르면 각인 패널을 열어 바로 고칠 수 있게
   const selected = design?.items.find((it) => it.id === selectedId) || null;
   useEffect(() => {
-    if (selected?.kind === 'engrave' && panel !== 'engrave') {
-      setPanelSwitched(panel !== null);
-      setPanel('engrave');
-    }
+    if (selected?.kind === 'engrave') setPanel('engrave');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
@@ -612,8 +624,6 @@ export default function CustomizePage() {
   if (!design) return null;
 
   const canComplete = hasDecoration(design);
-  // 손가락이 주된 입력인 기기 (안내 문구를 터치에 맞게)
-  const touchUI = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches ?? false;
   const selHalf = selected ? halfOf(selected.id) : null;
 
   return (
@@ -629,17 +639,15 @@ export default function CustomizePage() {
           </button>
         </div>
         <div className="cz-top-right">
-          {/* 글자는 cz-btn-label: 터치 기기에서는 숨기고 아이콘만 (29) */}
-          <button type="button" className="btn btn-small" aria-label="되돌리기" onClick={undo} disabled={!hist.past.length}>
+          <button type="button" className="btn btn-small" onClick={undo} disabled={!hist.past.length}>
             <IconUndo size={18} />
-            <span className="cz-btn-label">되돌리기</span>
+            되돌리기
           </button>
-          <button type="button" className="btn btn-small" aria-label="다시 실행" onClick={redo} disabled={!hist.future.length}>
+          <button type="button" className="btn btn-small" onClick={redo} disabled={!hist.future.length}>
             <IconRedo size={18} />
-            <span className="cz-btn-label">다시 실행</span>
+            다시 실행
           </button>
-          {/* cz-reset: 터치 기기에서는 숨기고 더보기 메뉴로 (30) */}
-          <button type="button" className="btn btn-small cz-reset" onClick={resetAll} disabled={!design.items.length}>
+          <button type="button" className="btn btn-small" onClick={resetAll} disabled={!design.items.length}>
             <IconReset size={18} />
             전체 초기화
           </button>
@@ -696,8 +704,8 @@ export default function CustomizePage() {
         </div>
 
         {/* 캔버스 */}
-        <div className="cz-stage" ref={stageRef} onPointerDown={onStageDown}>
-          <div className={`cz-zoom${pinching ? ' is-pinching' : ''}`} style={{ transform: `scale(${zoom})` }}>
+        <div className="cz-stage" onPointerDown={onStageDown}>
+          <div className="cz-zoom" style={{ transform: `scale(${zoom})` }}>
             <div className="cz-frame">
               <div className="cz-case" ref={caseRef} style={{ width: CASE_PX, height: CASE_PX }}>
                 <CaseArt type={design.type} color={design.color} size={CASE_PX} />
@@ -768,7 +776,8 @@ export default function CustomizePage() {
                 {hint !== 'hidden' && (
                   <div className={`cz-hint${hint === 'fade' ? ' is-fade' : ''}`}>
                     <IconHand size={18} />
-                    {touchUI ? '눌러서 붙이고, 끌어서 옮겨요' : '드래그해주세요'}
+                    드래그해주세요
+                    <span className="cz-hint-touch">눌러서 붙이고, 끌어서 옮겨요</span>
                   </div>
                 )}
               </div>
@@ -805,7 +814,7 @@ export default function CustomizePage() {
 
       {/* P03-S03 도구 패널 */}
       {panel && (
-        <section key={panel} className={`cz-panel${panelSwitched ? ' is-switch' : ''}`} aria-label={panelTitle(panel)}>
+        <section key={panel} className="cz-panel" aria-label={panelTitle(panel)}>
           <div className="cz-panel-head">
             <Sparkle size={18} />
             <h2>{panelTitle(panel)}</h2>

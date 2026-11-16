@@ -1,7 +1,9 @@
 // 안내창 M01~M07 + 화면 아래 알림(토스트)
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { IconAlert, IconClose, Sparkle } from './Icons';
 import CaseView from './CaseView';
+import { isMobile } from '../utils/device';
 import './Dialogs.css';
 
 const UIContext = createContext(null);
@@ -51,7 +53,21 @@ function useDialogFocus(open, onClose) {
     document.addEventListener('keydown', onKey);
     const overflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    // 터치 기기(특히 아이폰 Safari)는 body overflow: hidden을 무시하고 뒤 화면을 스크롤함.
+    // 안내창이 열려 있는 동안 손가락 밀기를 막되, 안내창 안의 스크롤 영역(.dlg-scroll)은 그대로 스크롤되게 함.
+    // 화면 배치를 바꾸지 않아서 닫은 뒤 위치가 튀지 않음. 두 손가락 확대(접근성)는 막지 않음.
+    const touch = isMobile();
+    const onTouchMove = (e) => {
+      if (e.touches && e.touches.length > 1) return;
+      const sc = e.target.closest?.('.dlg-scroll');
+      if (sc && sc.scrollHeight > sc.clientHeight) return;
+      e.preventDefault();
+    };
+    if (touch) document.addEventListener('touchmove', onTouchMove, { passive: false });
+
     return () => {
+      if (touch) document.removeEventListener('touchmove', onTouchMove);
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = overflow;
       prev?.focus?.();
@@ -107,26 +123,61 @@ function ContentDialog({ title, children, onClose, sparkle, closing }) {
   );
 }
 
+// 28: 도움말 문구 — 마우스(데스크탑)와 손가락(휴대폰·태블릿)의 조작이 달라서 기기에 맞는 문구를 보여줌
+const HELP_TEXT = {
+  mouse: {
+    add: '아래 목록에서 스티커를 눌러 가운데에 붙이거나, 원하는 자리로 끌어다 놓아요',
+    edit: '스티커를 끌어서 옮기고, 모서리 점으로 크기를, 아래 동그라미로 방향을 바꿔요. 지우려면 X를 눌러요',
+  },
+  touch: {
+    add: '아래 목록에서 스티커를 누르면 가운데에 붙어요. 목록은 옆으로 밀어서 더 볼 수 있어요',
+    edit: '스티커를 끌어서 옮기고, 두 손가락으로 벌리면 크기, 돌리면 방향이 바뀌어요. 지우려면 X를 눌러요',
+  },
+};
+
 function HelpDialog({ onClose, closing }) {
+  const text = isMobile() ? HELP_TEXT.touch : HELP_TEXT.mouse;
   return (
     <ContentDialog title="사용 방법" onClose={onClose} closing={closing} sparkle>
       <div className="dlg-scroll dlg-help" tabIndex={0}>
         <div className="dlg-help-item">
           <strong>스티커 붙이기</strong>
-          <span>[스티커 붙이기 설명]</span>
+          <span>{text.add}</span>
         </div>
         <div className="dlg-help-item">
           <strong>이동·크기·회전·삭제</strong>
-          <span>[이동·크기·회전·삭제 설명]</span>
+          <span>{text.edit}</span>
         </div>
       </div>
     </ContentDialog>
   );
 }
 
+// 52: 터치 기기 미리보기 크기 (데스크탑은 "폭 − 160" 그대로)
+// 휴대폰에서 "폭 − 160"이면 375px 폭에서 215px밖에 안 돼서, 화면 여백(.dlg-overlay padding 24px)까지 쓰게 함.
+// 세로 화면: 미리보기를 가운데 두므로 오른쪽 위 닫기 버튼(top 32 + 높이 52 + 간격 12 = 96px)과 겹치지 않게 위아래 96px씩 남김.
+// 가로 화면: 닫기 버튼이 미리보기 옆에 있어 겹치지 않으므로 높이 여백(24px)만 남김.
+function touchPreviewSize() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const maxH = h > w ? h - 96 * 2 : h - 24 * 2;
+  return Math.max(160, Math.min(680, w - 24 * 2, maxH));
+}
+
 function PreviewDialog({ design, onClose, closing }) {
   const ref = useDialogFocus(true, onClose);
   const size = Math.min(680, window.innerHeight - 160, window.innerWidth - 160);
+  // 52(모바일): 기존 크기 계산은 그대로 두고, 모바일에서만 그린 뒤(화면에 보이기 전) 틀을 키우고 케이스를 같은 비율로 확대
+  useLayoutEffect(() => {
+    if (!isMobile()) return;
+    const frame = ref.current?.querySelector('.dlg-preview-frame');
+    const view = frame?.querySelector('.case-view');
+    if (!frame || !view) return;
+    const next = touchPreviewSize();
+    frame.style.width = `${next}px`;
+    frame.style.height = `${next}px`;
+    view.style.transform = `scale(${next / size})`;
+  }, [size]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div
       className={overlayClass('dlg-overlay dlg-overlay-dark', closing)}
@@ -180,11 +231,18 @@ export function UIProvider({ children }) {
   const showContent = useCallback((kind) => open({ type: 'content', kind }), [open]);
   const showHelp = useCallback(() => open({ type: 'help' }), [open]);
   const showPreview = useCallback((design) => open({ type: 'preview', design }), [open]);
-  const showToast = useCallback((message) => {
+  // 알림: showToast('문구') 또는 showToast('문구', { action: { label, onClick }, duration })
+  // action이 있으면 알림 안에 버튼을 보여줌 (예: 장바구니 삭제 → 되돌리기)
+  const showToast = useCallback((message, opts = {}) => {
     clearTimeout(toastTimer.current);
-    setToast(message);
-    toastTimer.current = setTimeout(() => setToast(null), 2200);
+    setToast({ message, action: opts.action });
+    toastTimer.current = setTimeout(() => setToast(null), opts.duration ?? 2200);
   }, []);
+  const hideToast = useCallback(() => {
+    clearTimeout(toastTimer.current);
+    setToast(null);
+  }, []);
+  useEffect(() => () => clearTimeout(toastTimer.current), []);
 
   const value = useMemo(
     () => ({ confirm, showContent, showHelp, showPreview, showToast, closeDialog: close, dialogOpen: !!dialog && !closing }),
@@ -215,7 +273,23 @@ export function UIProvider({ children }) {
       {dialog?.type === 'help' && <HelpDialog onClose={close} closing={closing} />}
       {dialog?.type === 'preview' && <PreviewDialog design={dialog.design} onClose={close} closing={closing} />}
       <div className="toast-wrap" aria-live="polite">
-        {toast && <div className="toast">{toast}</div>}
+        {toast && (
+          <div className={`toast${toast.action ? ' has-action' : ''}`}>
+            {toast.message}
+            {toast.action && (
+              <button
+                type="button"
+                className="toast-action"
+                onClick={() => {
+                  hideToast();
+                  toast.action.onClick();
+                }}
+              >
+                {toast.action.label}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </UIContext.Provider>
   );

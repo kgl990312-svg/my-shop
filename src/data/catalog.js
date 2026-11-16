@@ -58,6 +58,15 @@ import step5 from '../assets/site/icon/step_5.png';
 export { default as bannerImage } from '../assets/site/banner/main.jpg';
 
 /*
+ * 케이스 크기 (가정): 가상 사이트라 일반적인 쿠션 팩트 평균값으로 넣은 대략적인 크기. 실제 판매 시 측정값으로 교체.
+ *   모든 종류가 같은 15g 쿠션 리필(지름 약 60mm)이 들어가는 크기. 하트·꽃은 안에 원형 리필이 들어가야 해서 겉이 조금 더 큼.
+ *   size.short: 카드·꾸미기 패널처럼 짧게 / size.full: 상세처럼 항목 이름까지
+ */
+export const COMPAT_TAG = '15g 쿠션 리필 호환';
+export const COMPAT_NOTE =
+  '모든 종류가 일반적인 15g 쿠션 리필(지름 약 60mm)에 맞춰 만들어졌어요. 리필을 꺼내 바닥의 지름을 재 보면 맞는지 확인할 수 있어요.';
+
+/*
  * 케이스 종류 4가지 (원형, 둥근 정사각형, 하트, 꽃)
  * safe: 꾸밀 수 있는 범위(안쪽 점선). 케이스 상자(정사각형) 크기를 1로 본 비율
  *   - rect: 네모 범위 (inset = 바깥에서 들어온 거리, radius = 모서리)
@@ -67,7 +76,7 @@ export const CASE_TYPES = [
   {
     key: 'round',
     name: '원형',
-    size: null,
+    size: { short: '지름 약 85mm', full: '지름 약 85mm · 높이 약 28mm' },
     price: null,
     card: cardRound,
     hover: hoverRound,
@@ -79,7 +88,7 @@ export const CASE_TYPES = [
   {
     key: 'square',
     name: '둥근 정사각형',
-    size: null,
+    size: { short: '약 85 × 85mm', full: '가로·세로 약 85mm · 높이 약 28mm' },
     price: null,
     card: cardSquare,
     hover: hoverSquare,
@@ -91,7 +100,7 @@ export const CASE_TYPES = [
   {
     key: 'heart',
     name: '하트',
-    size: null,
+    size: { short: '약 92 × 86mm', full: '가로 약 92mm · 세로 약 86mm · 높이 약 28mm' },
     price: null,
     card: cardHeart,
     hover: hoverHeart,
@@ -103,7 +112,7 @@ export const CASE_TYPES = [
   {
     key: 'flower',
     name: '꽃',
-    size: null,
+    size: { short: '약 92 × 92mm', full: '가로·세로 약 92mm · 높이 약 28mm' },
     price: null,
     card: cardFlower,
     hover: hoverFlower,
@@ -208,4 +217,4 @@ export const PAYMENT_METHODS = ['카드', '간편결제', '무통장 입금'];
 
 // 정하지 않은 값 표시
 export const fmtPrice = (price) => (price == null ? '[가격]' : price.toLocaleString('ko-KR'));
-export const fmtSize = (size) => (size == null ? '[크기]' : size);
+export const fmtSize = (size, full = false) => (size == null ? '[크기]' : full ? size.full : size.short);

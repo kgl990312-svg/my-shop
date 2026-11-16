@@ -1,9 +1,11 @@
 // P01 메인: 네비게이션 바 → 소개 배너 → 케이스 종류 카드 → 직접 꾸민 후기 → 푸터
 import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { Link } from '../router';
 import { NavBar, Footer } from '../components/Layout';
 import { IconChevronLeft, IconChevronRight, Sparkle, Star } from '../components/Icons';
 import { CASE_TYPES, REVIEWS, bannerImage, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
+import { isMobile } from '../utils/device';
 import './MainPage.css';
 
 const PER_VIEW = 4;
@@ -41,8 +43,22 @@ function ReviewText({ text }) {
 export default function MainPage() {
   const pages = Math.ceil(REVIEWS.length / PER_VIEW);
   const [page, setPage] = useState(0);
-  // 모바일·태블릿(터치 기기): 후기를 화살표 대신 손가락으로 넘김 (MainPage.css 터치 전용 블록)
-  const touchUI = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches ?? false;
+
+  // 64: 빈 장바구니의 "케이스 꾸미러 가기"로 들어오면(/#types) 케이스 종류 영역으로 바로 이동하고, 주소의 #types는 지움
+  useEffect(() => {
+    if (window.location.hash !== '#types') return;
+    document.getElementById('types')?.scrollIntoView();
+    window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
+  }, []);
+  // 20(모바일): 후기를 화살표 대신 손가락으로 넘기므로 모든 카드를 키보드·화면 낭독기에서도 볼 수 있게
+  // 기존 JSX(데스크탑 4개씩 숨김)는 그대로 두고, 모바일에서만 그린 뒤 숨김 속성을 풀어 줌
+  useLayoutEffect(() => {
+    if (!isMobile()) return;
+    document.querySelectorAll('.review-track .rv-card').forEach((el) => {
+      el.removeAttribute('aria-hidden');
+      el.tabIndex = 0;
+    });
+  }, [page]);
 
   return (
     <div className="page">
@@ -70,7 +86,7 @@ export default function MainPage() {
       </section>
 
       {/* P01-S03 케이스 종류 카드 */}
-      <section className="main-section main-types">
+      <section id="types" className="main-section main-types">
         <div className="container main-section-inner">
           <h2 className="main-h2">케이스 종류</h2>
           <div className="main-grid">
@@ -127,8 +143,7 @@ export default function MainPage() {
           <div className="review-viewport">
             <div className="review-track" style={{ transform: `translateX(calc(${-page} * (100% + 24px)))` }}>
               {REVIEWS.map((r, i) => {
-                // 터치 기기는 손으로 넘기므로 모든 카드가 보임 (데스크탑만 4개씩 페이지로 숨김)
-                const hidden = !touchUI && Math.floor(i / PER_VIEW) !== page;
+                const hidden = Math.floor(i / PER_VIEW) !== page;
                 return (
                   <article key={r.id} className="rv-card" tabIndex={hidden ? -1 : 0} aria-hidden={hidden}>
                     <div className="rv-media">

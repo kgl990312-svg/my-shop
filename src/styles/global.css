@@ -146,34 +146,29 @@ ol {
   transform: scale(0.98);
 }
 
-/* 호버는 마우스가 있는 기기에서만 (터치에서는 탭한 뒤 강조가 남는 문제 방지) */
-@media (hover: hover) {
-  .btn-primary:hover:not(:disabled):not([aria-disabled='true']) {
-    background: var(--accent-hover);
-  }
+.btn-primary:hover:not(:disabled):not([aria-disabled='true']) {
+  background: var(--accent-hover);
+}
 
-  .btn-outline:hover:not(:disabled),
-  .btn-small:hover:not(:disabled) {
-    background: var(--bg-soft);
-  }
+.btn-outline:hover:not(:disabled),
+.btn-small:hover:not(:disabled) {
+  background: var(--bg-soft);
+}
 
-  .btn-soft:hover:not(:disabled) {
-    background: var(--bg-soft-strong);
-  }
+.btn-soft:hover:not(:disabled) {
+  background: var(--bg-soft-strong);
+}
 
-  .btn-dark:hover:not(:disabled) {
-    background: #2C211C;
-  }
+.btn-dark:hover:not(:disabled) {
+  background: #2C211C;
 }
 
 .icon-btn {
   transition: background var(--motion);
 }
 
-@media (hover: hover) {
-  .icon-btn:hover {
-    background: var(--bg-soft);
-  }
+.icon-btn:hover {
+  background: var(--bg-soft);
 }
 
 .btn:disabled,
@@ -325,8 +320,9 @@ ol {
   }
 }
 
-/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
-@media (hover: none) and (pointer: coarse) {
+
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
   /* 15: 마우스 전용 커서 끄기 */
   .btn:disabled,
   .btn[aria-disabled='true'] {
@@ -334,10 +330,34 @@ ol {
   }
 }
 
-/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
-@media (hover: none) and (pointer: coarse) {
+/* ===== 모바일 전용 (휴대폰·태블릿, 폭 1024px 이하 터치 기기) — 데스크탑(1025px 이상)·마우스 기기에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
   /* 17: 반짝이는 한 번만 반짝이고 멈춤 */
   .sparkle {
     animation-iteration-count: 1;
+  }
+}
+
+/* ===== 모바일 전용 — 13: 마우스 hover 강조 끄기 (탭한 뒤 강조가 남지 않게 원래 값으로) ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  .btn-primary:hover:not(:disabled):not([aria-disabled='true']) {
+    background: var(--accent);
+  }
+
+  .btn-outline:hover:not(:disabled),
+  .btn-small:hover:not(:disabled) {
+    background: var(--bg-surface);
+  }
+
+  .btn-soft:hover:not(:disabled) {
+    background: var(--bg-soft);
+  }
+
+  .btn-dark:hover:not(:disabled) {
+    background: var(--ink);
+  }
+
+  .icon-btn:hover {
+    background: transparent;
   }
 }

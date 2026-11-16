@@ -1,5 +1,6 @@
 // P06 주문 완료: 네비게이션 바(뒤로 없음) → 완료 영역 → 주문 요약 → 배송·문의 안내 → 푸터
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { useRef } from 'react';
 import { useBlocker, useNavigate } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
@@ -7,7 +8,9 @@ import CaseView from '../components/CaseView';
 import { Footer, NavBar } from '../components/Layout';
 import { IconCheck, IconDownload, Sparkle } from '../components/Icons';
 import { fmtPrice } from '../data/catalog';
-import { designToFile, downloadDesign } from '../utils/exportImage';
+import { downloadDesign } from '../utils/exportImage';
+import { designToFile } from '../utils/exportImage';
+import { isMobile } from '../utils/device';
 import './OrderFlow.css';
 
 export default function CompletePage() {
@@ -27,7 +30,7 @@ export default function CompletePage() {
   // (안드로이드·데스크탑은 지금처럼 다운로드 — 안드로이드는 갤러리 Download 앨범에 저장됨)
   const shareFileRef = useRef(null);
   useEffect(() => {
-    const touch = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
+    const touch = isMobile();
     const ios =
       /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);

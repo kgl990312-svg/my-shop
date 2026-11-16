@@ -160,10 +160,8 @@
   transition: background var(--motion), border-color var(--motion);
 }
 
-@media (hover: hover) {
-  .detail-tab:hover:not(.is-active) {
-    background: var(--bg-soft);
-  }
+.detail-tab:hover:not(.is-active) {
+  background: var(--bg-soft);
 }
 
 .detail-tab.is-active {
@@ -231,4 +229,19 @@
 
 .detail-start {
   min-width: 280px;
+}
+
+
+/* 상품 요약: 크기 태그 + 호환 태그 (좁으면 다음 줄로) */
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ===== 모바일 전용 — 13: 탭 hover 강조 끄기 (원래 값으로) ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
+  .detail-tab:hover:not(.is-active) {
+    background: var(--bg-surface);
+  }
 }

@@ -67,6 +67,18 @@ export function ShopProvider({ children }) {
 
   const removeFromCart = useCallback((id) => setCart((prev) => prev.filter((it) => it.id !== id)), []);
 
+  // 삭제 되돌리기: 뺐던 디자인을 원래 자리에 다시 넣음 (이미 있으면 그대로)
+  const restoreToCart = useCallback(
+    (item, index) =>
+      setCart((prev) => {
+        if (prev.some((it) => it.id === item.id)) return prev;
+        const next = [...prev];
+        next.splice(Math.min(Math.max(index, 0), next.length), 0, item);
+        return next;
+      }),
+    []
+  );
+
   const placeOrder = useCallback(
     (order) => {
       setLastOrderState(order);
@@ -89,12 +101,13 @@ export function ShopProvider({ children }) {
       cart,
       addToCart,
       removeFromCart,
+      restoreToCart,
       checkout,
       setCheckout: setCheckoutState,
       lastOrder,
       placeOrder,
     }),
-    [design, setDesign, clearDesign, cart, addToCart, removeFromCart, checkout, lastOrder, placeOrder]
+    [design, setDesign, clearDesign, cart, addToCart, removeFromCart, restoreToCart, checkout, lastOrder, placeOrder]
   );
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
