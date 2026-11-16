@@ -471,6 +471,25 @@ export default function CustomizePage() {
     };
   }, [!!design]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 반응형(모바일): 케이스 틀(470px)을 편집 영역에 맞게 비율로 줄임 — 좌표는 그대로(442px 기준)라 스티커 위치는 변하지 않음.
+  // 기존 JSX는 그대로 두고 비율만 CSS 변수(--cz-fit)로 넘김. 실제로 줄이는 건 CustomizePage.css 모바일 전용 블록.
+  // 패널을 열고 닫거나 화면을 돌려 편집 영역 크기가 바뀌면 다시 맞춤.
+  useLayoutEffect(() => {
+    if (!isMobile()) return undefined;
+    const stage = caseRef.current?.closest('.cz-stage');
+    if (!stage) return undefined;
+    const fit = () => {
+      const cs = getComputedStyle(stage);
+      const w = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 16;
+      const h = stage.clientHeight - 24;
+      stage.style.setProperty('--cz-fit', String(Math.max(0.3, Math.min(1, w / 470, h / 470))));
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(stage);
+    return () => ro.disconnect();
+  }, [!!design]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // 캔버스 빈 곳 클릭: 선택 해제 + 패널 닫기
   const onStageDown = (e) => {
     if (e.target.closest('.cz-item, .cz-select')) return;

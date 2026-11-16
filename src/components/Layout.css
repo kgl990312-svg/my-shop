@@ -188,3 +188,29 @@
   gap: 12px;
   flex-wrap: wrap;
 }
+
+/* ===== 반응형 — 공통 네비게이션 바·푸터 (휴대폰: 폭 767px 이하 터치 기기) — 데스크탑·태블릿에는 적용되지 않음 =====
+ * 시안: 디자인 캔버스 휴대폰 시안 공통. 구조(← 뒤로 · 로고 가운데 · 장바구니 / 회사 정보 · 고객센터 · 약관)는 그대로.
+ */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .nav-inner {
+    height: 56px;
+    padding: 0 12px;
+  }
+
+  .nav-logo .logo-en {
+    font-size: 24px;
+  }
+
+  .nav-logo .logo-ko {
+    font-size: 11px;
+  }
+
+  /* 푸터: 세로로 쌓음 */
+  .footer-inner {
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px 20px 40px;
+    font-size: 13px;
+  }
+}

@@ -687,3 +687,365 @@
   padding: 0 28px;
   font-size: 15px;
 }
+
+/* ===== 반응형 — P04 확인 (휴대폰: 폭 767px 이하 터치 기기) — 데스크탑·태블릿에는 적용되지 않음 =====
+ * 시안: 디자인 캔버스 "P04 확인 · 휴대폰". 와이어프레임 섹션 순서는 그대로, 크기·간격·쌓는 방향만 바꿈.
+ * 고친 문제: 꾸민 케이스 이미지(340px 고정) 때문에 페이지가 옆으로 밀림(375px 화면에서 폭 406px).
+ */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .flow-head {
+    padding: 28px 16px 0;
+  }
+
+  .flow-head .page-title {
+    font-size: 26px;
+  }
+
+  .flow-section {
+    padding: 18px 16px 0;
+  }
+
+  .flow-section-tight {
+    padding-top: 14px;
+  }
+
+  .flow-section-last {
+    padding-top: 12px;
+    padding-bottom: 40px;
+  }
+
+  /* 상품 카드: 이미지 위, 정보 아래로 쌓음 */
+  .confirm-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+    gap: 18px;
+    border-radius: 22px;
+  }
+
+  .confirm-media-col {
+    flex: none;
+    width: 100%;
+    gap: 10px;
+  }
+
+  /* 이미지 칸은 카드 폭에 맞추고, 케이스 그림은 칸 밖으로 크기를 주장하지 않게 띄워서 비율로 줄임 */
+  .confirm-media {
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .confirm-media .case-view {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(var(--cv-scale, 0.7));
+  }
+
+  .confirm-expand {
+    right: 12px;
+    bottom: 12px;
+    z-index: 1;
+  }
+
+  .confirm-media-col .flow-caption {
+    font-size: 13px;
+  }
+
+  .confirm-info {
+    flex: none;
+    gap: 14px;
+  }
+
+  .confirm-name {
+    font-size: 20px;
+  }
+
+  /* 항목 이름 왼쪽, 내용 오른쪽 */
+  .confirm-dl {
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    row-gap: 12px;
+    font-size: 14px;
+  }
+
+  .confirm-dl dd {
+    text-align: right;
+  }
+
+  .confirm-color {
+    justify-content: flex-end;
+  }
+
+  .confirm-price-row {
+    font-size: 14px;
+  }
+
+  .confirm-price {
+    font-size: 22px;
+  }
+
+  .notice-box {
+    padding: 18px;
+    gap: 10px;
+    border-radius: 18px;
+  }
+
+  .notice-body {
+    gap: 4px;
+    font-size: 13px;
+  }
+
+  .notice-body strong {
+    font-size: 15px;
+  }
+
+  .period-box {
+    padding: 18px;
+    grid-template-columns: 1fr auto;
+    row-gap: 10px;
+    font-size: 14px;
+    border-radius: 18px;
+  }
+
+  .period-title {
+    font-size: 15px;
+  }
+
+  /* 하단 고정 바: 총 금액 한 줄 + 버튼 2개 나란히 (P04에만: 버튼 묶음이 있는 하단 바) */
+  .bottom-bar-inner:has(.bottom-actions) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 16px 14px;
+  }
+
+  .bottom-bar-inner:has(.bottom-actions) .bottom-total {
+    justify-content: space-between;
+  }
+
+  .bottom-bar-inner:has(.bottom-actions) .bottom-total-label {
+    font-size: 13px;
+  }
+
+  .bottom-bar-inner:has(.bottom-actions) .bottom-total-value {
+    font-size: 20px;
+  }
+
+  .bottom-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .confirm-cart-btn,
+  .confirm-buy-btn {
+    min-width: 0;
+    height: 52px;
+    padding: 0 8px;
+    font-size: 15px;
+  }
+}
+
+/* ===== 반응형 — P05 주문 정보 · P06 주문 완료 (휴대폰: 폭 767px 이하 터치 기기) — 데스크탑·태블릿에는 적용되지 않음 =====
+ * 시안: 디자인 캔버스 "P05 주문 정보 · 휴대폰". 섹션 순서(제목 → 배송 정보 → 결제 수단 → 동의 → 금액 → 결제하기 → 푸터) 그대로.
+ * 결제하기는 와이어프레임대로 금액 아래 제자리에 둠(화면 아래 고정은 하지 않음).
+ * 고친 문제: "무통장 입금", "총 결제 금액" 글자가 두 줄로 끊김.
+ */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .order-wrap {
+    padding: 28px 16px 40px;
+    gap: 14px;
+  }
+
+  .order-wrap > .page-title {
+    font-size: 26px;
+  }
+
+  .order-title {
+    margin-bottom: 4px;
+  }
+
+  .order-card {
+    padding: 20px 18px;
+    gap: 16px;
+    border-radius: 20px;
+  }
+
+  .order-h2 {
+    font-size: 17px;
+  }
+
+  .field {
+    gap: 6px;
+  }
+
+  .field-label {
+    font-size: 13px;
+  }
+
+  .field-input {
+    height: 48px;
+    padding: 0 14px;
+  }
+
+  .field-error {
+    font-size: 12px;
+  }
+
+  /* 결제 수단: 세 칸 같은 폭, 글자 한 줄 */
+  .choice-row {
+    gap: 8px;
+  }
+
+  .choice {
+    height: 48px;
+    border-radius: 14px;
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 0 4px;
+  }
+
+  /* 동의: 줄 전체가 눌림 (44px) */
+  .order-agree {
+    gap: 2px;
+  }
+
+  .check {
+    min-height: 44px;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  /* 금액: 이름 왼쪽, 금액 오른쪽, 한 줄 */
+  .order-amount {
+    padding: 18px;
+    gap: 10px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+
+  .order-amount-total {
+    gap: 12px;
+  }
+
+  .order-amount-total strong:first-child {
+    flex: none;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .order-amount-total .price {
+    font-size: 20px;
+    text-align: right;
+  }
+
+  .order-pay {
+    height: 54px;
+    font-size: 17px;
+  }
+}
+
+/* ===== 반응형 — P07 장바구니 (휴대폰: 폭 767px 이하 터치 기기) — 데스크탑·태블릿에는 적용되지 않음 =====
+ * 시안: 디자인 캔버스 "P07 장바구니 · 휴대폰". 섹션 순서(제목 → 담은 케이스 목록 → 하단 바 → 푸터) 그대로.
+ * 고친 문제: "다시 꾸미기" 버튼이 카드 밖으로 나감, 정보 칸이 좁아 글자가 많이 끊김.
+ */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .cart-wrap {
+    padding: 28px 16px 32px;
+    gap: 16px;
+  }
+
+  .cart-wrap > .page-title {
+    font-size: 26px;
+  }
+
+  .cart-list {
+    gap: 12px;
+  }
+
+  .cart-item {
+    padding: 14px;
+    gap: 14px;
+    align-items: flex-start;
+    border-radius: 20px;
+  }
+
+  /* 이미지 칸 96px: 꾸민 케이스 그림(136px)을 칸 크기에 맞게 줄임 */
+  .cart-media {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .cart-media .case-view {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+
+  .cart-info {
+    gap: 4px;
+    padding-right: 28px;
+  }
+
+  .cart-name {
+    font-size: 16px;
+  }
+
+  .cart-meta {
+    font-size: 13px;
+  }
+
+  .cart-price {
+    font-size: 16px;
+  }
+
+  .cart-redesign {
+    margin-top: 4px;
+    height: 36px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .cart-remove {
+    top: 6px;
+    right: 6px;
+  }
+
+  .cart-empty {
+    padding: 24px 16px;
+  }
+
+  /* 하단 고정 바: 총 금액(이름 위·금액 아래) + 주문하기 한 줄 */
+  .bottom-bar-inner:has(.cart-order) {
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .bottom-bar-inner:has(.cart-order) .bottom-total {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .bottom-bar-inner:has(.cart-order) .bottom-total-label {
+    font-size: 12px;
+  }
+
+  .bottom-bar-inner:has(.cart-order) .bottom-total-value {
+    font-size: 18px;
+  }
+
+  .cart-order {
+    min-width: 0;
+    flex: 1;
+    max-width: 200px;
+    height: 52px;
+    padding: 0 16px;
+    font-size: 16px;
+  }
+}

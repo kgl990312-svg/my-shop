@@ -1,5 +1,6 @@
 // P04 확인: 네비게이션 바 → 페이지 제목 → 상품 카드 → 주문 제작 상품 안내 → 제작·배송 기간 → 하단 고정 바 → 푸터
 import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useNavigate, useRouter } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
@@ -8,6 +9,7 @@ import { BottomBar, Footer, NavBar } from '../components/Layout';
 import { IconExpand, IconInfo } from '../components/Icons';
 import { fmtPrice, getCaseType } from '../data/catalog';
 import { colorOf, decorationSummary, typeName } from '../utils/summary';
+import { isMobile } from '../utils/device';
 import './OrderFlow.css';
 
 export default function ConfirmPage() {
@@ -19,6 +21,20 @@ export default function ConfirmPage() {
   useEffect(() => {
     if (!design) navigate('/', { replace: true });
   }, [design, navigate]);
+
+  // 반응형(휴대폰): 꾸민 케이스 이미지(340px 고정)를 이미지 칸 폭에 맞춰 줄임 — 데스크탑 비율(이미지 칸 440px에 340px)을 그대로 유지.
+  // 기존 JSX는 그대로 두고 비율만 CSS 변수(--cv-scale)로 넘김. 실제로 줄이는 건 OrderFlow.css 휴대폰 전용 블록.
+  useLayoutEffect(() => {
+    if (!isMobile()) return undefined;
+    const box = document.querySelector('.confirm-media');
+    if (!box) return undefined;
+    const fit = () => box.style.setProperty('--cv-scale', String(Math.min(1, box.clientWidth / 440)));
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(box);
+    return () => ro.disconnect();
+  }, [design]);
+
   if (!design) return null;
 
   const type = getCaseType(design.type);
