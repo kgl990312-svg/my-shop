@@ -64,7 +64,7 @@ export { default as bannerImage } from '../assets/site/banner/main.jpg';
  */
 export const COMPAT_TAG = '15g 쿠션 리필 호환';
 export const COMPAT_NOTE =
-  '모든 종류가 일반적인 15g 쿠션 리필(지름 약 60mm)에 맞춰 만들어졌어요. 리필을 꺼내 바닥의 지름을 재 보면 맞는지 확인할 수 있어요.';
+  '15g 쿠션 리필(지름 약 60mm)이 모두 들어가요. 리필 바닥 지름을 재 보면 확인할 수 있어요.';
 
 /*
  * 케이스 종류 4가지 (원형, 둥근 정사각형, 하트, 꽃)
