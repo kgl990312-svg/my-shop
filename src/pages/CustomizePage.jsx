@@ -47,7 +47,7 @@ const TOOLS = [
 ];
 
 // 처음 붙일 때 크기 (케이스 크기 대비 비율)
-const DEFAULT_W = { cubic: 0.12, sticker: 0.2 };
+const DEFAULT_W = { cubic: 0.09, sticker: 0.2 }; // 큐빅은 혼자 커 보이지 않게 9%
 const DEFAULT_FS = 0.075;
 const MIN_W = 0.05;
 const MAX_W = 0.7;

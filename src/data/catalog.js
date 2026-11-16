@@ -140,6 +140,9 @@ export const getSticker = (id) => {
   return (STICKERS[kind] || []).find((s) => s.id === id);
 };
 
+// 큐빅 접지 그림자 (케이스 크기 대비 비율): 아래로 살짝, 짧고 부드럽게 → 표면에 붙어 있는 느낌
+export const CUBIC_SHADOW = { y: 0.0045, blur: 0.01, color: 'rgba(90, 50, 40, 0.35)' };
+
 export const KIND_LABEL = {
   cubic: '큐빅',
   sticker: '스티커',

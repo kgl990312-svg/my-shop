@@ -1,5 +1,5 @@
 // 꾸민 케이스를 PNG 이미지로 만들어 내려받기 (P06 이미지 저장하기)
-import { getCaseColor, getCaseType, getEngraveStyle, getSticker } from '../data/catalog';
+import { CUBIC_SHADOW, getCaseColor, getCaseType, getEngraveStyle, getSticker } from '../data/catalog';
 
 const loadImage = (src) =>
   new Promise((resolve, reject) => {
@@ -64,6 +64,12 @@ export async function renderDesign(design, size = 1000) {
         const img = await loadImage(st.src);
         const w = it.w * box;
         const h = (w * img.height) / img.width;
+        if (it.kind === 'cubic') {
+          // 큐빅 접지 그림자 (화면 CaseView와 같은 값). 캔버스 그림자는 회전과 상관없이 항상 아래로 떨어짐
+          ctx.shadowColor = CUBIC_SHADOW.color;
+          ctx.shadowBlur = box * CUBIC_SHADOW.blur;
+          ctx.shadowOffsetY = box * CUBIC_SHADOW.y;
+        }
         ctx.drawImage(img, -w / 2, -h / 2, w, h);
       }
     }

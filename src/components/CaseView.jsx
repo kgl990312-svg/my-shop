@@ -1,6 +1,6 @@
 // 꾸민 케이스 그리기 (P03 캔버스, P04·P06·P07 이미지, M07 미리보기에서 공통으로 사용)
 // 흰색 케이스 이미지 1장 위에 케이스 색을 곱하기(multiply)로 입히고, 그 위에 스티커·큐빅·각인을 올린다.
-import { getCaseColor, getCaseType, getEngraveStyle, getSticker } from '../data/catalog';
+import { CUBIC_SHADOW, getCaseColor, getCaseType, getEngraveStyle, getSticker } from '../data/catalog';
 import './CaseView.css';
 
 export function CaseArt({ type, color, size }) {
@@ -42,7 +42,19 @@ export function ItemView({ item, size, placeholder = '각인 입력' }) {
   }
   const st = getSticker(item.ref);
   if (!st) return null; // 예전에 쓰던(지금은 없는) 스티커는 그리지 않음
-  return <img className="case-sticker" src={st.src} alt="" draggable={false} style={{ width: item.w * size }} />;
+  // 큐빅: 케이스에 붙어 있게 보이도록 얇은 접지 그림자 (케이스 크기에 비례, 저장 이미지 exportImage.js와 같은 값)
+  // 그림자는 큐빅과 함께 회전하므로, 회전만큼 거꾸로 돌려 항상 화면 아래쪽으로 떨어지게 함
+  let shadow;
+  if (item.kind === 'cubic') {
+    const r = ((item.rot || 0) * Math.PI) / 180;
+    const d = size * CUBIC_SHADOW.y;
+    const dx = (d * Math.sin(r)).toFixed(2);
+    const dy = (d * Math.cos(r)).toFixed(2);
+    shadow = `drop-shadow(${dx}px ${dy}px ${(size * CUBIC_SHADOW.blur).toFixed(2)}px ${CUBIC_SHADOW.color})`;
+  }
+  return (
+    <img className="case-sticker" src={st.src} alt="" draggable={false} style={{ width: item.w * size, filter: shadow }} />
+  );
 }
 
 export const itemStyle = (item, size) => ({
