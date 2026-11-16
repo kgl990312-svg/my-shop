@@ -680,3 +680,10 @@
     background: #fff;
   }
 }
+
+/* 64: "케이스 꾸미러 가기" 버튼 크기 — 기본 .btn은 안쪽 여백이 0이라 크기를 따로 줌 (꾸미기 "완료" 버튼과 같은 비율) */
+.cart-empty-go {
+  height: 48px;
+  padding: 0 28px;
+  font-size: 15px;
+}
