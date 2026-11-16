@@ -186,13 +186,6 @@
   }
 }
 
-/* 터치 기기: 호버가 없으니 꾸민 예시를 처음부터 보여줌 */
-@media (hover: none) {
-  .case-card-deco {
-    opacity: 1;
-  }
-}
-
 .case-card-info {
   display: flex;
   flex-direction: column;
