@@ -346,6 +346,13 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  animation: cz-panel-up 0.25s ease both;
+}
+
+/* 도구 패널 올라오기: 아래에서 12px 올라오며 나타남 (도구를 바꿀 때도 다시 재생) */
+@keyframes cz-panel-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .cz-panel-head {

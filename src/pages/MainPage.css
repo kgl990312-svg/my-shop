@@ -28,6 +28,7 @@
   position: absolute;
   bottom: 56px;
   left: 64px;
+  animation-delay: 1.8s;
 }
 
 .main-banner-copy {

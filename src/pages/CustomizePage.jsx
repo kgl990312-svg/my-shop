@@ -604,7 +604,7 @@ export default function CustomizePage() {
 
       {/* P03-S03 도구 패널 */}
       {panel && (
-        <section className="cz-panel" aria-label={panelTitle(panel)}>
+        <section key={panel} className="cz-panel" aria-label={panelTitle(panel)}>
           <div className="cz-panel-head">
             <Sparkle size={18} />
             <h2>{panelTitle(panel)}</h2>

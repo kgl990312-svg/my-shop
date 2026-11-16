@@ -281,6 +281,36 @@ ol {
   outline-offset: 2px;
 }
 
+/* 반짝이(✦) 공통 반짝임: 살짝 커지며 돌았다가 작아지며 흐려지고 원래대로 (3.6초마다) */
+.sparkle {
+  flex: none;
+  transform-origin: center;
+  animation: spark-twinkle 3.6s ease-in-out infinite;
+}
+
+@keyframes spark-twinkle {
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.35) rotate(12deg);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -9,6 +9,46 @@
   padding: 24px;
 }
 
+/* 안내창 열기·닫기: 배경은 서서히, 창은 0.96배에서 살짝 커지며 나타남 */
+.dlg-overlay {
+  animation: dlg-fade 0.2s ease both;
+}
+
+.dlg-overlay > .dlg,
+.dlg-overlay > .dlg-preview-frame {
+  animation: dlg-pop 0.2s ease both;
+}
+
+.dlg-overlay.is-closing {
+  animation: dlg-fade-out 0.18s ease both;
+  pointer-events: none;
+}
+
+.dlg-overlay.is-closing > .dlg,
+.dlg-overlay.is-closing > .dlg-preview-frame {
+  animation: dlg-pop-out 0.18s ease both;
+}
+
+@keyframes dlg-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dlg-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes dlg-pop {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dlg-pop-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.96); }
+}
+
 .dlg-overlay-dark {
   background: var(--overlay-dim);
 }

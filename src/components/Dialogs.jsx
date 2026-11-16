@@ -19,6 +19,11 @@ const CONTENT = {
   privacy: { title: '개인정보처리방침', body: '[개인정보처리방침 내용]' },
 };
 
+// 안내창이 사라지는 시간 (Dialogs.css의 dlg-fade-out·dlg-pop-out과 맞춤)
+const DIALOG_OUT_MS = 180;
+
+const overlayClass = (base, closing) => (closing ? `${base} is-closing` : base);
+
 function useDialogFocus(open, onClose) {
   const ref = useRef(null);
   useEffect(() => {
@@ -55,11 +60,11 @@ function useDialogFocus(open, onClose) {
   return ref;
 }
 
-function ConfirmDialog({ kind, onCancel, onOk }) {
+function ConfirmDialog({ kind, onCancel, onOk, closing }) {
   const ref = useDialogFocus(true, onCancel);
   const c = CONFIRM[kind];
   return (
-    <div className="dlg-overlay" onMouseDown={(e) => e.target === e.currentTarget && onCancel()}>
+    <div className={overlayClass('dlg-overlay', closing)} onMouseDown={(e) => e.target === e.currentTarget && onCancel()}>
       <div ref={ref} className="dlg dlg-confirm" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
         <div className="dlg-confirm-body">
           <span className="dlg-confirm-icon" aria-hidden="true">
@@ -82,10 +87,10 @@ function ConfirmDialog({ kind, onCancel, onOk }) {
   );
 }
 
-function ContentDialog({ title, children, onClose, sparkle }) {
+function ContentDialog({ title, children, onClose, sparkle, closing }) {
   const ref = useDialogFocus(true, onClose);
   return (
-    <div className="dlg-overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div className={overlayClass('dlg-overlay', closing)} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div ref={ref} className="dlg dlg-content" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
         <div className="dlg-content-head">
           {sparkle && <Sparkle size={20} />}
@@ -102,9 +107,9 @@ function ContentDialog({ title, children, onClose, sparkle }) {
   );
 }
 
-function HelpDialog({ onClose }) {
+function HelpDialog({ onClose, closing }) {
   return (
-    <ContentDialog title="사용 방법" onClose={onClose} sparkle>
+    <ContentDialog title="사용 방법" onClose={onClose} closing={closing} sparkle>
       <div className="dlg-scroll dlg-help" tabIndex={0}>
         <div className="dlg-help-item">
           <strong>스티커 붙이기</strong>
@@ -119,12 +124,12 @@ function HelpDialog({ onClose }) {
   );
 }
 
-function PreviewDialog({ design, onClose }) {
+function PreviewDialog({ design, onClose, closing }) {
   const ref = useDialogFocus(true, onClose);
   const size = Math.min(680, window.innerHeight - 160, window.innerWidth - 160);
   return (
     <div
-      className="dlg-overlay dlg-overlay-dark"
+      className={overlayClass('dlg-overlay dlg-overlay-dark', closing)}
       role="dialog"
       aria-modal="true"
       aria-label="꾸민 케이스 미리보기"
@@ -145,13 +150,36 @@ export function UIProvider({ children }) {
   const [dialog, setDialog] = useState(null);
   const [toast, setToast] = useState(null);
   const toastTimer = useRef(null);
+  // 닫힐 때 사라지는 움직임이 끝난 뒤에 안내창을 없앰
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef(null);
 
-  const close = useCallback(() => setDialog(null), []);
+  const open = useCallback((next) => {
+    clearTimeout(closeTimer.current);
+    setClosing(false);
+    setDialog(next);
+  }, []);
 
-  const confirm = useCallback((kind, onOk) => setDialog({ type: 'confirm', kind, onOk }), []);
-  const showContent = useCallback((kind) => setDialog({ type: 'content', kind }), []);
-  const showHelp = useCallback(() => setDialog({ type: 'help' }), []);
-  const showPreview = useCallback((design) => setDialog({ type: 'preview', design }), []);
+  const close = useCallback(() => {
+    clearTimeout(closeTimer.current);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      setDialog(null);
+      return;
+    }
+    setClosing(true);
+    closeTimer.current = setTimeout(() => {
+      setDialog(null);
+      setClosing(false);
+    }, DIALOG_OUT_MS);
+  }, []);
+
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
+  const confirm = useCallback((kind, onOk) => open({ type: 'confirm', kind, onOk }), [open]);
+  const showContent = useCallback((kind) => open({ type: 'content', kind }), [open]);
+  const showHelp = useCallback(() => open({ type: 'help' }), [open]);
+  const showPreview = useCallback((design) => open({ type: 'preview', design }), [open]);
   const showToast = useCallback((message) => {
     clearTimeout(toastTimer.current);
     setToast(message);
@@ -159,8 +187,8 @@ export function UIProvider({ children }) {
   }, []);
 
   const value = useMemo(
-    () => ({ confirm, showContent, showHelp, showPreview, showToast, closeDialog: close, dialogOpen: !!dialog }),
-    [confirm, showContent, showHelp, showPreview, showToast, close, dialog]
+    () => ({ confirm, showContent, showHelp, showPreview, showToast, closeDialog: close, dialogOpen: !!dialog && !closing }),
+    [confirm, showContent, showHelp, showPreview, showToast, close, dialog, closing]
   );
 
   return (
@@ -169,6 +197,7 @@ export function UIProvider({ children }) {
       {dialog?.type === 'confirm' && (
         <ConfirmDialog
           kind={dialog.kind}
+          closing={closing}
           onCancel={close}
           onOk={() => {
             close();
@@ -177,14 +206,14 @@ export function UIProvider({ children }) {
         />
       )}
       {dialog?.type === 'content' && (
-        <ContentDialog title={CONTENT[dialog.kind].title} onClose={close}>
+        <ContentDialog title={CONTENT[dialog.kind].title} onClose={close} closing={closing}>
           <div className="dlg-scroll dlg-text" tabIndex={0}>
             {CONTENT[dialog.kind].body}
           </div>
         </ContentDialog>
       )}
-      {dialog?.type === 'help' && <HelpDialog onClose={close} />}
-      {dialog?.type === 'preview' && <PreviewDialog design={dialog.design} onClose={close} />}
+      {dialog?.type === 'help' && <HelpDialog onClose={close} closing={closing} />}
+      {dialog?.type === 'preview' && <PreviewDialog design={dialog.design} onClose={close} closing={closing} />}
       <div className="toast-wrap" aria-live="polite">
         {toast && <div className="toast">{toast}</div>}
       </div>

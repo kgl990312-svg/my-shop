@@ -384,22 +384,7 @@
   animation-delay: 1.2s;
 }
 
-@keyframes spark-twinkle {
-  0%,
-  60%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  20% {
-    transform: scale(1.35) rotate(12deg);
-    opacity: 1;
-  }
-  40% {
-    transform: scale(0.85);
-    opacity: 0.55;
-  }
-}
+/* spark-twinkle 키프레임은 global.css에 있음 */
 
 .complete-shine-clip {
   position: absolute;

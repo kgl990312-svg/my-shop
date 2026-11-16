@@ -148,7 +148,7 @@ export const IconAlert = (p) => (
 
 // 반짝이 (네 갈래 별) — 장식 색으로 채움
 export const Sparkle = ({ size = 18, color = 'var(--deco-coral)', style, className }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" style={style} className={className}>
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" style={style} className={className ? `sparkle ${className}` : 'sparkle'}>
     <path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill={color} />
   </svg>
 );
