@@ -60,12 +60,27 @@ export function ShopProvider({ children }) {
   const clearDesign = useCallback(() => setDesignState(null), []);
 
   const addToCart = useCallback((d) => {
-    const item = { ...cleanDesign(d), id: `c${Date.now()}`, addedAt: Date.now() };
+    const { editingId, ...rest } = cleanDesign(d); // 꾸미기용 표시(수정 중인 카드)는 빼고 담음
+    const item = { ...rest, id: `c${Date.now()}`, addedAt: Date.now() };
     setCart((prev) => [...prev, item]);
     return item;
   }, []);
 
   const removeFromCart = useCallback((id) => setCart((prev) => prev.filter((it) => it.id !== id)), []);
+
+  // 67 수정하기: 장바구니의 원래 카드 자리에 고친 디자인을 넣음 (id·담은 시각은 그대로, 카드가 없으면 false)
+  const replaceInCart = useCallback((id, d) => {
+    let found = false;
+    setCart((prev) =>
+      prev.map((it) => {
+        if (it.id !== id) return it;
+        found = true;
+        const { editingId, ...rest } = cleanDesign(d); // 꾸미기용 표시는 빼고 저장
+        return { ...rest, id: it.id, addedAt: it.addedAt };
+      })
+    );
+    return found;
+  }, []);
 
   // 삭제 되돌리기: 뺐던 디자인을 원래 자리에 다시 넣음 (이미 있으면 그대로)
   const restoreToCart = useCallback(
@@ -102,12 +117,13 @@ export function ShopProvider({ children }) {
       addToCart,
       removeFromCart,
       restoreToCart,
+      replaceInCart,
       checkout,
       setCheckout: setCheckoutState,
       lastOrder,
       placeOrder,
     }),
-    [design, setDesign, clearDesign, cart, addToCart, removeFromCart, restoreToCart, checkout, lastOrder, placeOrder]
+    [design, setDesign, clearDesign, cart, addToCart, removeFromCart, restoreToCart, replaceInCart, checkout, lastOrder, placeOrder]
   );
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

@@ -147,6 +147,20 @@ export const IconDownload = (p) => (
     <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
   </Svg>
 );
+// 수정하기 (P07 장바구니)
+export const IconEdit = (p) => (
+  <Svg {...p}>
+    <path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z" />
+    <path d="M13.5 7.5l3 3" />
+  </Svg>
+);
+// 공유하기 (P06)
+export const IconShare = (p) => (
+  <Svg {...p}>
+    <path d="M12 15V4M8 8l4-4 4 4" />
+    <path d="M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6" />
+  </Svg>
+);
 export const IconAlert = (p) => (
   <Svg {...p}>
     <circle cx="12" cy="12" r="9" />

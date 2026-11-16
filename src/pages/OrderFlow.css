@@ -1068,3 +1068,68 @@
     box-shadow: 0 0 0 6px rgba(251, 246, 240, 0.9);
   }
 }
+
+/* 70: P05 모두 동의 — 필수 항목 위에 굵게, 아래 구분선 (모든 기기, 승인된 예외) */
+.check-all {
+  font-weight: 700;
+  padding-bottom: 14px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* 69: P06 공유하기 (휴대폰에서 공유를 지원할 때만 나타남) · 61: 아이폰 저장 안내 */
+.complete-share {
+  height: 56px;
+  padding: 0 36px;
+  font-size: 16px;
+}
+
+.complete-save-hint {
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-align: center;
+  margin-top: -8px;
+}
+
+/* ===== 반응형 — P06 저장·공유 버튼 (휴대폰: 폭 767px 이하 터치 기기) ===== */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .complete-hero .complete-save,
+  .complete-hero .complete-share {
+    align-self: stretch;
+    height: 52px;
+    font-size: 15px;
+  }
+
+  .complete-hero .complete-share {
+    margin-top: -8px;
+  }
+
+  .order-agree .check-all {
+    padding-bottom: 10px;
+  }
+}
+
+/* 67: P07 수정하기 버튼 줄 */
+.cart-redesign-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.cart-redesign-row .cart-redesign {
+  margin-top: 0;
+}
+
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .cart-redesign-row {
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .cart-redesign-row .cart-redesign {
+    margin-top: 0;
+    padding: 0 10px;
+    gap: 4px;
+  }
+}

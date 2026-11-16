@@ -4,7 +4,7 @@ import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
-import { IconClose, IconPalette } from '../components/Icons';
+import { IconClose, IconEdit } from '../components/Icons';
 import { fmtPrice, getCaseType } from '../data/catalog';
 import { colorOf, decorationSummary, sumPrice, typeName } from '../utils/summary';
 import './OrderFlow.css';
@@ -16,10 +16,15 @@ export default function CartPage() {
   const { showPreview, showToast } = useUI();
   const total = sumPrice(cart);
 
-  // 다시 꾸미기: 담은 디자인을 복사해 꾸미기 화면으로 (원래 담은 디자인은 장바구니에 그대로 남음)
-  // 각인 이름만 바꿔 커플·선물용으로 하나 더 만들거나, 그대로 완료해 같은 디자인을 하나 더 담을 수 있음
-  const redesign = (it) => {
-    setDesign({ type: it.type, color: it.color, items: it.items.map((x) => ({ ...x })) });
+  // 67 수정하기: 이 디자인을 꾸미기 화면에서 고침 → 확인 화면에서 "장바구니 담기"를 누르면 원래 카드 자리에 바꿔 들어감 (editingId)
+  // (복사해서 하나 더 만드는 버튼은 주요 방문자(본인용 구매)에게 쓰임새가 적어 넣지 않음 — docs/interaction-list.md)
+  const openInCustomize = (it) => {
+    setDesign({
+      type: it.type,
+      color: it.color,
+      items: it.items.map((x) => ({ ...x })),
+      editingId: it.id,
+    });
     navigate('/customize');
   };
 
@@ -65,10 +70,12 @@ export default function CartPage() {
                   <span className="muted cart-meta">케이스 색 {colorOf(it).name}</span>
                   <span className="muted cart-meta">{decorationSummary(it)}</span>
                   <strong className="price cart-price">{fmtPrice(getCaseType(it.type).price)}원</strong>
-                  <button type="button" className="btn btn-small cart-redesign" onClick={() => redesign(it)}>
-                    <IconPalette size={16} />
-                    다시 꾸미기
-                  </button>
+                  <div className="cart-redesign-row">
+                    <button type="button" className="btn btn-small cart-redesign" onClick={() => openInCustomize(it)}>
+                      <IconEdit size={16} />
+                      수정하기
+                    </button>
+                  </div>
                 </div>
                 <button
                   type="button"

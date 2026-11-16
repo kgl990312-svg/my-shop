@@ -701,7 +701,8 @@ export default function CustomizePage() {
             )}
           </div>
           <button type="button" className="btn btn-primary cz-done" onClick={complete} disabled={!canComplete}>
-            완료
+            {/* 67: 장바구니 "수정하기"로 연 디자인이면 "수정완료" (모든 기기, 승인된 예외) */}
+            {design.editingId ? '수정완료' : '완료'}
           </button>
         </div>
       </header>

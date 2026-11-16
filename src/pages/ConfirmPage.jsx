@@ -15,7 +15,7 @@ import './OrderFlow.css';
 export default function ConfirmPage() {
   const navigate = useNavigate();
   const { goBack } = useRouter();
-  const { design, addToCart, setCheckout } = useShop();
+  const { design, cart, addToCart, replaceInCart, setCheckout } = useShop();
   const { showPreview } = useUI();
 
   useEffect(() => {
@@ -40,8 +40,12 @@ export default function ConfirmPage() {
   const type = getCaseType(design.type);
   const color = colorOf(design);
 
+  // 67 수정하기로 연 디자인이면 "장바구니 담기"를 눌렀을 때 원래 카드 자리에 바꿔 넣음 (그 카드가 지워졌으면 새로 담음) — 버튼 이름은 그대로
+  const editingInCart = !!design?.editingId && cart.some((it) => it.id === design.editingId);
+
   const putInCart = () => {
-    addToCart(design);
+    if (editingInCart) replaceInCart(design.editingId, design);
+    else addToCart(design);
     navigate('/cart');
   };
 

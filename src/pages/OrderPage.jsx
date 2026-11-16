@@ -30,6 +30,16 @@ const MSG = {
 
 const pad = (n) => String(n).padStart(2, '0');
 
+// 연락처 자동 하이픈: 숫자만 입력해도 010-1234-5678 형태로 (모든 기기, 승인된 예외 — docs/interaction-list.md)
+// 입력 중에는 010-1234 → 010-123-4567(10자리) → 010-1234-5678(11자리) 순으로 바뀜. 숫자 외 글자는 지움.
+const formatPhone = (value) => {
+  const d = value.replace(/\D/g, '').slice(0, 11);
+  if (d.length <= 3) return d;
+  if (d.length <= 7) return `${d.slice(0, 3)}-${d.slice(3)}`;
+  if (d.length <= 10) return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`;
+  return `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7)}`;
+};
+
 export default function OrderPage() {
   const navigate = useNavigate();
   const { goBack } = useRouter();
@@ -70,7 +80,31 @@ export default function OrderPage() {
   const shipping = null; // 배송비 [미정]
   const total = subtotal == null || shipping == null ? null : subtotal + shipping;
 
-  const onChange = (id) => (e) => setForm((f) => ({ ...f, [id]: e.target.value }));
+  const onChange = (id) => (e) => {
+    if (id !== 'phone') {
+      setForm((f) => ({ ...f, [id]: e.target.value }));
+      return;
+    }
+    // 연락처: 하이픈을 자동으로 넣고, 커서는 입력하던 숫자 바로 뒤에 그대로 둠 (중간을 고칠 때 끝으로 튀지 않게)
+    const el = e.target;
+    const pos = el.selectionStart ?? el.value.length;
+    const digitsBefore = el.value.slice(0, pos).replace(/\D/g, '').length;
+    const next = formatPhone(el.value);
+    setForm((f) => ({ ...f, phone: next }));
+    requestAnimationFrame(() => {
+      let i = 0;
+      let n = 0;
+      while (i < next.length && n < digitsBefore) {
+        if (/\d/.test(next[i])) n += 1;
+        i += 1;
+      }
+      try {
+        el.setSelectionRange(i, i);
+      } catch {
+        /* 커서를 옮길 수 없는 입력칸이면 그대로 */
+      }
+    });
+  };
   const onBlur = (id) => () => setTouched((t) => ({ ...t, [id]: true }));
   const showErr = (id) => touched[id] && errors[id];
 
@@ -172,6 +206,15 @@ export default function OrderPage() {
           <h2 className="order-h2">
             동의 <span className="req">*</span>
           </h2>
+          {/* 70: 모두 동의 — 필수 항목을 한 번에 켜고 끔 (모든 기기, 승인된 예외) */}
+          <label className="check check-all">
+            <input
+              type="checkbox"
+              checked={agree.terms && agree.privacy}
+              onChange={(e) => setAgree({ terms: e.target.checked, privacy: e.target.checked })}
+            />
+            모두 동의
+          </label>
           <label className="check">
             <input
               type="checkbox"
