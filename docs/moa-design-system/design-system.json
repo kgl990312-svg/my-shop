@@ -1,0 +1,14 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": {"v": 1, "at": "2026-11-13T12:30:00+09:00"},
+  "title": "모아(MOA)",
+  "namespace": "MOA",
+  "libraries": [],
+  "sections": {},
+  "groups": [],
+  "assetGroups": {},
+  "blobs": {},
+  "docs": {"readme": "project/README.md", "sections": []},
+  "lastChange": {"by": "뚠뚠이", "at": "2026-11-13T15:20:00+09:00", "via": "Cowork", "note": "케이스 색 5가지, 각인·큐빅 기준 추가"}
+}

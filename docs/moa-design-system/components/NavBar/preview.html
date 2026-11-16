@@ -1,0 +1,26 @@
+<!-- @dsCard group="Navigation" height=200 subtitle="뒤로 · 로고 · 장바구니 배지" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(--ink);padding:20px 24px;display:flex;flex-direction:column;gap:16px}
+.nav{background:var(--bg-surface);border:1px solid var(--line);border-radius:var(--radius-lg);height:72px;padding:0 24px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.ib{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--ink);border-radius:999px;position:relative}
+.logo{justify-self:center;display:flex;flex-direction:column;align-items:center;line-height:1.15;text-decoration:none}
+.logo b{font-size:30px;font-weight:800;letter-spacing:.12em;color:var(--accent)}
+.logo span{font-size:14px;font-weight:600;color:var(--ink-muted)}
+.badge{position:absolute;top:4px;right:2px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.cap{font-size:12px;color:var(--ink-muted)}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a class="ib" href="#" aria-label="뒤로"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+  <a class="logo" href="#" aria-label="모아 메인으로"><b>MOA</b><span>모아</span></a>
+  <a class="ib" href="#" aria-label="장바구니, 2개 담김" style="justify-self:end"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="badge">2</span></a>
+</div>
+<div class="cap">높이 72px · 흰 바탕 · 아래 테두리 line · 내용 최대 너비 1200px</div>
+<script></script>
+</body>
+</html>

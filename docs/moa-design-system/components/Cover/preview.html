@@ -1,0 +1,50 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;background:var(--bg-page)}
+.cover{position:relative;width:960px;height:288px;overflow:hidden;background:var(--bg-page);font-family:var(--font-sans)}
+svg{position:absolute;left:0;top:0}
+.accent{fill:var(--accent)}
+.soft{fill:var(--bg-soft)}
+.strong{fill:var(--bg-soft-strong)}
+.sand{fill:var(--bg-footer)}
+.ink{fill:var(--ink)}
+.peach{fill:var(--deco-peach)}
+.surface{fill:var(--bg-surface)}
+.text{position:absolute;left:48px;bottom:44px;max-width:440px;display:flex;flex-direction:column;gap:12px}
+.name{margin:0;font-size:88px;line-height:.95;font-weight:800;letter-spacing:-0.02em;color:var(--ink)}
+.tag{margin:0;font-size:14px;color:var(--ink-muted)}
+</style>
+</head>
+<body>
+<div class="cover">
+  <svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true">
+    <!--
+      blocks: accent 208×288 slab (bleeds top/bottom), bg-soft 176×176 rounded (radius-3xl 32), bg-footer pill 176×80, ink disc 64, deco-peach pill 96×48 — all right of x=480
+      arrangement: one tall coral slab with soft satellites, like a cushion case lid seen among its stickers
+      pattern: soft, friendly, large radii (README: 모서리는 둥글게, 버튼은 알약 모양) → white discs and pills from radius-pill, set on the coral slab like stickers
+      steps and radii: gaps space-6 (24), space-4 (16); radius-3xl 32, radius-2xl 28, radius-pill (half the short side)
+    -->
+    <rect class="soft" x="504" y="24" width="176" height="176" rx="32"/>
+    <rect class="sand" x="504" y="216" width="176" height="80" rx="40"/>
+    <rect class="accent" x="704" y="-16" width="208" height="320" rx="32"/>
+    <rect class="strong" x="928" y="56" width="64" height="176" rx="32"/>
+    <circle class="ink" cx="592" cy="112" r="32"/>
+    <rect class="peach" x="616" y="240" width="96" height="48" rx="24"/>
+    <circle class="surface" cx="760" cy="64" r="20"/>
+    <rect class="surface" x="800" y="96" width="80" height="32" rx="16"/>
+    <circle class="surface" cx="856" cy="184" r="12"/>
+    <rect class="surface" x="728" y="200" width="56" height="24" rx="12"/>
+    <circle class="peach" cx="812" cy="248" r="16"/>
+  </svg>
+  <div class="text">
+    <h1 class="name">모아(MOA)</h1>
+    <p class="tag">나만의 쿠션 케이스, 모아에서 완성해요</p>
+  </div>
+</div>
+<script></script>
+</body>
+</html>

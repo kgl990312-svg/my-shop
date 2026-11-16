@@ -1,0 +1,28 @@
+<!-- @dsCard group="Navigation" height=200 subtitle="회사 정보 · 고객센터 · 약관 링크" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;background:var(--bg-footer);font-family:var(--font-sans)}
+footer{border-top:1px solid var(--line);padding:36px 32px 40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;font-size:14px;line-height:1.8;color:var(--ink-muted)}
+.col{display:flex;flex-direction:column;gap:6px}
+.logo{align-self:flex-start;display:flex;flex-direction:column;align-items:center;line-height:1.15}
+.logo b{font-size:20px;font-weight:800;letter-spacing:.12em;color:var(--accent)}
+.logo span{font-size:11px;font-weight:600;color:var(--ink-muted)}
+.h{font-weight:700;color:var(--ink)}
+.tel{font-size:20px;font-weight:800;color:var(--ink)}
+nav{display:flex;gap:20px}
+nav a{color:var(--ink);font-weight:600}
+nav a:last-child{font-weight:700}
+</style>
+</head>
+<body>
+<footer>
+  <div class="col"><span class="logo"><b>MOA</b><span>모아</span></span><span>회사명 [회사명] · 대표자 [대표자]<br>사업자등록번호 [사업자등록번호]<br>주소 [주소]</span></div>
+  <div class="col"><span class="h">고객센터</span><span class="tel">[전화번호]</span><span>운영 시간 [운영 시간]</span></div>
+  <nav aria-label="약관"><a href="#">이용약관</a><a href="#">개인정보처리방침</a></nav>
+</footer>
+<script></script>
+</body>
+</html>

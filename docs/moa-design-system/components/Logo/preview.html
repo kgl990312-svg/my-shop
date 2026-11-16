@@ -1,0 +1,27 @@
+<!-- @dsCard group="Brand" height=160 subtitle="글자 로고 · 네비게이션 바 / 푸터" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(--ink)}
+.row{display:flex;gap:48px;align-items:center;padding:28px 32px}
+.logo{display:inline-flex;flex-direction:column;align-items:center;line-height:1.15;text-decoration:none}
+.logo .en{font-weight:800;letter-spacing:.12em;color:var(--accent)}
+.logo .ko{font-weight:600;color:var(--ink-muted)}
+.nav .en{font-size:30px}.nav .ko{font-size:14px}
+.ftr .en{font-size:20px}.ftr .ko{font-size:11px}
+.cap{font-size:12px;color:var(--ink-muted);margin-top:10px;text-align:center}
+.box{display:flex;flex-direction:column;align-items:center}
+.surface{background:var(--bg-surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 28px}
+.foot{background:var(--bg-footer);border-radius:var(--radius-lg);padding:16px 28px}
+</style>
+</head>
+<body>
+<div class="row">
+  <div class="box"><div class="surface"><a class="logo nav" href="#" aria-label="모아 메인으로"><span class="en">MOA</span><span class="ko">모아</span></a></div><div class="cap">네비게이션 바 · 30 / 14px</div></div>
+  <div class="box"><div class="foot"><span class="logo ftr"><span class="en">MOA</span><span class="ko">모아</span></span></div><div class="cap">푸터 · 20 / 11px</div></div>
+</div>
+<script></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!-- @dsCard group="Overlays" height=360 subtitle="확인 안내창 · 내용 안내창 (너비 480)" -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+body{margin:0;background:var(--overlay-dim);font-family:var(--font-sans);color:var(--ink);padding:28px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.dlg{width:400px;box-sizing:border-box;background:var(--bg-surface);border-radius:var(--radius-2xl);display:flex;flex-direction:column}
+.confirm{height:260px;padding:36px 28px 24px;align-items:center;text-align:center}
+.mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.ic{width:56px;height:56px;border-radius:999px;background:var(--bg-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+h2{margin:0;font-size:21px;font-weight:800}
+.two{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.btn{height:54px;border-radius:999px;border:none;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+.soft{background:var(--bg-soft);color:var(--ink)}
+.pri{background:var(--accent);color:var(--on-accent)}
+.dark{background:var(--ink);color:var(--on-accent)}
+.content{height:300px;padding:28px 28px 24px;gap:16px}
+.box{flex:1;min-height:0;overflow-y:auto;background:var(--bg-subtle);border:1px solid var(--line);border-radius:18px;padding:18px 20px;font-size:14px;line-height:1.8;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="dlg confirm" role="dialog" aria-modal="true" aria-labelledby="t1">
+  <div class="mid"><span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></span><h2 id="t1">꾸민 내용이 사라져요</h2></div>
+  <div class="two"><button class="btn soft" type="button">취소</button><button class="btn pri" type="button">나가기</button></div>
+</div>
+<div class="dlg content" role="dialog" aria-modal="true" aria-labelledby="t2">
+  <h2 id="t2">이용약관</h2>
+  <div class="box" tabindex="0">[이용약관 내용]</div>
+  <button class="btn dark" type="button">닫기</button>
+</div>
+<script></script>
+</body>
+</html>
