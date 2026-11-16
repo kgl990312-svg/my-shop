@@ -63,8 +63,9 @@ export { default as bannerImage } from '../assets/site/banner/main.jpg';
  *   size.short: 카드·꾸미기 패널처럼 짧게 / size.full: 상세처럼 항목 이름까지
  */
 export const COMPAT_TAG = '15g 쿠션 리필 호환';
-export const COMPAT_NOTE =
-  '15g 쿠션 리필(지름 약 60mm)이 모두 들어가요. 리필 바닥 지름을 재 보면 확인할 수 있어요.';
+// 호환 규격 안내: 핵심 문장 + 확인 방법 팁 (휴대폰은 팁을 다음 줄에 보조 글자로, 데스크탑은 한 줄 그대로)
+export const COMPAT_NOTE = '15g 쿠션 리필(지름 약 60mm)이 모두 들어가요.';
+export const COMPAT_HINT = '리필 바닥 지름을 재 보면 확인할 수 있어요.';
 
 /*
  * 케이스 종류 4가지 (원형, 둥근 정사각형, 하트, 꽃)

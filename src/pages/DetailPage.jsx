@@ -4,7 +4,7 @@ import { useNavigate, useQuery, useRouter } from '../router';
 import { newDesign, useShop } from '../store/ShopContext';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
 import { IconChevronRight, Sparkle } from '../components/Icons';
-import { COMPAT_NOTE, COMPAT_TAG, STEPS, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
+import { COMPAT_HINT, COMPAT_NOTE, COMPAT_TAG, STEPS, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
 import './DetailPage.css';
 
 const TABS = [
@@ -136,7 +136,9 @@ export default function DetailPage() {
             <span className="label">크기</span>
             <span>{fmtSize(type.size, true)}</span>
             <span className="label">호환 규격 안내</span>
-            <span>{COMPAT_NOTE}</span>
+            <span>
+              {COMPAT_NOTE} <span className="detail-compat-hint">{COMPAT_HINT}</span>
+            </span>
           </div>
         </div>
       </section>

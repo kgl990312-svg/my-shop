@@ -443,3 +443,25 @@
     font-size: 16px;
   }
 }
+
+/* P02 호환 규격 안내: 확인 방법 팁은 다음 줄에 보조 글자로 (모든 기기, 데스크탑 14px)
+ * 내용(문구) 변경에 따른 승인된 예외 — 레이아웃은 그대로. docs/interaction-list.md 수정 내역 참고.
+ */
+.detail-compat-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+/* ===== 반응형 — P02 호환 규격 안내 (휴대폰: 폭 767px 이하 터치 기기) =====
+ * 휴대폰은 본문 14px에 맞춰 팁을 13px, 간격 2px로.
+ */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .detail-compat-hint {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+}
