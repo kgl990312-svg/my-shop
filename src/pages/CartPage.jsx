@@ -4,7 +4,7 @@ import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
-import { IconClose } from '../components/Icons';
+import { IconClose, IconPalette } from '../components/Icons';
 import { fmtPrice, getCaseType } from '../data/catalog';
 import { colorOf, decorationSummary, sumPrice, typeName } from '../utils/summary';
 import './OrderFlow.css';
@@ -12,9 +12,16 @@ import './OrderFlow.css';
 export default function CartPage() {
   const navigate = useNavigate();
   const { goBack } = useRouter();
-  const { cart, removeFromCart, setCheckout } = useShop();
+  const { cart, removeFromCart, setCheckout, setDesign } = useShop();
   const { showPreview } = useUI();
   const total = sumPrice(cart);
+
+  // 다시 꾸미기: 담은 디자인을 복사해 꾸미기 화면으로 (원래 담은 디자인은 장바구니에 그대로 남음)
+  // 각인 이름만 바꿔 커플·선물용으로 하나 더 만들거나, 그대로 완료해 같은 디자인을 하나 더 담을 수 있음
+  const redesign = (it) => {
+    setDesign({ type: it.type, color: it.color, items: it.items.map((x) => ({ ...x })) });
+    navigate('/customize');
+  };
 
   const order = () => {
     if (!cart.length) return;
@@ -48,6 +55,10 @@ export default function CartPage() {
                   <span className="muted cart-meta">케이스 색 {colorOf(it).name}</span>
                   <span className="muted cart-meta">{decorationSummary(it)}</span>
                   <strong className="price cart-price">{fmtPrice(getCaseType(it.type).price)}원</strong>
+                  <button type="button" className="btn btn-small cart-redesign" onClick={() => redesign(it)}>
+                    <IconPalette size={16} />
+                    다시 꾸미기
+                  </button>
                 </div>
                 <button
                   type="button"

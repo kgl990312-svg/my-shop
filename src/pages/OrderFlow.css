@@ -660,3 +660,9 @@
     animation-iteration-count: 1;
   }
 }
+
+/* P07 다시 꾸미기: 담은 디자인을 복사해 꾸미기 화면으로 */
+.cart-redesign {
+  align-self: flex-start;
+  margin-top: 2px;
+}
