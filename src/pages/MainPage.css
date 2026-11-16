@@ -167,14 +167,30 @@
   transition: box-shadow var(--motion);
 }
 
-.case-card:hover,
 .case-card:focus-visible {
   box-shadow: 0 10px 28px rgba(196, 81, 63, 0.16);
 }
 
-.case-card:hover .case-card-deco,
 .case-card:focus-visible .case-card-deco {
   opacity: 1;
+}
+
+/* 호버는 마우스가 있는 기기에서만 */
+@media (hover: hover) {
+  .case-card:hover {
+    box-shadow: 0 10px 28px rgba(196, 81, 63, 0.16);
+  }
+
+  .case-card:hover .case-card-deco {
+    opacity: 1;
+  }
+}
+
+/* 터치 기기: 호버가 없으니 꾸민 예시를 처음부터 보여줌 */
+@media (hover: none) {
+  .case-card-deco {
+    opacity: 1;
+  }
 }
 
 .case-card-info {
@@ -239,9 +255,11 @@
   transition: background var(--motion), border-color var(--motion);
 }
 
-.round-btn:hover:not(:disabled) {
-  background: var(--bg-soft);
-  border-color: var(--line-accent);
+@media (hover: hover) {
+  .round-btn:hover:not(:disabled) {
+    background: var(--bg-soft);
+    border-color: var(--line-accent);
+  }
 }
 
 .round-btn:disabled {
@@ -288,9 +306,14 @@
   transition: transform var(--motion);
 }
 
-.rv-card:hover .rv-img,
 .rv-card:focus-within .rv-img {
   transform: scale(1.05);
+}
+
+@media (hover: hover) {
+  .rv-card:hover .rv-img {
+    transform: scale(1.05);
+  }
 }
 
 
@@ -320,15 +343,25 @@
 }
 
 /* 마우스를 올리면(키보드 선택 포함) 한 줄 문구가 옆으로 흐름: 멈춤 → 끝까지 → 멈춤 → 처음부터 반복 */
-.rv-card:hover .rv-text.is-long,
 .rv-card:focus-within .rv-text.is-long {
   text-overflow: clip;
 }
 
-.rv-card:hover .rv-text.is-long .rv-text-inner,
 .rv-card:focus-within .rv-text.is-long .rv-text-inner {
   display: inline-block;
   animation: rv-marquee var(--rv-dur) linear infinite;
+}
+
+/* 호버로 흐르기는 마우스가 있는 기기에서만 */
+@media (hover: hover) {
+  .rv-card:hover .rv-text.is-long {
+    text-overflow: clip;
+  }
+
+  .rv-card:hover .rv-text.is-long .rv-text-inner {
+    display: inline-block;
+    animation: rv-marquee var(--rv-dur) linear infinite;
+  }
 }
 
 @keyframes rv-marquee {
@@ -346,5 +379,110 @@
   .rv-card:hover .rv-text.is-long .rv-text-inner,
   .rv-card:focus-within .rv-text.is-long .rv-text-inner {
     animation: none;
+  }
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 15: 마우스 전용 커서 끄기 */
+  .round-btn:disabled {
+    cursor: auto;
+  }
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 22·23: 후기 카드를 탭해 포커스가 생겨도 이미지 확대·문구 흐르기를 하지 않음 */
+  .rv-card:focus-within .rv-img {
+    transform: none;
+  }
+
+  .rv-card:focus-within .rv-text.is-long {
+    text-overflow: ellipsis;
+  }
+
+  .rv-card:focus-within .rv-text.is-long .rv-text-inner {
+    display: inline;
+    animation: none;
+  }
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+/* 20·21: 후기는 화살표 대신 손가락으로 옆으로 넘김. 다음 카드가 살짝 보이게 */
+@media (hover: none) and (pointer: coarse) {
+  .main-reviews-nav {
+    display: none;
+  }
+
+  .review-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .review-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 버튼용 미끄러짐은 쓰지 않음 (손가락을 그대로 따라감) */
+  .review-track {
+    transform: none !important;
+    transition: none;
+  }
+
+  /* 휴대폰: 1.2개 보임 */
+  .rv-card {
+    flex-basis: calc((100% - 24px) / 1.2);
+    scroll-snap-align: start;
+  }
+}
+
+/* 태블릿(폭 768px 이상): 2.2개 보임 */
+@media (hover: none) and (pointer: coarse) and (min-width: 768px) {
+  .rv-card {
+    flex-basis: calc((100% - 48px) / 2.2);
+  }
+}
+
+/* 배너 빛줄기 — 터치 기기 전용 요소라 데스크탑에서는 숨김 */
+.main-banner-shine {
+  display: none;
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+/* 배너 이미지가 나타난 뒤 빛줄기가 한 번 지나가고 멈춤 (P06 완료 화면과 같은 효과) */
+@media (hover: none) and (pointer: coarse) {
+  .main-banner-image {
+    position: relative;
+  }
+
+  .main-banner-shine {
+    display: block;
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: -60%;
+    width: 45%;
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-18deg);
+    pointer-events: none;
+    /* 배너 사진 등장(0.15초 뒤 시작, 0.6초)이 끝난 뒤에 지나감 */
+    animation: banner-shine-sweep 0.8s ease-out 0.8s 1 both;
+  }
+}
+
+@keyframes banner-shine-sweep {
+  from {
+    left: -60%;
+  }
+  to {
+    left: 130%;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .main-banner-shine {
+    display: none;
   }
 }

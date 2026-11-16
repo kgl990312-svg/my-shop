@@ -41,6 +41,8 @@ function ReviewText({ text }) {
 export default function MainPage() {
   const pages = Math.ceil(REVIEWS.length / PER_VIEW);
   const [page, setPage] = useState(0);
+  // 모바일·태블릿(터치 기기): 후기를 화살표 대신 손가락으로 넘김 (MainPage.css 터치 전용 블록)
+  const touchUI = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches ?? false;
 
   return (
     <div className="page">
@@ -61,6 +63,8 @@ export default function MainPage() {
           </div>
           <div className="main-banner-image">
             <img src={bannerImage} alt="블러시 핑크 원형 쿠션 케이스에 큐빅, 리본, 각인으로 꾸민 예시 상품" />
+            {/* 빛줄기: 터치 기기에서만 보임 (MainPage.css 터치 전용 블록) */}
+            <span className="main-banner-shine" aria-hidden="true" />
           </div>
         </div>
       </section>
@@ -123,7 +127,8 @@ export default function MainPage() {
           <div className="review-viewport">
             <div className="review-track" style={{ transform: `translateX(calc(${-page} * (100% + 24px)))` }}>
               {REVIEWS.map((r, i) => {
-                const hidden = Math.floor(i / PER_VIEW) !== page;
+                // 터치 기기는 손으로 넘기므로 모든 카드가 보임 (데스크탑만 4개씩 페이지로 숨김)
+                const hidden = !touchUI && Math.floor(i / PER_VIEW) !== page;
                 return (
                   <article key={r.id} className="rv-card" tabIndex={hidden ? -1 : 0} aria-hidden={hidden}>
                     <div className="rv-media">

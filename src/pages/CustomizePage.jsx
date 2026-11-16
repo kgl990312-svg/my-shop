@@ -13,6 +13,7 @@ import {
   IconHeart,
   IconHelp,
   IconMinus,
+  IconMore,
   IconPalette,
   IconPlus,
   IconRedo,
@@ -99,6 +100,26 @@ export default function CustomizePage() {
   const { confirm, showHelp } = useUI();
 
   const [panel, setPanel] = useState(null);
+  const [panelSwitched, setPanelSwitched] = useState(false); // 열린 패널에서 다른 도구로 바꿨는지
+  const [moreOpen, setMoreOpen] = useState(false); // 터치 기기 상단 바 더보기 메뉴
+  const moreRef = useRef(null);
+
+  // 더보기 메뉴: 바깥을 누르거나 Esc를 누르면 닫힘
+  useEffect(() => {
+    if (!moreOpen) return undefined;
+    const onDown = (e) => {
+      if (!moreRef.current?.contains(e.target)) setMoreOpen(false);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMoreOpen(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [moreOpen]);
   const [selectedId, setSelectedId] = useState(null);
   const [zoom, setZoom] = useState(1);
   const [hist, setHist] = useState({ past: [], future: [] });
@@ -332,6 +353,120 @@ export default function CustomizePage() {
     target.addEventListener('pointercancel', onUp);
   };
 
+  // ---------- 터치 기기: 두 손가락 확대·회전 (32·45·46) ----------
+  // 스티커 위에서 시작하면 그 스티커의 크기·회전, 빈 곳에서 시작하면 화면 배율.
+  // 마우스에는 반응하지 않음 (pointerType === 'touch'만 처리). 기존 한 손가락 조작은 그대로.
+  const touchesRef = useRef(new Map()); // 화면에 닿아 있는 손가락
+  const pinchRef = useRef(null); // 진행 중인 두 손가락 조작
+  const firstOnItemRef = useRef(false); // 첫 손가락이 스티커 위에서 시작했는지
+  const selectedIdRef = useRef(selectedId);
+  selectedIdRef.current = selectedId;
+  const zoomRef = useRef(zoom);
+  zoomRef.current = zoom;
+  const stageRef = useRef(null);
+  const [pinching, setPinching] = useState(false);
+
+  const pinchGeom = (a, b) => ({
+    dist: Math.hypot(b.x - a.x, b.y - a.y) || 1,
+    angle: Math.atan2(b.y - a.y, b.x - a.x),
+  });
+
+  const pinchHandlers = useRef({});
+  pinchHandlers.current = {
+    down(e) {
+      if (e.pointerType !== 'touch') return;
+      const touches = touchesRef.current;
+      touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (touches.size === 1) {
+        firstOnItemRef.current = !!e.target.closest?.('.cz-item, .cz-select');
+        return;
+      }
+      // 두 번째 손가락부터는 스티커·빈 곳 동작으로 넘기지 않음
+      e.stopPropagation();
+      e.preventDefault();
+      if (pinchRef.current || touches.size !== 2) return;
+      const ids = [...touches.keys()];
+      const { dist, angle } = pinchGeom(touches.get(ids[0]), touches.get(ids[1]));
+      const selId = selectedIdRef.current;
+      const it0 = firstOnItemRef.current && designRef.current?.items.find((i) => i.id === selId);
+      if (it0) {
+        beginGesture();
+        pinchRef.current = { ids, mode: 'item', id: it0.id, it0, dist, angle };
+      } else {
+        pinchRef.current = { ids, mode: 'zoom', zoom0: zoomRef.current, dist, angle };
+        setPinching(true);
+      }
+    },
+    move(e) {
+      if (e.pointerType !== 'touch' || !touchesRef.current.has(e.pointerId)) return;
+      touchesRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const pinch = pinchRef.current;
+      if (!pinch) return;
+      e.stopPropagation(); // 두 손가락 중에는 한 손가락 이동을 멈춤
+      if (pinch.ended) return;
+      const a = touchesRef.current.get(pinch.ids[0]);
+      const b = touchesRef.current.get(pinch.ids[1]);
+      if (!a || !b) return;
+      const g = pinchGeom(a, b);
+      const k = g.dist / pinch.dist;
+      if (pinch.mode === 'zoom') {
+        setZoom(Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, pinch.zoom0 * k)));
+        return;
+      }
+      const { it0, id } = pinch;
+      const cur = designRef.current.items.find((i) => i.id === id);
+      if (!cur) return;
+      let rot = (it0.rot || 0) + ((g.angle - pinch.angle) * 180) / Math.PI;
+      rot = Math.round(((rot % 360) + 360) % 360);
+      let next =
+        it0.kind === 'engrave'
+          ? { ...cur, fs: Math.min(MAX_FS, Math.max(MIN_FS, it0.fs * k)), rot }
+          : { ...cur, w: Math.min(MAX_W, Math.max(MIN_W, it0.w * k)), rot };
+      const ratio = it0.kind === 'engrave' ? next.fs / cur.fs : next.w / cur.w;
+      const half = halfOf(id);
+      next = clampToSafe(safe, next, { w: half.w * ratio, h: half.h * ratio });
+      updateItem(id, { x: next.x, y: next.y, w: next.w, fs: next.fs, rot: next.rot });
+    },
+    up(e) {
+      if (e.pointerType !== 'touch') return;
+      const touches = touchesRef.current;
+      touches.delete(e.pointerId);
+      const pinch = pinchRef.current;
+      if (pinch && !pinch.ended && pinch.ids.includes(e.pointerId)) {
+        pinch.ended = true;
+        if (pinch.mode === 'item') {
+          const cur = designRef.current.items.find((i) => i.id === pinch.id);
+          // 각인은 선택이 풀릴 때 기록 (빈 각인 처리 때문) — 한 손가락 조작과 같은 규칙
+          if (!(cur && cur.kind === 'engrave' && !(cur.text || '').trim())) endGesture();
+        }
+      }
+      // 모든 손가락을 뗄 때까지 남은 손가락으로 스티커가 튀지 않게 잠가 둠
+      if (touches.size === 0) {
+        pinchRef.current = null;
+        setPinching(false);
+      }
+    },
+  };
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return undefined;
+    const down = (e) => pinchHandlers.current.down(e);
+    const move = (e) => pinchHandlers.current.move(e);
+    const up = (e) => pinchHandlers.current.up(e);
+    // capture 단계: 스티커·빈 곳의 기존 동작보다 먼저 받음
+    el.addEventListener('pointerdown', down, true);
+    el.addEventListener('pointermove', move, true);
+    el.addEventListener('pointerup', up, true);
+    el.addEventListener('pointercancel', up, true);
+    return () => {
+      el.removeEventListener('pointerdown', down, true);
+      el.removeEventListener('pointermove', move, true);
+      el.removeEventListener('pointerup', up, true);
+      el.removeEventListener('pointercancel', up, true);
+    };
+  }, [!!design]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // 캔버스 빈 곳 클릭: 선택 해제 + 패널 닫기
   const onStageDown = (e) => {
     if (e.target.closest('.cz-item, .cz-select')) return;
@@ -340,7 +475,35 @@ export default function CustomizePage() {
   };
 
   // ---------- 패널에서 스티커 끌어서 붙이기 ----------
+  // 터치는 끌어다 놓기 없이 탭하면 가운데에 붙임 (손가락으로 끌면 목록이 옆으로 넘어감)
+  const onStickerTouchDown = (e, sticker) => {
+    const sx = e.clientX;
+    const sy = e.clientY;
+    const btn = e.currentTarget;
+    let moved = false;
+
+    const cleanup = () => {
+      btn.removeEventListener('pointermove', onMove);
+      btn.removeEventListener('pointerup', onUp);
+      btn.removeEventListener('pointercancel', cleanup);
+    };
+    const onMove = (ev) => {
+      if (Math.hypot(ev.clientX - sx, ev.clientY - sy) > 6) moved = true;
+    };
+    const onUp = () => {
+      cleanup();
+      if (!moved) addSticker(sticker);
+    };
+    btn.addEventListener('pointermove', onMove);
+    btn.addEventListener('pointerup', onUp);
+    btn.addEventListener('pointercancel', cleanup); // 목록을 넘기기 시작하면 붙이지 않음
+  };
+
   const onStickerPointerDown = (e, sticker) => {
+    if (e.pointerType === 'touch') {
+      onStickerTouchDown(e, sticker);
+      return;
+    }
     if (e.button !== 0) return;
     const sx = e.clientX;
     const sy = e.clientY;
@@ -379,6 +542,7 @@ export default function CustomizePage() {
   // ---------- 도구 버튼 · 패널 ----------
   const toggleTool = (key) => {
     const opening = panel !== key;
+    setPanelSwitched(opening && panel !== null); // 터치 기기: 도구를 바꿀 때는 패널을 다시 올리지 않음 (CSS .is-switch)
     setPanel(opening ? key : null);
     // 스티커 패널을 처음 열면 "드래그해주세요" 안내를 잠깐 보여줌
     if (opening && ['cubic', 'sticker'].includes(key) && !hintShownRef.current) {
@@ -402,7 +566,10 @@ export default function CustomizePage() {
   // 캔버스에서 각인을 고르면 각인 패널을 열어 바로 고칠 수 있게
   const selected = design?.items.find((it) => it.id === selectedId) || null;
   useEffect(() => {
-    if (selected?.kind === 'engrave') setPanel('engrave');
+    if (selected?.kind === 'engrave' && panel !== 'engrave') {
+      setPanelSwitched(panel !== null);
+      setPanel('engrave');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
@@ -445,6 +612,8 @@ export default function CustomizePage() {
   if (!design) return null;
 
   const canComplete = hasDecoration(design);
+  // 손가락이 주된 입력인 기기 (안내 문구를 터치에 맞게)
+  const touchUI = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches ?? false;
   const selHalf = selected ? halfOf(selected.id) : null;
 
   return (
@@ -460,18 +629,50 @@ export default function CustomizePage() {
           </button>
         </div>
         <div className="cz-top-right">
-          <button type="button" className="btn btn-small" onClick={undo} disabled={!hist.past.length}>
+          {/* 글자는 cz-btn-label: 터치 기기에서는 숨기고 아이콘만 (29) */}
+          <button type="button" className="btn btn-small" aria-label="되돌리기" onClick={undo} disabled={!hist.past.length}>
             <IconUndo size={18} />
-            되돌리기
+            <span className="cz-btn-label">되돌리기</span>
           </button>
-          <button type="button" className="btn btn-small" onClick={redo} disabled={!hist.future.length}>
+          <button type="button" className="btn btn-small" aria-label="다시 실행" onClick={redo} disabled={!hist.future.length}>
             <IconRedo size={18} />
-            다시 실행
+            <span className="cz-btn-label">다시 실행</span>
           </button>
-          <button type="button" className="btn btn-small" onClick={resetAll} disabled={!design.items.length}>
+          {/* cz-reset: 터치 기기에서는 숨기고 더보기 메뉴로 (30) */}
+          <button type="button" className="btn btn-small cz-reset" onClick={resetAll} disabled={!design.items.length}>
             <IconReset size={18} />
             전체 초기화
           </button>
+          {/* 더보기: 터치 기기에서만 보임 (30). 데스크탑에서는 CSS로 숨김 */}
+          <div className="cz-more" ref={moreRef}>
+            <button
+              type="button"
+              className="icon-btn cz-more-btn"
+              aria-label="더보기"
+              aria-haspopup="menu"
+              aria-expanded={moreOpen}
+              onClick={() => setMoreOpen((o) => !o)}
+            >
+              <IconMore size={22} />
+            </button>
+            {moreOpen && (
+              <div className="cz-more-menu" role="menu">
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="cz-more-item"
+                  disabled={!design.items.length}
+                  onClick={() => {
+                    setMoreOpen(false);
+                    resetAll();
+                  }}
+                >
+                  <IconReset size={18} />
+                  전체 초기화
+                </button>
+              </div>
+            )}
+          </div>
           <button type="button" className="btn btn-primary cz-done" onClick={complete} disabled={!canComplete}>
             완료
           </button>
@@ -495,8 +696,8 @@ export default function CustomizePage() {
         </div>
 
         {/* 캔버스 */}
-        <div className="cz-stage" onPointerDown={onStageDown}>
-          <div className="cz-zoom" style={{ transform: `scale(${zoom})` }}>
+        <div className="cz-stage" ref={stageRef} onPointerDown={onStageDown}>
+          <div className={`cz-zoom${pinching ? ' is-pinching' : ''}`} style={{ transform: `scale(${zoom})` }}>
             <div className="cz-frame">
               <div className="cz-case" ref={caseRef} style={{ width: CASE_PX, height: CASE_PX }}>
                 <CaseArt type={design.type} color={design.color} size={CASE_PX} />
@@ -567,7 +768,7 @@ export default function CustomizePage() {
                 {hint !== 'hidden' && (
                   <div className={`cz-hint${hint === 'fade' ? ' is-fade' : ''}`}>
                     <IconHand size={18} />
-                    드래그해주세요
+                    {touchUI ? '눌러서 붙이고, 끌어서 옮겨요' : '드래그해주세요'}
                   </div>
                 )}
               </div>
@@ -604,7 +805,7 @@ export default function CustomizePage() {
 
       {/* P03-S03 도구 패널 */}
       {panel && (
-        <section key={panel} className="cz-panel" aria-label={panelTitle(panel)}>
+        <section key={panel} className={`cz-panel${panelSwitched ? ' is-switch' : ''}`} aria-label={panelTitle(panel)}>
           <div className="cz-panel-head">
             <Sparkle size={18} />
             <h2>{panelTitle(panel)}</h2>

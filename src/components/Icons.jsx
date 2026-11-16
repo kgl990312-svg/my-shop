@@ -59,6 +59,14 @@ export const IconReset = (p) => (
     <path d="M3 3v5h5" />
   </Svg>
 );
+// 더보기 (가로 점 3개) — P03 터치 기기 상단 바
+export const IconMore = (p) => (
+  <Svg {...p}>
+    <circle cx="5" cy="12" r="1.2" />
+    <circle cx="12" cy="12" r="1.2" />
+    <circle cx="19" cy="12" r="1.2" />
+  </Svg>
+);
 export const IconMinus = (p) => (
   <Svg {...p}>
     <path d="M5 12h14" />

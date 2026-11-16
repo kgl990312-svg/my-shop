@@ -146,29 +146,34 @@ ol {
   transform: scale(0.98);
 }
 
-.btn-primary:hover:not(:disabled):not([aria-disabled='true']) {
-  background: var(--accent-hover);
-}
+/* 호버는 마우스가 있는 기기에서만 (터치에서는 탭한 뒤 강조가 남는 문제 방지) */
+@media (hover: hover) {
+  .btn-primary:hover:not(:disabled):not([aria-disabled='true']) {
+    background: var(--accent-hover);
+  }
 
-.btn-outline:hover:not(:disabled),
-.btn-small:hover:not(:disabled) {
-  background: var(--bg-soft);
-}
+  .btn-outline:hover:not(:disabled),
+  .btn-small:hover:not(:disabled) {
+    background: var(--bg-soft);
+  }
 
-.btn-soft:hover:not(:disabled) {
-  background: var(--bg-soft-strong);
-}
+  .btn-soft:hover:not(:disabled) {
+    background: var(--bg-soft-strong);
+  }
 
-.btn-dark:hover:not(:disabled) {
-  background: #2C211C;
+  .btn-dark:hover:not(:disabled) {
+    background: #2C211C;
+  }
 }
 
 .icon-btn {
   transition: background var(--motion);
 }
 
-.icon-btn:hover {
-  background: var(--bg-soft);
+@media (hover: hover) {
+  .icon-btn:hover {
+    background: var(--bg-soft);
+  }
 }
 
 .btn:disabled,
@@ -317,5 +322,22 @@ ol {
   *::after {
     transition-duration: 0s !important;
     animation-duration: 0s !important;
+  }
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 15: 마우스 전용 커서 끄기 */
+  .btn:disabled,
+  .btn[aria-disabled='true'] {
+    cursor: auto;
+  }
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 17: 반짝이는 한 번만 반짝이고 멈춤 */
+  .sparkle {
+    animation-iteration-count: 1;
   }
 }

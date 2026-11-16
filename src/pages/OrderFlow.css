@@ -289,9 +289,11 @@
   transition: border-color var(--motion), background var(--motion);
 }
 
-.choice:hover:not(.is-on) {
-  border-color: var(--line-accent);
-  background: var(--bg-subtle);
+@media (hover: hover) {
+  .choice:hover:not(.is-on) {
+    border-color: var(--line-accent);
+    background: var(--bg-subtle);
+  }
 }
 
 .choice.is-on {
@@ -638,4 +640,23 @@
   opacity: 0.4;
   box-shadow: none;
   cursor: not-allowed;
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 15: 마우스 전용 커서 끄기 */
+  .confirm-media,
+  .complete-media,
+  .cart-media,
+  .order-pay[aria-disabled='true'] {
+    cursor: auto;
+  }
+}
+
+/* ===== 터치 기기 전용 (모바일·태블릿) — 데스크탑에는 적용되지 않음 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 17: 완료 화면 반짝이 3개도 한 번씩만 반짝이고 멈춤 (차례로 반짝이는 순서는 그대로) */
+  .complete-spark {
+    animation-iteration-count: 1;
+  }
 }

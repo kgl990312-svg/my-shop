@@ -1,5 +1,5 @@
 // P06 주문 완료: 네비게이션 바(뒤로 없음) → 완료 영역 → 주문 요약 → 배송·문의 안내 → 푸터
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useBlocker, useNavigate } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
@@ -7,7 +7,7 @@ import CaseView from '../components/CaseView';
 import { Footer, NavBar } from '../components/Layout';
 import { IconCheck, IconDownload, Sparkle } from '../components/Icons';
 import { fmtPrice } from '../data/catalog';
-import { downloadDesign } from '../utils/exportImage';
+import { designToFile, downloadDesign } from '../utils/exportImage';
 import './OrderFlow.css';
 
 export default function CompletePage() {
@@ -21,12 +21,43 @@ export default function CompletePage() {
   useEffect(() => {
     if (!lastOrder) navigate('/', { replace: true });
   }, [lastOrder, navigate]);
+
+  // 61: 아이폰·아이패드는 공유 창의 "이미지 저장"으로 사진첩에 저장.
+  // 버튼을 누르자마자 공유 창을 열어야 해서, 화면에 들어올 때 이미지 파일을 미리 만들어 둔다.
+  // (안드로이드·데스크탑은 지금처럼 다운로드 — 안드로이드는 갤러리 Download 앨범에 저장됨)
+  const shareFileRef = useRef(null);
+  useEffect(() => {
+    const touch = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
+    const ios =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (!lastOrder || !touch || !ios || !navigator.canShare) return;
+    let alive = true;
+    designToFile(lastOrder.items[0], `moa-${lastOrder.no}.png`)
+      .then((file) => {
+        if (alive && navigator.canShare({ files: [file] })) shareFileRef.current = file;
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [lastOrder]);
+
   if (!lastOrder) return null;
 
   const first = lastOrder.items[0];
   const more = lastOrder.items.length - 1;
 
   const save = async () => {
+    // 아이폰·아이패드: 공유 창 열기 (사용자가 "이미지 저장"을 고르면 사진첩에 저장)
+    if (shareFileRef.current) {
+      try {
+        await navigator.share({ files: [shareFileRef.current] });
+      } catch (err) {
+        if (err?.name !== 'AbortError') showToast('이미지를 저장하지 못했어요'); // 공유 창을 닫은 경우는 알림 없음
+      }
+      return;
+    }
     try {
       await downloadDesign(first, `moa-${lastOrder.no}.png`);
       showToast('이미지를 저장했어요');

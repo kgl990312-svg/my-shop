@@ -82,3 +82,12 @@ export async function downloadDesign(design, filename = 'moa-case.png') {
   a.click();
   a.remove();
 }
+
+// 꾸민 케이스를 PNG 파일 객체로 만들기 (P06 아이폰·아이패드: 공유 창 → "이미지 저장"으로 사진첩에 저장)
+export async function designToFile(design, filename = 'moa-case.png') {
+  const canvas = await renderDesign(design);
+  const blob = await new Promise((resolve, reject) =>
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob failed'))), 'image/png')
+  );
+  return new File([blob], filename, { type: 'image/png' });
+}

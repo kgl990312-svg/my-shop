@@ -160,8 +160,10 @@
   transition: background var(--motion), border-color var(--motion);
 }
 
-.detail-tab:hover:not(.is-active) {
-  background: var(--bg-soft);
+@media (hover: hover) {
+  .detail-tab:hover:not(.is-active) {
+    background: var(--bg-soft);
+  }
 }
 
 .detail-tab.is-active {
