@@ -871,7 +871,7 @@ export default function CustomizePage() {
               <span className={`cz-deco-count${engraveCount > 0 ? ' is-extra' : ''}`} aria-live="polite">
                 {engraveCount > 0
                   ? `각인 ${engraveCount}개 · 추가 +${fmtPrice(engraveCount * ENGRAVE_PRICE)}원`
-                  : `각인 1개당 +${fmtPrice(ENGRAVE_PRICE)}원`}
+                  : `각인 1개당 +${fmtPrice(ENGRAVE_PRICE)}원 (최대 ${ENGRAVE_MAX}글자)`}
               </span>
             )}
           </div>

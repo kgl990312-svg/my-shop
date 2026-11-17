@@ -1,6 +1,6 @@
 // 이용약관(M03) · 개인정보처리방침(M04) 내용
 // 가상 사이트라 실제 결제·서버 저장이 없음. 입력한 정보는 이 브라우저에만 잠시 보관됨 (ShopContext.jsx 참고)
-import { COMPANY, ENGRAVE_PRICE, EXTRA_DECO_PRICE, FREE_DECO, FREE_SHIPPING_MIN, SHIPPING_FEE } from './catalog';
+import { COMPANY, ENGRAVE_MAX, ENGRAVE_PRICE, EXTRA_DECO_PRICE, FREE_DECO, FREE_SHIPPING_MIN, SHIPPING_FEE } from './catalog';
 
 const won = (n) => `${n.toLocaleString('ko-KR')}원`;
 const EFFECTIVE = '2026년 11월 16일';
@@ -36,7 +36,7 @@ export const TERMS = [
     title: '제5조 (가격과 추가 요금)',
     body: [
       '케이스 가격은 종류마다 다르며 상품 상세 화면에 표시합니다.',
-      `스티커·큐빅은 종류 상관없이 ${FREE_DECO}개까지 추가 요금이 없고, ${FREE_DECO + 1}개째부터 1개당 ${won(EXTRA_DECO_PRICE)}이 추가됩니다. 각인은 1개당 ${won(ENGRAVE_PRICE)}이 추가됩니다.`,
+      `스티커·큐빅은 종류 상관없이 ${FREE_DECO}개까지 추가 요금이 없고, ${FREE_DECO + 1}개째부터 1개당 ${won(EXTRA_DECO_PRICE)}이 추가됩니다. 각인은 1개(최대 ${ENGRAVE_MAX}글자)당 ${won(ENGRAVE_PRICE)}이 추가됩니다.`,
     ],
   },
   {

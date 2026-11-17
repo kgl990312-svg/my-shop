@@ -256,7 +256,7 @@ export const FREE_DECO = 5;
 export const EXTRA_DECO_PRICE = 500;
 export const ENGRAVE_PRICE = 1500;
 export const DECO_NOTE = `스티커·큐빅은 종류 상관없이 ${FREE_DECO}개까지 추가 요금 없어요`;
-export const DECO_NOTE_EXTRA = `${FREE_DECO + 1}개째부터 1개당 +${EXTRA_DECO_PRICE}원 · 각인 1개당 +${ENGRAVE_PRICE.toLocaleString('ko-KR')}원`;
+export const DECO_NOTE_EXTRA = `${FREE_DECO + 1}개째부터 1개당 +${EXTRA_DECO_PRICE}원 · 각인 1개당 +${ENGRAVE_PRICE.toLocaleString('ko-KR')}원, 최대 ${ENGRAVE_MAX}글자`;
 
 const items = (design) => design?.items || [];
 export const countDeco = (design) => items(design).filter((it) => it.kind !== 'engrave').length;
