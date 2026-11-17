@@ -17,7 +17,7 @@ const FIELDS = [
   { id: 'addr2', label: '상세 주소', type: 'text', placeholder: '상세 주소', autoComplete: 'address-line2' },
 ];
 
-// 안내 문구 (문구는 [미정] — 추천안)
+// 안내 문구 (2026-11-17 확정)
 const MSG = {
   name: '받는 사람을 입력해 주세요',
   phone: '연락처를 입력해 주세요',

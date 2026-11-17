@@ -4,7 +4,7 @@ import { useBlocker, useNavigate } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
-import { Footer, NavBar } from '../components/Layout';
+import { Footer, MAIN_MENU, NavBar } from '../components/Layout';
 import { IconCheck, IconDownload, Sparkle } from '../components/Icons';
 import { SHIPPING_INFO, expectedDelivery, fmtPrice } from '../data/catalog';
 import { downloadDesign } from '../utils/exportImage';
@@ -61,7 +61,7 @@ export default function CompletePage() {
 
   return (
     <div className="page">
-      <NavBar />
+      <NavBar menu={MAIN_MENU} />
 
       <div className="order-wrap complete-wrap">
         {/* P06-S02 완료 영역 */}
@@ -89,7 +89,7 @@ export default function CompletePage() {
           <p className="flow-caption">이미지를 누르면 꾸민 상품을 볼 수 있어요</p>
           <div className="complete-copy">
             <h1 className="complete-title">주문이 완료되었어요!</h1>
-            <p className="muted">[짧은 부가 문구]</p>
+            <p className="muted">세상에 하나뿐인 케이스가 곧 찾아갈게요</p>
           </div>
           <div className="box complete-info">
             <span className="muted">주문번호</span>

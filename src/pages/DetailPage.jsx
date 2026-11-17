@@ -15,6 +15,8 @@ import {
   fmtPrice,
   fmtSize,
   getCaseType,
+  MATERIAL,
+  PRODUCT_DESC,
 } from '../data/catalog';
 import './DetailPage.css';
 
@@ -89,7 +91,7 @@ export default function DetailPage() {
             <div className="divider" />
             <dl className="detail-dl">
               <dt>소재</dt>
-              <dd>[소재]</dd>
+              <dd>{MATERIAL}</dd>
             </dl>
             <p className="detail-note">
               <Sparkle size={18} />
@@ -139,7 +141,8 @@ export default function DetailPage() {
           <div className="detail-image">
             <img src={type.detail} alt={`${type.name} 쿠션 케이스를 열고 닫은 모습`} />
           </div>
-          <p className="detail-desc">[상품 설명]</p>
+          <p className="detail-desc">{PRODUCT_DESC}</p>
+          <p className="detail-desc detail-desc-type">{type.desc}</p>
         </div>
       </section>
 

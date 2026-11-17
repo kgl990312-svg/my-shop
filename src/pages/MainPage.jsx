@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLayoutEffect } from 'react';
 import { Link } from '../router';
-import { NavBar, Footer } from '../components/Layout';
+import { NavBar, Footer, MAIN_MENU } from '../components/Layout';
 import { IconChevronLeft, IconChevronRight, Sparkle, Star } from '../components/Icons';
 import { CASE_TYPES, REVIEWS, bannerImage, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
 import { isMobile } from '../utils/device';
@@ -10,12 +10,6 @@ import { useUI } from '../components/Dialogs';
 import './MainPage.css';
 
 const PER_VIEW = 4;
-// 메뉴 영역: 홈(맨 위) · CASE(케이스 종류) · REVIEW(직접 꾸민 후기)
-const MENU = [
-  { label: '홈', id: null },
-  { label: 'CASE', id: 'types' },
-  { label: 'REVIEW', id: 'reviews' },
-];
 const MARQUEE_SPEED = 45; // 후기 문구가 옆으로 흐르는 속도 (px/초)
 
 // 후기 한 줄 문구: 평소에는 한 줄 + "…", 카드에 마우스를 올리면 옆으로 흐르며 끝까지 보여줌
@@ -52,10 +46,12 @@ export default function MainPage() {
   const [page, setPage] = useState(0);
   const { showReview } = useUI();
 
-  // 64: 빈 장바구니의 "케이스 꾸미러 가기"로 들어오면(/#types) 케이스 종류 영역으로 바로 이동하고, 주소의 #types는 지움
+  // 64: 빈 장바구니의 "케이스 꾸미러 가기"(/#types)나 P06 메뉴의 CASE·REVIEW(/#types, /#reviews)로 들어오면
+  // 그 영역으로 바로 이동하고, 주소의 #은 지움
   useEffect(() => {
-    if (window.location.hash !== '#types') return;
-    document.getElementById('types')?.scrollIntoView();
+    const id = window.location.hash.slice(1);
+    if (id !== 'types' && id !== 'reviews') return;
+    document.getElementById(id)?.scrollIntoView();
     window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
   }, []);
   // 20(모바일): 후기를 화살표 대신 손가락으로 넘기므로 모든 카드를 키보드·화면 낭독기에서도 볼 수 있게
@@ -70,7 +66,7 @@ export default function MainPage() {
 
   return (
     <div className="page">
-      <NavBar menu={MENU} />
+      <NavBar menu={MAIN_MENU} />
 
       {/* P01-S02 소개 배너 */}
       <section className="main-banner-wrap">
@@ -87,7 +83,7 @@ export default function MainPage() {
           </div>
           <div className="main-banner-image">
             <img src={bannerImage} alt="블러시 핑크 원형 쿠션 케이스에 큐빅, 리본, 각인으로 꾸민 예시 상품" />
-            {/* 빛줄기: 터치 기기에서만 보임 (MainPage.css 터치 전용 블록) */}
+            {/* 빛줄기: 사진이 나타난 뒤 한 번 지나감 (모든 기기) */}
             <span className="main-banner-shine" aria-hidden="true" />
           </div>
         </div>

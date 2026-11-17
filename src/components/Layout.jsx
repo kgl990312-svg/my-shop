@@ -22,7 +22,15 @@ export function Logo({ small = false }) {
  * - menu: 메뉴 영역 [{ label, id }] (P01에만) — id 섹션으로 스크롤, id가 없으면 맨 위로
  * - guard: P04·P05처럼 꾸민 내용이 있으면 로고·장바구니를 눌렀을 때 M01을 띄움
  */
-// 메뉴 영역 (P01 메인에서만): 누르면 그 섹션으로 스크롤. 데스크탑은 왼쪽에 글자 메뉴, 휴대폰은 햄버거 안에
+// 메뉴 영역 (P01 메인, P06 주문 완료): 홈(맨 위) · CASE(케이스 종류) · REVIEW(직접 꾸민 후기)
+// 데스크탑은 왼쪽에 글자 메뉴, 휴대폰은 햄버거 안에
+// P06 메뉴는 승인된 예외 (와이어프레임에는 P01에만 있음, docs/interaction-list.md)
+export const MAIN_MENU = [
+  { label: '홈', id: null },
+  { label: 'CASE', id: 'types' },
+  { label: 'REVIEW', id: 'reviews' },
+];
+
 function scrollToSection(id) {
   const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const el = id ? document.getElementById(id) : null;
@@ -31,6 +39,7 @@ function scrollToSection(id) {
 }
 
 function NavMenu({ items }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
 
@@ -49,10 +58,12 @@ function NavMenu({ items }) {
     };
   }, [open]);
 
+  // 메인에서는 그 섹션으로 스크롤, 다른 페이지(P06)에서는 메인으로 가서 그 섹션에서 시작
   const go = (id) => (e) => {
     e.preventDefault();
     setOpen(false);
-    scrollToSection(id);
+    if (document.getElementById('types')) scrollToSection(id);
+    else navigate(id ? `/#${id}` : '/');
   };
 
   const links = items.map((it) => (

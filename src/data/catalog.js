@@ -58,7 +58,7 @@ import step5 from '../assets/site/icon/step_5.png';
 export { default as bannerImage } from '../assets/site/banner/main.jpg';
 
 /*
- * 케이스 크기 (가정): 가상 사이트라 일반적인 쿠션 팩트 평균값으로 넣은 대략적인 크기. 실제 판매 시 측정값으로 교체.
+ * 케이스 크기 (2026-11-17 확정): 가상 사이트라 일반적인 쿠션 팩트 평균값으로 정한 크기.
  *   모든 종류가 같은 15g 쿠션 리필(지름 약 60mm)이 들어가는 크기. 하트·꽃은 안에 원형 리필이 들어가야 해서 겉이 조금 더 큼.
  *   size.short: 카드·꾸미기 패널처럼 짧게 / size.full: 상세처럼 항목 이름까지
  */
@@ -66,6 +66,11 @@ export const COMPAT_TAG = '15g 쿠션 리필 호환';
 // 호환 규격 안내: 핵심 문장 + 확인 방법 팁 (휴대폰은 팁을 다음 줄에 보조 글자로, 데스크탑은 한 줄 그대로)
 export const COMPAT_NOTE = '15g 쿠션 리필(지름 약 60mm)이 모두 들어가요.';
 export const COMPAT_HINT = '리필 바닥 지름을 재 보면 확인할 수 있어요.';
+// P02 상품 설명: 모든 종류 공통 문단 (아래에 종류별 한 줄 desc)
+export const PRODUCT_DESC =
+  '직접 고른 색과 스티커·큐빅·각인으로 꾸민 디자인을 그대로 담아 만드는 나만의 쿠션 케이스예요. 꾸민 디자인은 케이스에 인쇄·각인하고, 큐빅은 하나하나 손으로 붙여 드려요.';
+// P02 소재 (가상 사이트용, 모든 종류 공통)
+export const MATERIAL = '케이스: PC·ABS 수지 · 큐빅: 아크릴';
 
 /*
  * 케이스 종류 4가지 (원형, 둥근 정사각형, 하트, 꽃)
@@ -77,6 +82,7 @@ export const CASE_TYPES = [
   {
     key: 'round',
     name: '원형',
+    desc: '어떤 꾸밈과도 잘 어울리는 기본 동그란 모양이에요.', // P02 상품 설명의 종류별 한 줄
     size: { short: '지름 약 85mm', full: '지름 약 85mm · 높이 약 28mm' },
     price: 19000,
     card: cardRound,
@@ -89,6 +95,7 @@ export const CASE_TYPES = [
   {
     key: 'square',
     name: '둥근 정사각형',
+    desc: '넓은 면에 꾸밈을 여유 있게 놓을 수 있어요.', // P02 상품 설명의 종류별 한 줄
     size: { short: '약 85 × 85mm', full: '가로·세로 약 85mm · 높이 약 28mm' },
     price: 20000,
     card: cardSquare,
@@ -101,6 +108,7 @@ export const CASE_TYPES = [
   {
     key: 'heart',
     name: '하트',
+    desc: '사랑스러운 하트 모양이라 선물하기에도 좋아요.', // P02 상품 설명의 종류별 한 줄
     size: { short: '약 92 × 86mm', full: '가로 약 92mm · 세로 약 86mm · 높이 약 28mm' },
     price: 21000,
     card: cardHeart,
@@ -113,6 +121,7 @@ export const CASE_TYPES = [
   {
     key: 'flower',
     name: '꽃',
+    desc: '꽃잎 테두리가 화사한 포인트가 돼요.', // P02 상품 설명의 종류별 한 줄
     size: { short: '약 92 × 92mm', full: '가로·세로 약 92mm · 높이 약 28mm' },
     price: 22000,
     card: cardFlower,
@@ -161,7 +170,7 @@ export const KIND_LABEL = {
 
 /*
  * 각인 스타일: 글꼴 2개 × 각인 색 3개 (샴페인 골드, 로즈 골드, 실버)
- * 각인 글꼴은 [미정]이라 임시로 세리프(Cormorant Garamond + 고운바탕)와 Pretendard를 쓴다.
+ * 각인 글꼴: 세리프(Cormorant Garamond + 고운바탕)와 모던(Pretendard)으로 확정 (2026-11-17).
  */
 const ENGRAVE_FONTS = [
   { key: 'serif', name: '세리프', family: "'Cormorant Garamond', 'Gowun Batang', serif", weight: 600, spacing: '0.02em' },

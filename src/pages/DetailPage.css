@@ -216,6 +216,11 @@
   line-height: 1.7;
 }
 
+/* 종류별 한 줄: 공통 문단 바로 아래 */
+.detail-desc + .detail-desc-type {
+  margin-top: 8px;
+}
+
 .detail-box {
   padding: 28px 32px;
 }
