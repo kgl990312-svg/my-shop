@@ -3,7 +3,7 @@
 import { COMPANY, ENGRAVE_PRICE, EXTRA_DECO_PRICE, FREE_DECO, FREE_SHIPPING_MIN, SHIPPING_FEE } from './catalog';
 
 const won = (n) => `${n.toLocaleString('ko-KR')}원`;
-const EFFECTIVE = '2026년 11월 17일';
+const EFFECTIVE = '2026년 11월 16일';
 
 // 각 조항: { title, body: [문장 ...] }
 export const TERMS = [

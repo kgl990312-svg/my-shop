@@ -188,7 +188,18 @@ export const getEngraveStyle = (id) => ENGRAVE_STYLES.find((s) => s.id === id) |
 
 export const ENGRAVE_MAX = 10;
 
-// 직접 꾸민 후기 (8개, 예시 후기). 날짜는 [미정]. 카드를 누르면 후기 안내창에서 전체 문구를 보여 줌
+// 직접 꾸민 후기 (8개, 예시 후기). 날짜는 최신순, 2026.11.12 ~ 11.16. 카드를 누르면 후기 안내창에서 전체 문구를 보여 줌
+const REVIEW_DATES = [
+  '2026.11.16',
+  '2026.11.16',
+  '2026.11.15',
+  '2026.11.14',
+  '2026.11.14',
+  '2026.11.13',
+  '2026.11.12',
+  '2026.11.12',
+];
+
 const REVIEW_TEXTS = [
   '내 취향대로 직접 디자인할 수 있다는 점이 정말 좋았어요! 하나하나 배치하면서 꾸미는 재미도 있고 완성된 모습도 너무 만족스러워요 ♡',
   '화면에서 미리 확인했던 디자인과 실제 제품이 거의 똑같아서 놀랐어요. 마감도 깔끔하고 퀄리티도 좋아요!',
@@ -212,7 +223,7 @@ export const REVIEWS = [
 ].map((r, i) => ({
   ...r,
   author: '○*○',
-  date: '[날짜]',
+  date: REVIEW_DATES[i],
   text: REVIEW_TEXTS[i],
 }));
 
@@ -287,7 +298,7 @@ const addBusinessDays = (from, n) => {
 const fmtDay = (d) => `${d.getMonth() + 1}.${d.getDate()}(${WEEKDAY[d.getDay()]})`;
 export const SHIPPING_DAYS = { min: 5, max: 7 };
 export function expectedDelivery(orderDate) {
-  // orderDate: "2026.11.17" 형식
+  // orderDate: "2026.11.16" 형식
   const [y, m, d] = String(orderDate).split('.').map(Number);
   if (!y || !m || !d) return null;
   const base = new Date(y, m - 1, d);
