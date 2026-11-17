@@ -68,7 +68,7 @@
   - 와이어프레임: https://www.figma.com/design/FfltZMiyfu0F665yMG5CX8/%EB%AA%A8%EC%95%84-MOA-?node-id=30-2 (출처: 04-site-wireframe.md)
   - 무드 시안·스타일 보드: 따로 만들지 않음. 아래 시각 디자인 시안과 디자인 시스템으로 대신함 (출처: 사용자 답변 — 2026-11-17)
 - 시각 디자인 시안: Claude Design 캔버스 "모아(MOA) 시각 디자인" https://claude.ai/code/artifact/91e250c0-6355-4eb6-91d9-81de296f63b7 (P01~P07, M01~M07 데스크탑 1440 · 셋째 줄에 P01~P07 휴대폰 375 시안 추가, 6단계 반응형 기준)
-  - 내려받은 시안 파일: docs/html (p01-main.html ~ p07-cart.html, m01-exit.html ~ m06-help.html), 화면 이미지: docs/png (p01-main.png ~ p06-complete.png, m01-exit.png ~ m07-preview.png)
+  - 내려받은 시안 파일 (데스크탑, 2026-11-17 캔버스 기준): docs/html (p01-main.html ~ p07-cart.html, m01-exit.html ~ m07-preview.html, 캔버스 원본 .dc.html을 이름만 바꿈, 화면을 그리는 support.js·vendor/·assets/(글꼴)가 같은 폴더에 있어야 열림. 브라우저로 볼 때는 docs/html 폴더에서 `python -m http.server`로 띄운 뒤 http://localhost:8000/p01-main.html 처럼 연다), 화면 이미지: docs/png (p01-main.png ~ p07-cart.png, m01-exit.png ~ m07-preview.png). 휴대폰 시안은 내려받지 않음
 - 안쪽 점선(꾸밀 수 있는 범위): 둥근 정사각형은 네모(가장자리에서 13% 안쪽), 원형·하트·꽃은 가운데 원 (출처: 사용자 답변 — 추천안 승인)
 - 디자인 시스템: "모아(MOA)" https://claude.ai/artifact/Kwi1LcyK45R2Kf2EfnbtMZ · 파일은 docs/moa-design-system, 정리 문서는 docs/06-site-design.md (출처: 사용자 답변)
 
