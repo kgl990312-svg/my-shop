@@ -7,20 +7,20 @@
 body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(--ink);padding:24px 28px}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .f{display:flex;flex-direction:column;gap:8px}
-label{font-size:15px;font-weight:600}
+label{font-size:16px;font-weight:600}
 label b{color:var(--accent)}
-input{height:52px;padding:0 18px;border-radius:var(--radius-md);border:1.5px solid var(--line-strong);background:var(--bg-surface);font:inherit;font-size:15px;color:var(--ink);outline:none;min-width:0}
+input{height:52px;padding:0 18px;border-radius:var(--radius-md);border:1.5px solid var(--line-strong);background:var(--bg-surface);font:inherit;font-size:16px;color:var(--ink);outline:none;min-width:0}
 input::placeholder{color:var(--placeholder)}
 input:focus-visible{border-color:var(--ink)}
 .err input{border-color:var(--error)}
-.msg{font-size:13px;color:var(--error);display:flex;align-items:center;gap:6px}
+.msg{font-size:14px;color:var(--error);display:flex;align-items:center;gap:6px}
 </style>
 </head>
 <body>
 <div class="grid">
-  <div class="f"><label for="a">받는 사람 <b>*</b></label><input id="a" placeholder="이름"></div>
-  <div class="f"><label for="b">주소 <b>*</b></label><input id="b" value="[주소]"></div>
-  <div class="f err"><label for="c">연락처 <b>*</b></label><input id="c" value="010-12" aria-invalid="true" aria-describedby="cm"><span class="msg" id="cm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>[연락처 형식 오류 문구]</span></div>
+  <div class="f"><label for="a">받는 사람 <b>*</b></label><input id="a" placeholder="받는 사람"></div>
+  <div class="f"><label for="b">주소 <b>*</b></label><input id="b" placeholder="주소"></div>
+  <div class="f err"><label for="c">연락처 <b>*</b></label><input id="c" value="010-12" aria-invalid="true" aria-describedby="cm"><span class="msg" id="cm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>연락처 형식을 확인해 주세요 (예: 010-1234-5678)</span></div>
 </div>
 <script></script>
 </body>

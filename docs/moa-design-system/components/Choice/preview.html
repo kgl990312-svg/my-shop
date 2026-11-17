@@ -6,11 +6,12 @@
 <style>
 body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(--ink);padding:24px 28px;display:flex;flex-direction:column;gap:20px}
 .opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:640px}
-.opt{height:64px;border-radius:16px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer}
+.opt{height:64px;border-radius:16px;font:inherit;font-size:16px;color:var(--ink);cursor:pointer}
 .on{border:2px solid var(--accent);background:var(--bg-soft);font-weight:700}
 .off{border:1.5px solid var(--line-strong);background:var(--bg-surface);font-weight:600}
-.chk{display:flex;gap:24px}
-.chk label{display:flex;align-items:center;gap:12px;font-size:15px;cursor:pointer}
+.chk{display:flex;flex-direction:column;gap:12px}
+.all{font-weight:700;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.chk label{display:flex;align-items:center;gap:12px;font-size:16px;cursor:pointer}
 .chk input{width:22px;height:22px;margin:0;accent-color:var(--accent)}
 .chk b{color:var(--accent)}
 </style>
@@ -22,6 +23,7 @@ body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(-
   <button class="opt off" type="button" role="radio" aria-checked="false">무통장 입금</button>
 </div>
 <div class="chk">
+  <label class="all"><input type="checkbox"> 모두 동의</label>
   <label><input type="checkbox" checked> 구매 조건 확인 동의 <b>*</b></label>
   <label><input type="checkbox"> 개인정보 수집·이용 동의 <b>*</b></label>
 </div>

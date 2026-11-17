@@ -8,15 +8,15 @@ body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(-
 .row{display:grid;grid-template-columns:repeat(2,240px);gap:24px}
 .card{text-decoration:none;color:var(--ink);background:var(--bg-surface);border:2px solid var(--line-accent);border-radius:var(--radius-lg);padding:16px 16px 22px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow-card)}
 .img{aspect-ratio:1/1;border-radius:var(--radius-md);overflow:hidden;position:relative}
-.layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-muted);font-size:13px}
+.layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-muted);font-size:14px}
 .plain{background:var(--bg-soft)}
 .deco{background:var(--bg-soft-strong);opacity:0;transition:opacity .3s ease}
 .card:hover .deco,.card:focus-visible .deco,.card.show .deco{opacity:1}
-.tag{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:999px;background:var(--bg-surface);color:var(--accent);font-size:12px;font-weight:700}
+.tag{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:999px;background:var(--bg-surface);color:var(--accent);font-size:14px;font-weight:700}
 .name{font-size:18px;font-weight:700}
-.price{font-size:17px;font-weight:800;color:var(--accent)}
+.price{font-size:18px;font-weight:800;color:var(--accent)}
 .info{display:flex;flex-direction:column;gap:6px;padding:0 4px}
-.cap{font-size:12px;color:var(--ink-muted);text-align:center}
+.cap{font-size:14px;color:var(--ink-muted);text-align:center}
 @media (prefers-reduced-motion: reduce){.deco{transition:none}}
 </style>
 </head>
@@ -28,7 +28,7 @@ body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(-
         <div class="layer plain" role="img" aria-label="꾸미지 않은 케이스 자리">꾸미지 않은 케이스</div>
         <div class="layer deco" role="img" aria-label="꾸민 예시 자리"><span class="tag">꾸민 예시</span>꾸민 예시 이미지</div>
       </div>
-      <div class="info"><span class="name">[종류 1] ([크기])</span><span class="price">[가격]원</span></div>
+      <div class="info"><span class="name">원형 (지름 약 85mm)</span><span class="price">19,000원</span></div>
     </a>
     <span class="cap">평소 (마우스를 올려 보세요)</span>
   </div>
@@ -38,7 +38,7 @@ body{margin:0;background:var(--bg-page);font-family:var(--font-sans);color:var(-
         <div class="layer plain" role="img" aria-label="꾸미지 않은 케이스 자리">꾸미지 않은 케이스</div>
         <div class="layer deco" role="img" aria-label="꾸민 예시 자리"><span class="tag">꾸민 예시</span>꾸민 예시 이미지</div>
       </div>
-      <div class="info"><span class="name">[종류 2] ([크기])</span><span class="price">[가격]원</span></div>
+      <div class="info"><span class="name">하트 (약 92 × 86mm)</span><span class="price">21,000원</span></div>
     </a>
     <span class="cap">호버 상태</span>
   </div>
