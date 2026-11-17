@@ -1,6 +1,6 @@
 // 이용약관(M03) · 개인정보처리방침(M04) 내용
 // 가상 사이트라 실제 결제·서버 저장이 없음. 입력한 정보는 이 브라우저에만 잠시 보관됨 (ShopContext.jsx 참고)
-import { COMPANY, ENGRAVE_MAX, ENGRAVE_PRICE, EXTRA_DECO_PRICE, FREE_DECO, FREE_SHIPPING_MIN, SHIPPING_FEE } from './catalog';
+import { COMPANY, ENGRAVE_MAX, ENGRAVE_PRICE, EXTRA_DECO_PRICE, FREE_DECO } from './catalog';
 
 const won = (n) => `${n.toLocaleString('ko-KR')}원`;
 const EFFECTIVE = '2026년 11월 16일';
@@ -50,7 +50,7 @@ export const TERMS = [
     title: '제7조 (배송)',
     body: [
       '주문 확인 후 약 5~7일 이내 배송됩니다. (주말 및 공휴일 제외)',
-      `배송비는 ${won(SHIPPING_FEE)}이며, ${won(FREE_SHIPPING_MIN)} 이상 주문하면 무료입니다.`,
+      '배송비는 전 상품 무료입니다.',
     ],
   },
   {

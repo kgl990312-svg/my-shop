@@ -77,7 +77,7 @@ export default function OrderPage() {
   const valid = Object.values(errors).every((v) => !v);
 
   const subtotal = sumPrice(items);
-  const shipping = shippingFor(subtotal); // 15,000원 이상 무료배송
+  const shipping = shippingFor(subtotal); // 전 상품 무료배송
   const total = subtotal == null || shipping == null ? null : subtotal + shipping;
 
   const onChange = (id) => (e) => {

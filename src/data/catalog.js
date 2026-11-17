@@ -282,15 +282,14 @@ export const addOnLines = (design) => {
   return lines;
 };
 
-// 배송비: 기본 3,000원, 15,000원 이상 주문하면 무료 (케이스가 모두 15,000원 이상이라 현재는 항상 무료)
-export const FREE_SHIPPING_MIN = 15000;
-export const SHIPPING_FEE = 3000;
-export const shippingFor = (subtotal) => (subtotal == null ? null : subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE);
+// 배송비: 전 상품 무료배송 (2026-11-17, 예전 "3,000원·15,000원 이상 무료"는 모든 케이스가 15,000원 이상이라 늘 무료였음)
+export const SHIPPING_FEE = 0;
+export const shippingFor = (subtotal) => (subtotal == null ? null : SHIPPING_FEE);
 
 // 배송·교환 안내 문구
 export const SHIPPING_INFO = {
   period: '주문 확인 후 약 5~7일 이내 배송됩니다. (주말 및 공휴일 제외)',
-  fee: `${SHIPPING_FEE.toLocaleString('ko-KR')}원 (${FREE_SHIPPING_MIN.toLocaleString('ko-KR')}원 이상 주문 시 무료배송)`,
+  fee: '무료 (전 상품 무료배송)',
   refund: '본 상품은 주문 제작 상품으로, 고객님의 단순 변심에 의한 교환 및 환불이 제한될 수 있습니다.',
 };
 
