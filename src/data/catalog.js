@@ -1,6 +1,6 @@
 // 모아(MOA) 상품·꾸미기 데이터
 // 출처: PROJECT_CONTEXT.md, docs/04-site-wireframe.md, docs/06-site-design.md
-// 아직 정하지 않은 값(가격, 크기 등)은 null 로 두고 화면에는 [가격]처럼 대괄호로 보여 준다.
+// 아직 정하지 않은 값은 null 로 두고 화면에는 [가격]처럼 대괄호로 보여 준다.
 
 import cardRound from '../assets/site/card/round.jpg';
 import cardSquare from '../assets/site/card/square.jpg';
@@ -78,7 +78,7 @@ export const CASE_TYPES = [
     key: 'round',
     name: '원형',
     size: { short: '지름 약 85mm', full: '지름 약 85mm · 높이 약 28mm' },
-    price: null,
+    price: 19000,
     card: cardRound,
     hover: hoverRound,
     mockup: mockRound,
@@ -90,7 +90,7 @@ export const CASE_TYPES = [
     key: 'square',
     name: '둥근 정사각형',
     size: { short: '약 85 × 85mm', full: '가로·세로 약 85mm · 높이 약 28mm' },
-    price: null,
+    price: 20000,
     card: cardSquare,
     hover: hoverSquare,
     mockup: mockSquare,
@@ -102,7 +102,7 @@ export const CASE_TYPES = [
     key: 'heart',
     name: '하트',
     size: { short: '약 92 × 86mm', full: '가로 약 92mm · 세로 약 86mm · 높이 약 28mm' },
-    price: null,
+    price: 21000,
     card: cardHeart,
     hover: hoverHeart,
     mockup: mockHeart,
@@ -114,7 +114,7 @@ export const CASE_TYPES = [
     key: 'flower',
     name: '꽃',
     size: { short: '약 92 × 92mm', full: '가로·세로 약 92mm · 높이 약 28mm' },
-    price: null,
+    price: 22000,
     card: cardFlower,
     hover: hoverFlower,
     mockup: mockFlower,
@@ -188,7 +188,18 @@ export const getEngraveStyle = (id) => ENGRAVE_STYLES.find((s) => s.id === id) |
 
 export const ENGRAVE_MAX = 10;
 
-// 직접 꾸민 후기 (8개, 예시 후기). 문구·날짜는 [미정]
+// 직접 꾸민 후기 (8개, 예시 후기). 날짜는 [미정]. 카드를 누르면 후기 안내창에서 전체 문구를 보여 줌
+const REVIEW_TEXTS = [
+  '내 취향대로 직접 디자인할 수 있다는 점이 정말 좋았어요! 하나하나 배치하면서 꾸미는 재미도 있고 완성된 모습도 너무 만족스러워요 ♡',
+  '화면에서 미리 확인했던 디자인과 실제 제품이 거의 똑같아서 놀랐어요. 마감도 깔끔하고 퀄리티도 좋아요!',
+  '평범한 제품이 아니라 나만의 디자인으로 만들 수 있어서 특별해요. 세상에 하나뿐인 제품이라는 느낌이 들어요 ♡',
+  '처음에는 디자인하는 게 어려울까 봐 걱정했는데 사용 방법이 간단해서 금방 완성했어요. 다음에는 다른 분위기로도 만들어보고 싶어요!',
+  '색상부터 장식 위치까지 직접 선택할 수 있어서 좋았어요. 제가 원하는 느낌 그대로 완성할 수 있어서 정말 만족합니다.',
+  '나만의 취향이 담긴 제품이라 더 애착이 가요. 매일 사용하는 제품을 직접 꾸밀 수 있다는 아이디어가 너무 마음에 들어요!',
+  '주문 전에 완성된 모습을 미리 볼 수 있어서 좋았어요. 실제로 받아보니 생각했던 것보다 예쁘고 정성스럽게 제작된 느낌이에요',
+  '친구에게 선물하려고 주문했는데 정말 특별한 선물이 되었어요! 직접 디자인할 수 있다는 점이 가장 큰 매력인 것 같아요. 재구매 의사 있어요 ♡',
+];
+
 export const REVIEWS = [
   { id: 1, img: review1, type: 'square' },
   { id: 2, img: review2, type: 'heart' },
@@ -198,11 +209,11 @@ export const REVIEWS = [
   { id: 6, img: review6, type: 'heart' },
   { id: 7, img: review7, type: 'round' },
   { id: 8, img: review8, type: 'flower' },
-].map((r) => ({
+].map((r, i) => ({
   ...r,
   author: '○*○',
   date: '[날짜]',
-  text: '[예시 후기 문구 — 평소에는 한 줄까지만 보이고 넘치면 …으로 줄여요. 마우스를 올리면 문구가 옆으로 흐르며 끝까지 보여요.]',
+  text: REVIEW_TEXTS[i],
 }));
 
 // 제작 안내 5단계 (문구: docs/04-site-wireframe.md)
@@ -215,6 +226,83 @@ export const STEPS = [
 ];
 
 export const PAYMENT_METHODS = ['카드', '간편결제', '무통장 입금'];
+
+/*
+ * 꾸미기 추가 요금
+ * - 스티커·큐빅: 종류 상관없이 5개까지는 추가 요금 없음, 6개째부터 1개당 +500원
+ * - 각인: 1개당 +1,500원 (무료 5개에 세지 않음, 빈 각인은 세지 않음)
+ */
+export const FREE_DECO = 5;
+export const EXTRA_DECO_PRICE = 500;
+export const ENGRAVE_PRICE = 1500;
+export const DECO_NOTE = `스티커·큐빅은 종류 상관없이 ${FREE_DECO}개까지 추가 요금 없어요`;
+export const DECO_NOTE_EXTRA = `${FREE_DECO + 1}개째부터 1개당 +${EXTRA_DECO_PRICE}원 · 각인 1개당 +${ENGRAVE_PRICE.toLocaleString('ko-KR')}원`;
+
+const items = (design) => design?.items || [];
+export const countDeco = (design) => items(design).filter((it) => it.kind !== 'engrave').length;
+export const countEngrave = (design) =>
+  items(design).filter((it) => it.kind === 'engrave' && (it.text || '').trim()).length;
+export const extraDecoCount = (design) => Math.max(0, countDeco(design) - FREE_DECO);
+export const extraDecoPrice = (design) => extraDecoCount(design) * EXTRA_DECO_PRICE;
+export const engravePrice = (design) => countEngrave(design) * ENGRAVE_PRICE;
+// 추가 요금 합계 (스티커·큐빅 초과분 + 각인)
+export const addOnPrice = (design) => extraDecoPrice(design) + engravePrice(design);
+// 꾸민 케이스 하나의 가격 = 종류 가격 + 추가 요금
+export const designPrice = (design) => {
+  const base = getCaseType(design?.type).price;
+  return base == null ? null : base + addOnPrice(design);
+};
+// 추가 요금 내역 (예: ["추가 스티커·큐빅 2개 +1,000원", "각인 1개 +1,500원"])
+export const addOnLines = (design) => {
+  const lines = [];
+  const extra = extraDecoCount(design);
+  const eng = countEngrave(design);
+  if (extra) lines.push({ label: `추가 스티커·큐빅 ${extra}개`, price: extraDecoPrice(design) });
+  if (eng) lines.push({ label: `각인 ${eng}개`, price: engravePrice(design) });
+  return lines;
+};
+
+// 배송비: 기본 3,000원, 15,000원 이상 주문하면 무료 (케이스가 모두 15,000원 이상이라 현재는 항상 무료)
+export const FREE_SHIPPING_MIN = 15000;
+export const SHIPPING_FEE = 3000;
+export const shippingFor = (subtotal) => (subtotal == null ? null : subtotal >= FREE_SHIPPING_MIN ? 0 : SHIPPING_FEE);
+
+// 배송·교환 안내 문구
+export const SHIPPING_INFO = {
+  period: '주문 확인 후 약 5~7일 이내 배송됩니다. (주말 및 공휴일 제외)',
+  fee: `${SHIPPING_FEE.toLocaleString('ko-KR')}원 (${FREE_SHIPPING_MIN.toLocaleString('ko-KR')}원 이상 주문 시 무료배송)`,
+  refund: '본 상품은 주문 제작 상품으로, 고객님의 단순 변심에 의한 교환 및 환불이 제한될 수 있습니다.',
+};
+
+// 예상 배송일: 주문일에서 주말을 빼고 5~7일 뒤 (공휴일은 계산하지 않음) — 예: "11.24(화) ~ 11.26(목)"
+const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
+const addBusinessDays = (from, n) => {
+  const d = new Date(from);
+  while (n > 0) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() !== 0 && d.getDay() !== 6) n -= 1;
+  }
+  return d;
+};
+const fmtDay = (d) => `${d.getMonth() + 1}.${d.getDate()}(${WEEKDAY[d.getDay()]})`;
+export const SHIPPING_DAYS = { min: 5, max: 7 };
+export function expectedDelivery(orderDate) {
+  // orderDate: "2026.11.17" 형식
+  const [y, m, d] = String(orderDate).split('.').map(Number);
+  if (!y || !m || !d) return null;
+  const base = new Date(y, m - 1, d);
+  return `${fmtDay(addBusinessDays(base, SHIPPING_DAYS.min))} ~ ${fmtDay(addBusinessDays(base, SHIPPING_DAYS.max))}`;
+}
+
+// 푸터 회사 정보·고객센터 (가상 사이트용 예시 정보)
+export const COMPANY = {
+  name: '모아(MOA)',
+  ceo: '김모아',
+  bizNo: '000-00-00000',
+  address: '서울특별시 성동구 모아로 00, 2층',
+  phone: '02-000-0000',
+  hours: '평일 10:00 ~ 17:00 (점심 12:00 ~ 13:00, 주말·공휴일 휴무)',
+};
 
 // 정하지 않은 값 표시
 export const fmtPrice = (price) => (price == null ? '[가격]' : price.toLocaleString('ko-KR'));

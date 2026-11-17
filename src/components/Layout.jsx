@@ -1,8 +1,10 @@
 // 공통 요소: 로고, 네비게이션 바, 푸터, 하단 고정 바
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, withBase } from '../router';
 import { hasDecoration, useShop } from '../store/ShopContext';
 import { useUI } from './Dialogs';
-import { IconBack, IconBag } from './Icons';
+import { COMPANY } from '../data/catalog';
+import { IconBack, IconBag, IconClose, IconMenu } from './Icons';
 import './Layout.css';
 
 export function Logo({ small = false }) {
@@ -17,9 +19,75 @@ export function Logo({ small = false }) {
 /**
  * 네비게이션 바
  * - onBack: ← 뒤로 (P02·P04·P05·P07에만)
+ * - menu: 메뉴 영역 [{ label, id }] (P01에만) — id 섹션으로 스크롤, id가 없으면 맨 위로
  * - guard: P04·P05처럼 꾸민 내용이 있으면 로고·장바구니를 눌렀을 때 M01을 띄움
  */
-export function NavBar({ onBack, guard = false }) {
+// 메뉴 영역 (P01 메인에서만): 누르면 그 섹션으로 스크롤. 데스크탑은 왼쪽에 글자 메뉴, 휴대폰은 햄버거 안에
+function scrollToSection(id) {
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const el = id ? document.getElementById(id) : null;
+  if (el) el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  else window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+}
+
+function NavMenu({ items }) {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+
+  // 바깥을 누르거나 Esc를 누르면 닫힘 (휴대폰 햄버거 메뉴)
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDown = (e) => {
+      if (!wrapRef.current?.contains(e.target)) setOpen(false);
+    };
+    const onKey = (e) => e.key === 'Escape' && setOpen(false);
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const go = (id) => (e) => {
+    e.preventDefault();
+    setOpen(false);
+    scrollToSection(id);
+  };
+
+  const links = items.map((it) => (
+    <a key={it.label} href={it.id ? `#${it.id}` : '#'} className="nav-menu-link" onClick={go(it.id)}>
+      {it.label}
+    </a>
+  ));
+
+  return (
+    <div className="nav-menu-wrap" ref={wrapRef}>
+      {/* 데스크탑: 글자 메뉴 */}
+      <nav className="nav-menu" aria-label="메인 메뉴">
+        {links}
+      </nav>
+      {/* 휴대폰: 햄버거 버튼 → 아래로 열리는 메뉴 */}
+      <button
+        type="button"
+        className="icon-btn nav-burger"
+        aria-label={open ? '메뉴 닫기' : '메뉴 열기'}
+        aria-expanded={open}
+        aria-controls="nav-drawer"
+        onClick={() => setOpen((v) => !v)}
+      >
+        {open ? <IconClose /> : <IconMenu />}
+      </button>
+      {open && (
+        <nav id="nav-drawer" className="nav-drawer" aria-label="메인 메뉴">
+          {links}
+        </nav>
+      )}
+    </div>
+  );
+}
+
+export function NavBar({ onBack, guard = false, menu }) {
   const navigate = useNavigate();
   const { design, clearDesign, cart } = useShop();
   const { confirm } = useUI();
@@ -41,6 +109,7 @@ export function NavBar({ onBack, guard = false }) {
     <header className="nav">
       <div className="nav-inner">
         <div className="nav-left">
+          {menu && <NavMenu items={menu} />}
           {onBack && (
             <button type="button" className="icon-btn" aria-label="뒤로" onClick={onBack}>
               <IconBack />
@@ -72,17 +141,17 @@ export function Footer() {
         <div className="footer-company">
           <Logo small />
           <span>
-            회사명 [회사명] · 대표자 [대표자]
+            회사명 {COMPANY.name} · 대표자 {COMPANY.ceo}
             <br />
-            사업자등록번호 [사업자등록번호]
+            사업자등록번호 {COMPANY.bizNo}
             <br />
-            주소 [주소]
+            주소 {COMPANY.address}
           </span>
         </div>
         <div className="footer-cs">
           <span className="footer-cs-title">고객센터</span>
-          <span className="footer-cs-phone">[전화번호]</span>
-          <span>운영 시간 [운영 시간]</span>
+          <span className="footer-cs-phone">{COMPANY.phone}</span>
+          <span>운영 시간 {COMPANY.hours}</span>
         </div>
         <nav aria-label="약관" className="footer-links">
           <button type="button" onClick={() => showContent('terms')}>

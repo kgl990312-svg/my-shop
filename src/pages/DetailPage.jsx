@@ -4,7 +4,18 @@ import { useNavigate, useQuery, useRouter } from '../router';
 import { newDesign, useShop } from '../store/ShopContext';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
 import { IconChevronRight, Sparkle } from '../components/Icons';
-import { COMPAT_HINT, COMPAT_NOTE, COMPAT_TAG, STEPS, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
+import {
+  COMPAT_HINT,
+  COMPAT_NOTE,
+  COMPAT_TAG,
+  DECO_NOTE,
+  DECO_NOTE_EXTRA,
+  SHIPPING_INFO,
+  STEPS,
+  fmtPrice,
+  fmtSize,
+  getCaseType,
+} from '../data/catalog';
 import './DetailPage.css';
 
 const TABS = [
@@ -71,6 +82,10 @@ export default function DetailPage() {
               <span className="tag tag-lg">{COMPAT_TAG}</span>
             </div>
             <span className="detail-price">{fmtPrice(type.price)}원</span>
+            {/* 꾸미기 추가 요금 안내: 핵심 문장 + 추가 요금은 보조 글자로 */}
+            <p className="detail-deco-note">
+              {DECO_NOTE} <span className="detail-deco-extra">({DECO_NOTE_EXTRA})</span>
+            </p>
             <div className="divider" />
             <dl className="detail-dl">
               <dt>소재</dt>
@@ -148,10 +163,12 @@ export default function DetailPage() {
         <div className="container detail-section-inner">
           <h2 className="detail-h2">배송·교환 안내</h2>
           <div className="box info-grid detail-box">
-            <span className="label">제작·배송 기간</span>
-            <span>[제작·배송 기간]</span>
-            <span className="label">교환·환불</span>
-            <span>[주문 제작 상품 교환·환불 안내]</span>
+            <span className="label">제작 및 배송 안내</span>
+            <span>{SHIPPING_INFO.period}</span>
+            <span className="label">배송비</span>
+            <span>{SHIPPING_INFO.fee}</span>
+            <span className="label">교환 및 환불 안내</span>
+            <span>{SHIPPING_INFO.refund}</span>
           </div>
         </div>
       </section>

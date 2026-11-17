@@ -27,7 +27,14 @@ import {
   CASE_TYPES,
   ENGRAVE_MAX,
   ENGRAVE_STYLES,
+  ENGRAVE_PRICE,
+  EXTRA_DECO_PRICE,
+  FREE_DECO,
   STICKERS,
+  countDeco,
+  countEngrave,
+  extraDecoCount,
+  extraDecoPrice,
   fmtPrice,
   fmtSize,
   getCaseType,
@@ -98,12 +105,22 @@ export default function CustomizePage() {
   const navigate = useNavigate();
   const { goBack } = useRouter();
   const { design, setDesign, clearDesign } = useShop();
-  const { confirm, showHelp } = useUI();
+  const { confirm, showHelp, showToast } = useUI();
 
   const [panel, setPanel] = useState(null);
   const [panelSwitched, setPanelSwitched] = useState(false); // 열린 패널에서 다른 도구로 바꿨는지
   const [moreOpen, setMoreOpen] = useState(false); // 터치 기기 상단 바 더보기 메뉴
   const moreRef = useRef(null);
+
+  // 꾸미기가 5개를 넘는 순간(5 → 6) 추가 요금을 한 번 알려줌
+  const decoNow = countDeco(design);
+  const decoPrev = useRef(decoNow);
+  useEffect(() => {
+    if (decoPrev.current <= FREE_DECO && decoNow > FREE_DECO) {
+      showToast(`${FREE_DECO + 1}개째부터 1개당 ${EXTRA_DECO_PRICE}원이 추가돼요`);
+    }
+    decoPrev.current = decoNow;
+  }, [decoNow, showToast]);
 
   // 더보기 메뉴: 바깥을 누르거나 Esc를 누르면 닫힘
   useEffect(() => {
@@ -643,6 +660,9 @@ export default function CustomizePage() {
   if (!design) return null;
 
   const canComplete = hasDecoration(design);
+  const decoCount = countDeco(design);
+  const decoExtra = extraDecoCount(design);
+  const engraveCount = countEngrave(design);
   const selHalf = selected ? halfOf(selected.id) : null;
 
   return (
@@ -838,6 +858,22 @@ export default function CustomizePage() {
           <div className="cz-panel-head">
             <Sparkle size={18} />
             <h2>{panelTitle(panel)}</h2>
+            {/* 스티커·큐빅 개수: 5개까지 추가 요금 없음, 6개째부터 1개당 +500원 */}
+            {(panel === 'sticker' || panel === 'cubic') && (
+              <span className={`cz-deco-count${decoExtra > 0 ? ' is-extra' : ''}`} aria-live="polite">
+                {decoExtra > 0
+                  ? `스티커·큐빅 ${decoCount}개 · 추가 +${fmtPrice(extraDecoPrice(design))}원`
+                  : `스티커·큐빅 ${decoCount}/${FREE_DECO} · 추가 요금 없음`}
+              </span>
+            )}
+            {/* 각인: 1개당 +1,500원 */}
+            {panel === 'engrave' && (
+              <span className={`cz-deco-count${engraveCount > 0 ? ' is-extra' : ''}`} aria-live="polite">
+                {engraveCount > 0
+                  ? `각인 ${engraveCount}개 · 추가 +${fmtPrice(engraveCount * ENGRAVE_PRICE)}원`
+                  : `각인 1개당 +${fmtPrice(ENGRAVE_PRICE)}원`}
+              </span>
+            )}
           </div>
 
           {panel === 'color' && (

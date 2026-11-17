@@ -4,7 +4,7 @@ import { useNavigate, useRouter } from '../router';
 import { cleanDesign, useShop } from '../store/ShopContext';
 import { Footer, NavBar } from '../components/Layout';
 import { IconAlert } from '../components/Icons';
-import { PAYMENT_METHODS, fmtPrice } from '../data/catalog';
+import { PAYMENT_METHODS, fmtPrice, shippingFor } from '../data/catalog';
 import { sumPrice } from '../utils/summary';
 import './OrderFlow.css';
 
@@ -77,7 +77,7 @@ export default function OrderPage() {
   const valid = Object.values(errors).every((v) => !v);
 
   const subtotal = sumPrice(items);
-  const shipping = null; // 배송비 [미정]
+  const shipping = shippingFor(subtotal); // 15,000원 이상 무료배송
   const total = subtotal == null || shipping == null ? null : subtotal + shipping;
 
   const onChange = (id) => (e) => {
@@ -247,7 +247,7 @@ export default function OrderPage() {
           </div>
           <div className="order-amount-row">
             <span className="muted">배송비</span>
-            <span>{shipping == null ? '[배송비]' : fmtPrice(shipping)}원</span>
+            <span>{shipping == null ? '[배송비]원' : shipping === 0 ? '무료' : `${fmtPrice(shipping)}원`}</span>
           </div>
           <div className="order-amount-line" />
           <div className="order-amount-row order-amount-total">

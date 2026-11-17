@@ -6,9 +6,16 @@ import { NavBar, Footer } from '../components/Layout';
 import { IconChevronLeft, IconChevronRight, Sparkle, Star } from '../components/Icons';
 import { CASE_TYPES, REVIEWS, bannerImage, fmtPrice, fmtSize, getCaseType } from '../data/catalog';
 import { isMobile } from '../utils/device';
+import { useUI } from '../components/Dialogs';
 import './MainPage.css';
 
 const PER_VIEW = 4;
+// 메뉴 영역: 홈(맨 위) · CASE(케이스 종류) · REVIEW(직접 꾸민 후기)
+const MENU = [
+  { label: '홈', id: null },
+  { label: 'CASE', id: 'types' },
+  { label: 'REVIEW', id: 'reviews' },
+];
 const MARQUEE_SPEED = 45; // 후기 문구가 옆으로 흐르는 속도 (px/초)
 
 // 후기 한 줄 문구: 평소에는 한 줄 + "…", 카드에 마우스를 올리면 옆으로 흐르며 끝까지 보여줌
@@ -43,6 +50,7 @@ function ReviewText({ text }) {
 export default function MainPage() {
   const pages = Math.ceil(REVIEWS.length / PER_VIEW);
   const [page, setPage] = useState(0);
+  const { showReview } = useUI();
 
   // 64: 빈 장바구니의 "케이스 꾸미러 가기"로 들어오면(/#types) 케이스 종류 영역으로 바로 이동하고, 주소의 #types는 지움
   useEffect(() => {
@@ -62,7 +70,7 @@ export default function MainPage() {
 
   return (
     <div className="page">
-      <NavBar />
+      <NavBar menu={MENU} />
 
       {/* P01-S02 소개 배너 */}
       <section className="main-banner-wrap">
@@ -112,7 +120,7 @@ export default function MainPage() {
       </section>
 
       {/* P01-S04 직접 꾸민 후기 */}
-      <section className="main-section main-reviews">
+      <section id="reviews" className="main-section main-reviews">
         <div className="container main-section-inner">
           <div className="main-reviews-head">
             <div className="main-reviews-title">
@@ -145,7 +153,21 @@ export default function MainPage() {
               {REVIEWS.map((r, i) => {
                 const hidden = Math.floor(i / PER_VIEW) !== page;
                 return (
-                  <article key={r.id} className="rv-card" tabIndex={hidden ? -1 : 0} aria-hidden={hidden}>
+                  <article
+                    key={r.id}
+                    className="rv-card"
+                    tabIndex={hidden ? -1 : 0}
+                    aria-hidden={hidden}
+                    role="button"
+                    aria-label={`${getCaseType(r.type).name} 후기 자세히 보기`}
+                    onClick={() => showReview(i)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        showReview(i);
+                      }
+                    }}
+                  >
                     <div className="rv-media">
                       <img className="rv-img" src={r.img} alt={`${getCaseType(r.type).name} 케이스를 꾸민 후기 사진`} />
                       <span className="badge-on-image">예시 후기</span>

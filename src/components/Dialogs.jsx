@@ -1,7 +1,8 @@
 // 안내창 M01~M07 + 화면 아래 알림(토스트)
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useLayoutEffect } from 'react';
-import { IconAlert, IconClose, Sparkle } from './Icons';
+import { IconAlert, IconChevronLeft, IconChevronRight, IconClose, Sparkle, Star } from './Icons';
+import { REVIEWS, getCaseType } from '../data/catalog';
 import CaseView from './CaseView';
 import { isMobile } from '../utils/device';
 import './Dialogs.css';
@@ -60,7 +61,7 @@ function useDialogFocus(open, onClose) {
     const touch = isMobile();
     const onTouchMove = (e) => {
       if (e.touches && e.touches.length > 1) return;
-      const sc = e.target.closest?.('.dlg-scroll');
+      const sc = e.target.closest?.('.dlg-scroll, [data-dlg-scroll]');
       if (sc && sc.scrollHeight > sc.clientHeight) return;
       e.preventDefault();
     };
@@ -197,6 +198,89 @@ function PreviewDialog({ design, onClose, closing }) {
   );
 }
 
+// 후기 안내창: P01 후기 카드를 누르면 사진과 전체 문구를 크게 보여줌. ←/→(버튼·키보드)로 다른 후기로 넘김
+function ReviewDialog({ index, onClose, closing }) {
+  const [i, setI] = useState(index);
+  const ref = useDialogFocus(true, onClose);
+  const r = REVIEWS[i];
+  const last = REVIEWS.length - 1;
+  const prev = () => setI((n) => Math.max(0, n - 1));
+  const next = () => setI((n) => Math.min(last, n + 1));
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const typeName = getCaseType(r.type).name;
+  return (
+    <div className={overlayClass('dlg-overlay', closing)} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+      <div ref={ref} className="dlg dlg-review" data-dlg-scroll role="dialog" aria-modal="true" aria-label="후기 자세히 보기">
+        <button type="button" className="icon-btn dlg-review-close" aria-label="닫기" onClick={onClose}>
+          <IconClose size={22} />
+        </button>
+        <div className="dlg-review-media">
+          <img src={r.img} alt={`${typeName} 케이스를 꾸민 후기 사진`} />
+          <span className="badge-on-image">예시 후기</span>
+        </div>
+        <div className="dlg-review-body">
+          <div className="rv-stars" role="img" aria-label="별점 5점">
+            {[0, 1, 2, 3, 4].map((n) => (
+              <Star key={n} size={18} />
+            ))}
+          </div>
+          <span className="dlg-review-meta">
+            {r.author} · {r.date}
+          </span>
+          <p className="dlg-scroll dlg-review-text" aria-live="polite">
+            {r.text}
+          </p>
+          <span className="tag">{typeName}</span>
+          <div className="dlg-review-nav">
+            <button type="button" className="round-btn" aria-label="이전 후기" disabled={i === 0} onClick={prev}>
+              <IconChevronLeft size={20} />
+            </button>
+            <span className="dlg-review-count">
+              {i + 1} / {REVIEWS.length}
+            </span>
+            <button type="button" className="round-btn" aria-label="다음 후기" disabled={i === last} onClick={next}>
+              <IconChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 아이폰·아이패드 이미지 저장: 웹에서는 사진첩에 바로 넣을 수 없어서,
+// 완성 이미지를 크게 띄우고 "길게 눌러 → 사진 앱에 저장"으로 저장하게 함 (Safari 기본 메뉴)
+function SaveImageDialog({ src, onClose, closing }) {
+  const ref = useDialogFocus(true, onClose);
+  return (
+    <div
+      className={overlayClass('dlg-overlay dlg-overlay-dark', closing)}
+      role="dialog"
+      aria-modal="true"
+      aria-label="이미지 저장"
+      ref={ref}
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <button type="button" className="dlg-preview-close" aria-label="닫기" onClick={onClose}>
+        <IconClose size={24} sw={2.2} />
+      </button>
+      <div className="dlg-save">
+        <img className="dlg-save-img" src={src} alt="꾸민 케이스 이미지" />
+        <p className="dlg-save-hint">
+          이미지를 <strong>길게 누른 뒤 &apos;사진 앱에 저장&apos;</strong>을 누르면 사진첩에 저장돼요
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function UIProvider({ children }) {
   const [dialog, setDialog] = useState(null);
   const [toast, setToast] = useState(null);
@@ -231,6 +315,8 @@ export function UIProvider({ children }) {
   const showContent = useCallback((kind) => open({ type: 'content', kind }), [open]);
   const showHelp = useCallback(() => open({ type: 'help' }), [open]);
   const showPreview = useCallback((design) => open({ type: 'preview', design }), [open]);
+  const showReview = useCallback((index) => open({ type: 'review', index }), [open]);
+  const showSaveImage = useCallback((src) => open({ type: 'save', src }), [open]);
   // 알림: showToast('문구') 또는 showToast('문구', { action: { label, onClick }, duration })
   // action이 있으면 알림 안에 버튼을 보여줌 (예: 장바구니 삭제 → 되돌리기)
   const showToast = useCallback((message, opts = {}) => {
@@ -245,8 +331,18 @@ export function UIProvider({ children }) {
   useEffect(() => () => clearTimeout(toastTimer.current), []);
 
   const value = useMemo(
-    () => ({ confirm, showContent, showHelp, showPreview, showToast, closeDialog: close, dialogOpen: !!dialog && !closing }),
-    [confirm, showContent, showHelp, showPreview, showToast, close, dialog, closing]
+    () => ({
+      confirm,
+      showContent,
+      showHelp,
+      showPreview,
+      showReview,
+      showSaveImage,
+      showToast,
+      closeDialog: close,
+      dialogOpen: !!dialog && !closing,
+    }),
+    [confirm, showContent, showHelp, showPreview, showReview, showSaveImage, showToast, close, dialog, closing]
   );
 
   return (
@@ -272,6 +368,8 @@ export function UIProvider({ children }) {
       )}
       {dialog?.type === 'help' && <HelpDialog onClose={close} closing={closing} />}
       {dialog?.type === 'preview' && <PreviewDialog design={dialog.design} onClose={close} closing={closing} />}
+      {dialog?.type === 'review' && <ReviewDialog index={dialog.index} onClose={close} closing={closing} />}
+      {dialog?.type === 'save' && <SaveImageDialog src={dialog.src} onClose={close} closing={closing} />}
       <div className="toast-wrap" aria-live="polite">
         {toast && (
           <div className={`toast${toast.action ? ' has-action' : ''}`}>

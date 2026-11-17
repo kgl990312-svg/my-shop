@@ -40,7 +40,7 @@ body {
   background: var(--bg-page);
   color: var(--ink);
   font-family: var(--font-base);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -214,7 +214,7 @@ ol {
 .btn-lg {
   height: 56px;
   padding: 0 32px;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .icon-btn {
@@ -237,7 +237,7 @@ ol {
   border-radius: var(--radius-pill);
   background: var(--bg-soft);
   color: var(--ink-tag);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
 }
@@ -250,7 +250,7 @@ ol {
   border-radius: var(--radius-pill);
   background: #fff;
   color: var(--accent);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
   z-index: 2;
@@ -261,7 +261,7 @@ ol {
   display: grid;
   grid-template-columns: 160px 1fr;
   row-gap: 18px;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
 }
 

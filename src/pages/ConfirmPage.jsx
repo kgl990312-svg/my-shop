@@ -1,5 +1,5 @@
 // P04 확인: 네비게이션 바 → 페이지 제목 → 상품 카드 → 주문 제작 상품 안내 → 제작·배송 기간 → 하단 고정 바 → 푸터
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useLayoutEffect } from 'react';
 import { useNavigate, useRouter } from '../router';
 import { useShop } from '../store/ShopContext';
@@ -7,7 +7,7 @@ import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
 import { IconExpand, IconInfo } from '../components/Icons';
-import { fmtPrice, getCaseType } from '../data/catalog';
+import { SHIPPING_INFO, addOnLines, designPrice, fmtPrice, getCaseType } from '../data/catalog';
 import { colorOf, decorationSummary, typeName } from '../utils/summary';
 import { isMobile } from '../utils/device';
 import './OrderFlow.css';
@@ -94,9 +94,22 @@ export default function ConfirmPage() {
               <dd>{decorationSummary(design)}</dd>
             </dl>
             <div className="divider" />
+            {/* 추가 요금(스티커·큐빅 6개째부터 +500원, 각인 +1,500원)이 있을 때만 기본 가격과 나눠 보여줌 */}
+            {addOnLines(design).length > 0 && (
+              <dl className="confirm-dl confirm-extra">
+                <dt>기본 가격</dt>
+                <dd>{fmtPrice(type.price)}원</dd>
+                {addOnLines(design).map((l) => (
+                  <Fragment key={l.label}>
+                    <dt>{l.label}</dt>
+                    <dd>+{fmtPrice(l.price)}원</dd>
+                  </Fragment>
+                ))}
+              </dl>
+            )}
             <div className="confirm-price-row">
               <span>가격</span>
-              <span className="confirm-price">{fmtPrice(type.price)}원</span>
+              <span className="confirm-price">{fmtPrice(designPrice(design))}원</span>
             </div>
           </div>
         </div>
@@ -108,8 +121,8 @@ export default function ConfirmPage() {
           <IconInfo size={22} />
           <div className="notice-body">
             <strong>주문 제작 상품 안내</strong>
-            <span>[꾸민 디자인이 케이스에 그대로 인쇄된다는 안내]</span>
-            <span>[단순 변심에 의한 교환·환불이 어렵다는 안내]</span>
+            <span>꾸민 디자인은 케이스에 인쇄되고, 큐빅은 실제로 붙여 드려요</span>
+            <span>{SHIPPING_INFO.refund}</span>
           </div>
         </div>
       </section>
@@ -118,10 +131,11 @@ export default function ConfirmPage() {
       <section className="flow-section flow-section-last">
         <div className="container box period-box">
           <strong className="period-title">제작·배송 기간</strong>
-          <span className="label">주문 제작 기간</span>
-          <span>[제작 기간]</span>
-          <span className="label">배송 기간</span>
-          <span>[배송 기간]</span>
+          {/* 받은 문구가 제작과 배송을 합친 한 문장이라 한 줄로 보여줌 */}
+          <span className="label">제작·배송</span>
+          <span className="period-value">{SHIPPING_INFO.period}</span>
+          <span className="label">배송비</span>
+          <span className="period-value">{SHIPPING_INFO.fee}</span>
         </div>
       </section>
 
@@ -129,7 +143,7 @@ export default function ConfirmPage() {
       <BottomBar>
         <div className="bottom-total">
           <span className="bottom-total-label">총 금액</span>
-          <span className="bottom-total-value">{fmtPrice(type.price)}원</span>
+          <span className="bottom-total-value">{fmtPrice(designPrice(design))}원</span>
         </div>
         <div className="bottom-actions">
           <button type="button" className="btn btn-outline btn-lg confirm-cart-btn" onClick={putInCart}>

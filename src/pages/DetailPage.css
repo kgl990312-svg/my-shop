@@ -44,6 +44,16 @@
   color: var(--accent);
 }
 
+.detail-deco-note {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.detail-deco-extra {
+  color: var(--ink-muted);
+}
+
 .divider {
   height: 1px;
   background: var(--line);
@@ -53,7 +63,7 @@
   display: grid;
   grid-template-columns: 72px 1fr;
   row-gap: 12px;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
 }
 
@@ -66,7 +76,7 @@
   border-radius: 16px;
   background: var(--bg-surface);
   border: 1px solid var(--line);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   display: flex;
   gap: 10px;
@@ -118,7 +128,7 @@
 }
 
 .detail-step-n {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--accent);
 }
@@ -151,7 +161,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--line-strong);
   color: var(--ink);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
 }
@@ -284,7 +294,7 @@
 
   .detail-tags .tag-lg {
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .detail-price {
@@ -338,12 +348,12 @@
   }
 
   .detail-step-n {
-    font-size: 12px;
+    font-size: 14px;
     align-self: end;
   }
 
   .detail-step-label {
-    font-size: 15px;
+    font-size: 16px;
     align-self: start;
   }
 
@@ -365,7 +375,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 14px;
     white-space: nowrap;
   }
 
@@ -411,7 +421,7 @@
   }
 
   .detail-box.info-grid .label {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
   }
 
@@ -427,7 +437,7 @@
   }
 
   .detail-bar-name {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .detail-bar-price {
@@ -461,7 +471,7 @@
   .detail-compat-hint {
     display: block;
     margin-top: 2px;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--ink-muted);
   }
 }

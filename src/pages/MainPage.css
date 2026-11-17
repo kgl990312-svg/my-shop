@@ -191,7 +191,7 @@
 }
 
 .case-card-price {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--accent);
   line-height: 1.4;
@@ -307,12 +307,12 @@
 }
 
 .rv-meta {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--ink-muted);
 }
 
 .rv-text {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   white-space: nowrap;
   overflow: hidden;
@@ -585,11 +585,11 @@
   }
 
   .case-card-name {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .case-card-price {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   /* 후기 카드 */

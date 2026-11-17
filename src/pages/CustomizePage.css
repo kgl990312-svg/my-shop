@@ -41,7 +41,7 @@
   margin-left: 8px;
   height: 44px;
   padding: 0 28px;
-  font-size: 15px;
+  font-size: 16px;
   box-shadow: 0 6px 16px rgba(196, 81, 63, 0.25);
 }
 
@@ -88,7 +88,7 @@
 .cz-zoom-ctrl span {
   min-width: 48px;
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--ink-muted);
 }
@@ -97,7 +97,7 @@
   width: auto;
   padding: 0 12px;
   background: var(--bg-soft);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -288,7 +288,7 @@
   border: none;
   background: transparent;
   color: var(--ink);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
   display: flex;
@@ -361,6 +361,18 @@
   gap: 8px;
 }
 
+.cz-deco-count {
+  margin-left: auto;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.cz-deco-count.is-extra {
+  color: var(--accent);
+}
+
 .cz-panel-head h2 {
   font-size: 16px;
   font-weight: 800;
@@ -397,7 +409,7 @@
 }
 
 .cz-cell-name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--ink-muted);
   line-height: 1.4;
@@ -475,7 +487,7 @@
 }
 
 .cz-engrave-label {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -491,7 +503,7 @@
   border-radius: var(--radius-input);
   border: 1.5px solid var(--line-strong);
   background: #fff;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
 }
 
@@ -508,7 +520,7 @@
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--ink-muted);
 }
 
@@ -539,13 +551,13 @@
 }
 
 .cz-type-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.4;
 }
 
 .cz-type-price {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--accent);
 }
@@ -630,7 +642,7 @@
     border-radius: 10px;
     background: none;
     color: var(--ink);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     text-align: left;
   }
@@ -786,13 +798,13 @@
 
   .cz-zoom-ctrl span {
     min-width: 44px;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .cz-zoom-ctrl .cz-zoom-reset {
     height: 30px;
     padding: 0 10px;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   /* 캔버스 칸: 오른쪽 도구 버튼(64px + 여백 8px)만큼 비움 */
@@ -813,7 +825,7 @@
   .cz-tool {
     height: 56px;
     border-radius: 16px;
-    font-size: 10px;
+    font-size: 14px;
     gap: 3px;
   }
 
@@ -833,7 +845,7 @@
   }
 
   .cz-panel-head h2 {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .cz-panel-list {
@@ -898,12 +910,12 @@
   .cz-engrave-cell .cz-cell-name {
     white-space: normal;
     text-align: center;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.35;
   }
 
   .cz-type-name {
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
   }
 

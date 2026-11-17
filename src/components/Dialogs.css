@@ -92,7 +92,7 @@
 }
 
 .dlg-confirm-title {
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.4;
 }
@@ -167,7 +167,7 @@
 }
 
 .dlg-help-item strong {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .dlg-help-item span {
@@ -199,6 +199,101 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* 후기 안내창: 사진 | 별점·작성자·전체 문구·종류 태그·←/→ */
+.dlg-overlay > .dlg-review {
+  position: relative;
+  width: 820px;
+  max-height: calc(100vh - 48px);
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.dlg-review-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+}
+
+.dlg-review-media {
+  position: relative;
+  flex: 0 0 52%;
+  aspect-ratio: 1;
+  background: var(--bg-soft);
+}
+
+.dlg-review-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dlg-review-body {
+  flex: 1;
+  min-width: 0;
+  padding: 48px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dlg-review-meta {
+  font-size: 16px;
+  color: var(--ink-muted);
+}
+
+.dlg-review-text {
+  flex: 1 1 auto;
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--ink);
+  word-break: keep-all;
+}
+
+.dlg-review-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.dlg-review-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+/* 아이폰 이미지 저장: 완성 이미지 + 길게 눌러 저장 안내 */
+.dlg-save {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 100%;
+  animation: dlg-pop 0.2s ease both;
+}
+
+.dlg-save-img {
+  width: min(560px, calc(100vw - 48px), calc(100dvh - 260px));
+  aspect-ratio: 1;
+  border-radius: 28px;
+  box-shadow: var(--shadow-preview);
+  -webkit-touch-callout: default; /* 길게 누르면 Safari 기본 메뉴("사진 앱에 저장")가 뜨게 */
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+.dlg-save-hint {
+  max-width: 320px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #fff;
+  word-break: keep-all;
 }
 
 /* 토스트 */
@@ -255,5 +350,31 @@
 @media (hover: none) and (pointer: coarse) and (max-width: 1024px) {
   .toast-action {
     min-height: 44px;
+  }
+}
+
+/* 후기 안내창 — 휴대폰: 사진 위, 내용 아래로 쌓음 */
+@media (hover: none) and (pointer: coarse) and (max-width: 767px) {
+  .dlg-overlay > .dlg-review {
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .dlg-review-media {
+    flex: none;
+    width: 100%;
+  }
+
+  .dlg-review-close {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .dlg-review-body {
+    padding: 20px 20px 20px;
+  }
+
+  .dlg-review-text {
+    font-size: 16px;
   }
 }

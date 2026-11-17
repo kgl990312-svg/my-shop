@@ -5,7 +5,7 @@ import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
 import { BottomBar, Footer, NavBar } from '../components/Layout';
 import { IconClose, IconEdit } from '../components/Icons';
-import { fmtPrice, getCaseType } from '../data/catalog';
+import { addOnLines, designPrice, fmtPrice } from '../data/catalog';
 import { colorOf, decorationSummary, sumPrice, typeName } from '../utils/summary';
 import './OrderFlow.css';
 
@@ -69,7 +69,15 @@ export default function CartPage() {
                   <strong className="cart-name">{typeName(it)}</strong>
                   <span className="muted cart-meta">케이스 색 {colorOf(it).name}</span>
                   <span className="muted cart-meta">{decorationSummary(it)}</span>
-                  <strong className="price cart-price">{fmtPrice(getCaseType(it.type).price)}원</strong>
+                  <strong className="price cart-price">{fmtPrice(designPrice(it))}원</strong>
+                  {addOnLines(it).length > 0 && (
+                    <span className="muted cart-meta">
+                      {addOnLines(it)
+                        .map((l) => `${l.label} +${fmtPrice(l.price)}원`)
+                        .join(' · ')}{' '}
+                      포함
+                    </span>
+                  )}
                   <div className="cart-redesign-row">
                     <button type="button" className="btn btn-small cart-redesign" onClick={() => openInCustomize(it)}>
                       <IconEdit size={16} />

@@ -9,16 +9,16 @@ import CaseView from '../components/CaseView';
 import { Footer, NavBar } from '../components/Layout';
 import { IconCheck, IconDownload, Sparkle } from '../components/Icons';
 import { IconShare } from '../components/Icons';
-import { fmtPrice } from '../data/catalog';
+import { SHIPPING_INFO, expectedDelivery, fmtPrice } from '../data/catalog';
 import { downloadDesign } from '../utils/exportImage';
-import { designToFile } from '../utils/exportImage';
+import { designToDataURL, designToFile } from '../utils/exportImage';
 import { isMobile } from '../utils/device';
 import './OrderFlow.css';
 
 export default function CompletePage() {
   const navigate = useNavigate();
   const { lastOrder } = useShop();
-  const { showPreview, showToast } = useUI();
+  const { showPreview, showSaveImage, showToast } = useUI();
 
   // 브라우저 뒤로가기는 메인으로 (다시 결제 방지)
   useBlocker((tx) => (tx.action === 'POP' ? { redirect: '/' } : undefined));
@@ -27,14 +27,15 @@ export default function CompletePage() {
     if (!lastOrder) navigate('/', { replace: true });
   }, [lastOrder, navigate]);
 
-  // 61: 아이폰·아이패드는 공유 창의 "이미지 저장"으로 사진첩에 저장 (웹에서 사진 앱에 넣는 방법).
+  // 61: 아이폰·아이패드는 웹에서 사진첩에 바로 넣을 수 없음. 공유 창은 "이미지 저장"이 잘 안 보여서,
+  //     완성 이미지를 크게 띄우고 길게 눌러 "사진 앱에 저장"으로 저장하게 함 (Safari 기본 메뉴).
+  //     (이전: 공유 창의 "이미지 저장" — 사용자 확인 결과 공유 메뉴만 떠서 바꿈)
   //     안드로이드는 다운로드하면 바로 갤러리 Download 앨범에 들어감. 데스크탑은 다운로드 폴더.
   // 69: 공유를 지원하는 기기(휴대폰·데스크탑 모두)면 "공유하기" 버튼을 따로 보여줌 (카카오톡·인스타그램·메일 등으로 이미지 보내기).
   // 버튼을 누르자마자 공유 창을 열어야 해서, 화면에 들어올 때 이미지 파일을 미리 만들어 둔다.
   const shareFileRef = useRef(null);
   const iosRef = useRef(false);
   const [shareReady, setShareReady] = useState(false); // 공유하기 버튼 보이기
-  const [iosHint, setIosHint] = useState(false); // 아이폰 저장 안내 보이기
   useEffect(() => {
     const touch = isMobile();
     const ios =
@@ -48,7 +49,6 @@ export default function CompletePage() {
         if (alive && navigator.canShare({ files: [file] })) {
           shareFileRef.current = file;
           setShareReady(true);
-          if (touch && ios) setIosHint(true);
         }
       })
       .catch(() => {});
@@ -63,12 +63,12 @@ export default function CompletePage() {
   const more = lastOrder.items.length - 1;
 
   const save = async () => {
-    // 아이폰·아이패드: 공유 창 열기 (사용자가 "이미지 저장"을 고르면 사진첩에 저장)
-    if (iosRef.current && shareFileRef.current) {
+    // 아이폰·아이패드: 완성 이미지를 크게 띄움 → 길게 눌러 "사진 앱에 저장"
+    if (iosRef.current) {
       try {
-        await navigator.share({ files: [shareFileRef.current] });
-      } catch (err) {
-        if (err?.name !== 'AbortError') showToast('이미지를 저장하지 못했어요'); // 공유 창을 닫은 경우는 알림 없음
+        showSaveImage(await designToDataURL(first));
+      } catch {
+        showToast('이미지를 저장하지 못했어요');
       }
       return;
     }
@@ -129,7 +129,7 @@ export default function CompletePage() {
             <span className="muted">주문일자</span>
             <span>{lastOrder.date}</span>
             <span className="muted">예상 배송일</span>
-            <span>[예상 배송일]</span>
+            <span>{expectedDelivery(lastOrder.date) ?? '주문 확인 후 약 5~7일 이내'}</span>
           </div>
           <button type="button" className="btn btn-outline complete-save" onClick={save}>
             <IconDownload size={18} />
@@ -142,8 +142,6 @@ export default function CompletePage() {
               공유하기
             </button>
           )}
-          {/* 61: 아이폰·아이패드 저장 안내 */}
-          {iosHint && <p className="complete-save-hint">열리는 창에서 &apos;이미지 저장&apos;을 누르면 사진첩에 저장돼요</p>}
         </section>
 
         {/* P06-S03 주문 요약 */}
@@ -162,7 +160,7 @@ export default function CompletePage() {
         {/* P06-S04 배송·문의 안내 */}
         <section className="complete-notice">
           <h2>배송·문의 안내</h2>
-          <span>제작·배송 기간: [제작·배송 기간]</span>
+          <span>{SHIPPING_INFO.period}</span>
           <span>주문 내용은 입력한 연락처로 문자로 보내드려요</span>
           <span>주문번호 또는 이름과 연락처로 고객센터에 문의해 주세요</span>
         </section>
