@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { useLayoutEffect } from 'react';
 import { IconAlert, IconChevronLeft, IconChevronRight, IconClose, Sparkle, Star } from './Icons';
 import { REVIEWS, getCaseType } from '../data/catalog';
+import { PRIVACY, TERMS } from '../data/policies';
 import CaseView from './CaseView';
 import { isMobile } from '../utils/device';
 import './Dialogs.css';
@@ -18,8 +19,8 @@ const CONFIRM = {
 
 // 내용 안내창 (M03, M04)
 const CONTENT = {
-  terms: { title: '이용약관', body: '[이용약관 내용]' },
-  privacy: { title: '개인정보처리방침', body: '[개인정보처리방침 내용]' },
+  terms: { title: '이용약관', body: TERMS },
+  privacy: { title: '개인정보처리방침', body: PRIVACY },
 };
 
 // 안내창이 사라지는 시간 (Dialogs.css의 dlg-fade-out·dlg-pop-out과 맞춤)
@@ -361,8 +362,15 @@ export function UIProvider({ children }) {
       )}
       {dialog?.type === 'content' && (
         <ContentDialog title={CONTENT[dialog.kind].title} onClose={close} closing={closing}>
-          <div className="dlg-scroll dlg-text" tabIndex={0}>
-            {CONTENT[dialog.kind].body}
+          <div className="dlg-scroll dlg-text dlg-policy" tabIndex={0}>
+            {CONTENT[dialog.kind].body.map((sec) => (
+              <section key={sec.title}>
+                <h3>{sec.title}</h3>
+                {sec.body.map((t) => (
+                  <p key={t}>{t}</p>
+                ))}
+              </section>
+            ))}
           </div>
         </ContentDialog>
       )}

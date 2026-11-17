@@ -150,6 +150,20 @@
   color: var(--ink-soft);
 }
 
+.dlg-policy {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  word-break: keep-all;
+}
+
+.dlg-policy h3 {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
 .dlg-help {
   display: flex;
   flex-direction: column;
