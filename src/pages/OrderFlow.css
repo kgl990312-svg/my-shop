@@ -1087,24 +1087,12 @@
   border-bottom: 1px solid var(--line);
 }
 
-/* 69: P06 공유하기 (휴대폰에서 공유를 지원할 때만 나타남) */
-.complete-share {
-  height: 56px;
-  padding: 0 36px;
-  font-size: 16px;
-}
-
-/* ===== 반응형 — P06 저장·공유 버튼 (휴대폰: 폭 767px 이하 터치 기기) ===== */
+/* ===== 반응형 — P06 저장 버튼 (휴대폰: 폭 767px 이하 터치 기기) ===== */
 @media (hover: none) and (pointer: coarse) and (max-width: 767px) {
-  .complete-hero .complete-save,
-  .complete-hero .complete-share {
+  .complete-hero .complete-save {
     align-self: stretch;
     height: 52px;
     font-size: 16px;
-  }
-
-  .complete-hero .complete-share {
-    margin-top: -8px;
   }
 
   .order-agree .check-all {

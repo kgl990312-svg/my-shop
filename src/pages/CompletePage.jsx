@@ -1,17 +1,14 @@
 // P06 주문 완료: 네비게이션 바(뒤로 없음) → 완료 영역 → 주문 요약 → 배송·문의 안내 → 푸터
 import { useEffect } from 'react';
-import { useRef } from 'react';
-import { useState } from 'react';
 import { useBlocker, useNavigate } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
 import { Footer, NavBar } from '../components/Layout';
 import { IconCheck, IconDownload, Sparkle } from '../components/Icons';
-import { IconShare } from '../components/Icons';
 import { SHIPPING_INFO, expectedDelivery, fmtPrice } from '../data/catalog';
 import { downloadDesign } from '../utils/exportImage';
-import { designToDataURL, designToFile } from '../utils/exportImage';
+import { designToDataURL } from '../utils/exportImage';
 import { isMobile } from '../utils/device';
 import './OrderFlow.css';
 
@@ -31,31 +28,7 @@ export default function CompletePage() {
   //     완성 이미지를 크게 띄우고 길게 눌러 "사진 앱에 저장"으로 저장하게 함 (Safari 기본 메뉴).
   //     (이전: 공유 창의 "이미지 저장" — 사용자 확인 결과 공유 메뉴만 떠서 바꿈)
   //     안드로이드는 다운로드하면 바로 갤러리 Download 앨범에 들어감. 데스크탑은 다운로드 폴더.
-  // 69: 공유를 지원하는 기기(휴대폰·데스크탑 모두)면 "공유하기" 버튼을 따로 보여줌 (카카오톡·인스타그램·메일 등으로 이미지 보내기).
-  // 버튼을 누르자마자 공유 창을 열어야 해서, 화면에 들어올 때 이미지 파일을 미리 만들어 둔다.
-  const shareFileRef = useRef(null);
-  const iosRef = useRef(false);
-  const [shareReady, setShareReady] = useState(false); // 공유하기 버튼 보이기
-  useEffect(() => {
-    const touch = isMobile();
-    const ios =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    iosRef.current = touch && ios;
-    if (!lastOrder || !navigator.canShare) return;
-    let alive = true;
-    designToFile(lastOrder.items[0], `moa-${lastOrder.no}.png`)
-      .then((file) => {
-        if (alive && navigator.canShare({ files: [file] })) {
-          shareFileRef.current = file;
-          setShareReady(true);
-        }
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, [lastOrder]);
+  // 69(공유하기)는 제거: 아이폰은 저장 창의 길게 누르기 메뉴에 공유가 있고, 다른 기기는 저장한 이미지를 앱에서 보내면 됨.
 
   if (!lastOrder) return null;
 
@@ -63,8 +36,13 @@ export default function CompletePage() {
   const more = lastOrder.items.length - 1;
 
   const save = async () => {
+    const touch = isMobile();
+    const ios =
+      touch &&
+      (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
     // 아이폰·아이패드: 완성 이미지를 크게 띄움 → 길게 눌러 "사진 앱에 저장"
-    if (iosRef.current) {
+    if (ios) {
       try {
         showSaveImage(await designToDataURL(first));
       } catch {
@@ -75,19 +53,9 @@ export default function CompletePage() {
     try {
       await downloadDesign(first, `moa-${lastOrder.no}.png`);
       // 안드로이드(휴대폰·태블릿)는 갤러리에 들어간 곳을 알려줌
-      showToast(isMobile() && !iosRef.current ? '갤러리의 Download 앨범에 저장했어요' : '이미지를 저장했어요');
+      showToast(touch ? '갤러리의 Download 앨범에 저장했어요' : '이미지를 저장했어요');
     } catch {
       showToast('이미지를 저장하지 못했어요');
-    }
-  };
-
-  // 69: 공유하기 — 꾸민 케이스 이미지만 보냄 (공유 창을 닫으면 알림 없음)
-  const share = async () => {
-    if (!shareFileRef.current) return;
-    try {
-      await navigator.share({ files: [shareFileRef.current] });
-    } catch (err) {
-      if (err?.name !== 'AbortError') showToast('공유하지 못했어요');
     }
   };
 
@@ -135,13 +103,6 @@ export default function CompletePage() {
             <IconDownload size={18} />
             이미지 저장하기
           </button>
-          {/* 69: 공유를 지원하는 기기에서만 (휴대폰·데스크탑 모두, 지원하지 않는 브라우저에서는 숨김) */}
-          {shareReady && (
-            <button type="button" className="btn btn-soft complete-share" onClick={share}>
-              <IconShare size={18} />
-              공유하기
-            </button>
-          )}
         </section>
 
         {/* P06-S03 주문 요약 */}
