@@ -297,7 +297,7 @@ export function expectedDelivery(orderDate) {
 // 푸터 회사 정보·고객센터 (가상 사이트용 예시 정보)
 export const COMPANY = {
   name: '모아(MOA)',
-  ceo: '김모아',
+  ceo: '김규리',
   bizNo: '000-00-00000',
   address: '서울특별시 성동구 모아로 00, 2층',
   phone: '02-000-0000',
