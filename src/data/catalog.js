@@ -1,6 +1,6 @@
 // 모아(MOA) 상품·꾸미기 데이터
 // 출처: PROJECT_CONTEXT.md, docs/04-site-wireframe.md, docs/06-site-design.md
-// 아직 정하지 않은 값은 null 로 두고 화면에는 [가격]처럼 대괄호로 보여 준다.
+// 가격·크기는 모두 정해져 있다(2026-11-17). 값이 비어(null) 있을 때만 화면에 [가격]처럼 보여 주는 예비 처리가 남아 있다.
 
 import cardRound from '../assets/site/card/round.jpg';
 import cardSquare from '../assets/site/card/square.jpg';
