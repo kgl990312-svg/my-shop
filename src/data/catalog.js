@@ -298,13 +298,11 @@ export const SHIPPING_PERIOD = {
 export const SHIPPING_INFO = {
   period: `${SHIPPING_PERIOD.before} ${SHIPPING_PERIOD.range} ${SHIPPING_PERIOD.after} ${SHIPPING_PERIOD.note}`,
   fee: '무료 (전 상품 무료배송)',
-  refund: '직접 꾸민 주문 제작 상품이라 단순 변심에 의한 교환·환불이 어려울 수 있어요.',
+  refund: '주문 제작 상품이라 단순 변심에 의한 교환·환불이 제한될 수 있어요.',
   // P02 유의사항 · P03 큐빅 패널 한 줄
   caution: '큐빅은 하나하나 손으로 붙여서 강한 충격이나 마찰에는 떨어질 수 있어요.',
 };
 
-// 큐빅 안내: 실제 아크릴 큐빅을 손으로 붙이므로 떨어질 수 있음을 알림 (P04 주문 제작 상품 안내는 두 번째 문장 — P02 유의사항·P03 큐빅 패널 한 줄은 SHIPPING_INFO.caution)
-export const CUBIC_NOTICE = ['큐빅은 하나하나 손으로 붙여 드려요.', '강한 충격이나 마찰에는 떨어질 수 있어요.'];
 
 // 예상 배송일: 주문일에서 주말을 빼고 5~7일 뒤 (공휴일은 계산하지 않음) — 예: "11.24(화) ~ 11.26(목)"
 const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];

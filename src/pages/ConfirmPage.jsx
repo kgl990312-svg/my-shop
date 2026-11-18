@@ -7,7 +7,7 @@ import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
 import { BottomBar, Footer, NavBar, ShippingPeriod } from '../components/Layout';
 import { IconExpand, IconInfo } from '../components/Icons';
-import { CUBIC_NOTICE, SHIPPING_INFO, addOnLines, designPrice, fmtPrice, getCaseType } from '../data/catalog';
+import { SHIPPING_INFO, addOnLines, designPrice, fmtPrice, getCaseType } from '../data/catalog';
 import { colorOf, decorationSummary, typeName } from '../utils/summary';
 import { isMobile } from '../utils/device';
 import './OrderFlow.css';
@@ -122,8 +122,6 @@ export default function ConfirmPage() {
           <div className="notice-body">
             <strong>주문 제작 상품 안내</strong>
             <span>꾸민 디자인은 케이스에 인쇄되고, 큐빅은 실제로 붙여 드려요</span>
-            {/* 위 문장처럼 끝 마침표 없이 */}
-            <span>{CUBIC_NOTICE[1].replace(/\.$/, '')}</span>
             <span>{SHIPPING_INFO.refund}</span>
           </div>
         </div>
