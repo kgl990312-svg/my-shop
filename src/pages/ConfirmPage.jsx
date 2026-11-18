@@ -121,7 +121,7 @@ export default function ConfirmPage() {
           <IconInfo size={22} />
           <div className="notice-body">
             <strong>주문 제작 상품 안내</strong>
-            <span>꾸민 디자인은 케이스에 인쇄되고, 큐빅은 실제로 붙여 드려요</span>
+            <span>꾸민 디자인은 케이스에 인쇄되고, 큐빅은 실제로 붙여 드려요.</span>
             <span>{SHIPPING_INFO.refund}</span>
           </div>
         </div>
