@@ -13,8 +13,8 @@ const PHONE_RE = /^01[016789]-?\d{3,4}-?\d{4}$/;
 const FIELDS = [
   { id: 'name', label: '받는 사람', type: 'text', placeholder: '받는 사람', autoComplete: 'name' },
   { id: 'phone', label: '연락처', type: 'tel', placeholder: '010-0000-0000', autoComplete: 'tel' },
-  { id: 'addr', label: '주소', type: 'text', placeholder: '주소', autoComplete: 'address-line1' },
-  { id: 'addr2', label: '상세 주소', type: 'text', placeholder: '상세 주소', autoComplete: 'address-line2' },
+  { id: 'addr', label: '주소', type: 'text', placeholder: '도로명, 건물명, 번지 입력', autoComplete: 'address-line1' },
+  { id: 'addr2', label: '상세 주소', type: 'text', placeholder: '동·호수를 입력해 주세요', autoComplete: 'address-line2' },
 ];
 
 // 안내 문구 (2026-11-17 확정)

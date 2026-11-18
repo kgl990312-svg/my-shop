@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useQuery, useRouter } from '../router';
 import { newDesign, useShop } from '../store/ShopContext';
-import { BottomBar, Footer, NavBar } from '../components/Layout';
+import { BottomBar, Footer, NavBar, ShippingPeriod } from '../components/Layout';
 import { IconChevronRight, Sparkle } from '../components/Icons';
 import {
   COMPAT_HINT,
@@ -167,11 +167,13 @@ export default function DetailPage() {
           <h2 className="detail-h2">배송·교환 안내</h2>
           <div className="box info-grid detail-box">
             <span className="label">제작 및 배송 안내</span>
-            <span>{SHIPPING_INFO.period}</span>
+            <span><ShippingPeriod /></span>
             <span className="label">배송비</span>
             <span>{SHIPPING_INFO.fee}</span>
             <span className="label">교환 및 환불 안내</span>
             <span>{SHIPPING_INFO.refund}</span>
+            <span className="label">유의사항</span>
+            <span>{SHIPPING_INFO.caution}</span>
           </div>
         </div>
       </section>

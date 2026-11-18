@@ -264,6 +264,24 @@
   opacity: 0;
 }
 
+/* 큐빅 안내: 두 줄이라 알약 대신 둥근 상자, "드래그해주세요"가 함께 보이면 그 아래에 놓음 */
+.cz-cubic-note {
+  align-items: flex-start;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.cz-cubic-note svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.cz-cubic-note.is-below {
+  top: 148px;
+}
+
 /* 오른쪽 세로 도구 버튼 */
 .cz-tools {
   position: absolute;
@@ -740,6 +758,16 @@
     display: inline;
     font-size: 14px;
   }
+
+  /* 큐빅 안내는 터치 기기에서도 글자를 그대로 보여줌 (위 .cz-hint font-size: 0 되돌림) */
+  .cz-cubic-note {
+    font-size: 14px;
+    gap: 8px;
+  }
+
+  .cz-cubic-note svg {
+    margin-right: 0;
+  }
 }
 
 /* ===== 반응형 — P03 꾸미기 (모바일: 폭 1024px 이하 터치 기기) — 데스크탑에는 적용되지 않음 =====
@@ -923,5 +951,10 @@
   .cz-hint {
     transform: translateX(-50%) scale(calc(1 / var(--cz-fit, 1)));
     transform-origin: top center;
+  }
+
+  /* 위 안내가 원래 크기로 커진 만큼 아래로 내림 */
+  .cz-cubic-note.is-below {
+    top: calc(96px + 52px / var(--cz-fit, 1));
   }
 }

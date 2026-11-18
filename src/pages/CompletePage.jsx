@@ -4,9 +4,9 @@ import { useBlocker, useNavigate } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
-import { Footer, MAIN_MENU, NavBar } from '../components/Layout';
+import { Footer, MAIN_MENU, NavBar, ShippingPeriod } from '../components/Layout';
 import { IconCheck, IconDownload, Sparkle } from '../components/Icons';
-import { SHIPPING_INFO, expectedDelivery, fmtPrice } from '../data/catalog';
+import { expectedDelivery, fmtPrice } from '../data/catalog';
 import { downloadDesign } from '../utils/exportImage';
 import { designToDataURL } from '../utils/exportImage';
 import { isMobile } from '../utils/device';
@@ -121,7 +121,7 @@ export default function CompletePage() {
         {/* P06-S04 배송·문의 안내 */}
         <section className="complete-notice">
           <h2>배송·문의 안내</h2>
-          <span>{SHIPPING_INFO.period}</span>
+          <span><ShippingPeriod /></span>
           <span>주문 내용은 입력한 연락처로 문자로 보내드려요</span>
           <span>주문번호 또는 이름과 연락처로 고객센터에 문의해 주세요</span>
         </section>

@@ -5,9 +5,9 @@ import { useNavigate, useRouter } from '../router';
 import { useShop } from '../store/ShopContext';
 import { useUI } from '../components/Dialogs';
 import CaseView from '../components/CaseView';
-import { BottomBar, Footer, NavBar } from '../components/Layout';
+import { BottomBar, Footer, NavBar, ShippingPeriod } from '../components/Layout';
 import { IconExpand, IconInfo } from '../components/Icons';
-import { SHIPPING_INFO, addOnLines, designPrice, fmtPrice, getCaseType } from '../data/catalog';
+import { CUBIC_NOTICE, SHIPPING_INFO, addOnLines, designPrice, fmtPrice, getCaseType } from '../data/catalog';
 import { colorOf, decorationSummary, typeName } from '../utils/summary';
 import { isMobile } from '../utils/device';
 import './OrderFlow.css';
@@ -122,6 +122,8 @@ export default function ConfirmPage() {
           <div className="notice-body">
             <strong>주문 제작 상품 안내</strong>
             <span>꾸민 디자인은 케이스에 인쇄되고, 큐빅은 실제로 붙여 드려요</span>
+            {/* 위 문장처럼 끝 마침표 없이 */}
+            <span>{CUBIC_NOTICE[1].replace(/\.$/, '')}</span>
             <span>{SHIPPING_INFO.refund}</span>
           </div>
         </div>
@@ -133,7 +135,7 @@ export default function ConfirmPage() {
           <strong className="period-title">제작·배송 기간</strong>
           {/* 받은 문구가 제작과 배송을 합친 한 문장이라 한 줄로 보여줌 */}
           <span className="label">제작·배송</span>
-          <span className="period-value">{SHIPPING_INFO.period}</span>
+          <span className="period-value"><ShippingPeriod /></span>
           <span className="label">배송비</span>
           <span className="period-value">{SHIPPING_INFO.fee}</span>
         </div>

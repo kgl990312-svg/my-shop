@@ -12,6 +12,7 @@ import {
   IconHand,
   IconHeart,
   IconHelp,
+  IconInfo,
   IconMinus,
   IconMore,
   IconPalette,
@@ -25,6 +26,7 @@ import {
 import {
   CASE_COLORS,
   CASE_TYPES,
+  CUBIC_NOTICE,
   ENGRAVE_MAX,
   ENGRAVE_STYLES,
   ENGRAVE_PRICE,
@@ -144,6 +146,8 @@ export default function CustomizePage() {
   const [hint, setHint] = useState('hidden'); // hidden | show | fade
   const [ghost, setGhost] = useState(null); // 패널에서 끌고 있는 스티커
   const hintShownRef = useRef(false);
+  const [cubicNote, setCubicNote] = useState('hidden'); // hidden | show | fade — 큐빅 패널을 처음 열 때 "떨어질 수 있어요" 안내
+  const cubicNoteShownRef = useRef(false);
 
   const designRef = useRef(design);
   designRef.current = design;
@@ -589,7 +593,24 @@ export default function CustomizePage() {
       hintShownRef.current = true;
       setHint('show');
     }
+    // 큐빅 패널을 처음 열면 "떨어질 수 있어요" 안내를 조금 더 길게 보여줌 (스티커를 붙여도 바로 사라지지 않음)
+    if (opening && key === 'cubic' && !cubicNoteShownRef.current) {
+      cubicNoteShownRef.current = true;
+      setCubicNote('show');
+    }
   };
+
+  useEffect(() => {
+    if (cubicNote === 'show') {
+      const t = setTimeout(() => setCubicNote('fade'), 4000);
+      return () => clearTimeout(t);
+    }
+    if (cubicNote === 'fade') {
+      const t = setTimeout(() => setCubicNote('hidden'), 600);
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [cubicNote]);
 
   useEffect(() => {
     if (hint === 'show') {
@@ -818,6 +839,20 @@ export default function CustomizePage() {
                     <IconHand size={18} />
                     드래그해주세요
                     <span className="cz-hint-touch">눌러서 붙이고, 끌어서 옮겨요</span>
+                  </div>
+                )}
+
+                {cubicNote !== 'hidden' && (
+                  <div
+                    className={`cz-hint cz-cubic-note${hint !== 'hidden' ? ' is-below' : ''}${cubicNote === 'fade' ? ' is-fade' : ''}`}
+                    role="status"
+                  >
+                    <IconInfo size={18} />
+                    <span>
+                      {CUBIC_NOTICE[0]}
+                      <br />
+                      {CUBIC_NOTICE[1]}
+                    </span>
                   </div>
                 )}
               </div>

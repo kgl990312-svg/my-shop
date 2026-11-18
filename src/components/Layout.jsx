@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, withBase } from '../router';
 import { hasDecoration, useShop } from '../store/ShopContext';
 import { useUI } from './Dialogs';
-import { COMPANY } from '../data/catalog';
+import { COMPANY, SHIPPING_PERIOD } from '../data/catalog';
 import { IconBack, IconBag, IconClose, IconMenu } from './Icons';
 import './Layout.css';
 
@@ -182,5 +182,18 @@ export function BottomBar({ children }) {
     <div className="bottom-bar">
       <div className="bottom-bar-inner">{children}</div>
     </div>
+  );
+}
+
+// 제작·배송 기간 (P02 배송·교환 안내, P04 제작·배송 기간, P06 배송·문의 안내)
+// "(주말 및 공휴일 제외)"는 다음 줄로, "5~7일 이내"는 좁은 화면에서도 중간에서 끊기지 않게
+export function ShippingPeriod() {
+  const { before, range, after, note } = SHIPPING_PERIOD;
+  return (
+    <>
+      {before} <span style={{ whiteSpace: 'nowrap' }}>{range}</span> {after}
+      <br />
+      {note}
+    </>
   );
 }

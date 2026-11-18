@@ -286,12 +286,25 @@ export const addOnLines = (design) => {
 export const SHIPPING_FEE = 0;
 export const shippingFor = (subtotal) => (subtotal == null ? null : SHIPPING_FEE);
 
+// 제작·배송 기간: 화면에서는 "(주말 및 공휴일 제외)"를 다음 줄로 내리고, "5~7일 이내"는 중간에서 끊기지 않게 함 (ShippingPeriod)
+export const SHIPPING_PERIOD = {
+  before: '주문 확인 후 약',
+  range: '5~7일 이내',
+  after: '배송해 드려요.',
+  note: '(주말 및 공휴일 제외)',
+};
+
 // 배송·교환 안내 문구
 export const SHIPPING_INFO = {
-  period: '주문 확인 후 약 5~7일 이내 배송됩니다. (주말 및 공휴일 제외)',
+  period: `${SHIPPING_PERIOD.before} ${SHIPPING_PERIOD.range} ${SHIPPING_PERIOD.after} ${SHIPPING_PERIOD.note}`,
   fee: '무료 (전 상품 무료배송)',
-  refund: '본 상품은 주문 제작 상품으로, 고객님의 단순 변심에 의한 교환 및 환불이 제한될 수 있습니다.',
+  refund: '직접 꾸민 주문 제작 상품이라 단순 변심에 의한 교환·환불이 어려울 수 있어요.',
+  // P02 유의사항
+  caution: '큐빅은 하나하나 손으로 붙여서 강한 충격이나 마찰에는 떨어질 수 있어요.',
 };
+
+// 큐빅 안내: 실제 아크릴 큐빅을 손으로 붙이므로 떨어질 수 있음을 알림 (P03 큐빅 패널 첫 안내, P04 주문 제작 상품 안내 — P02 유의사항은 SHIPPING_INFO.caution)
+export const CUBIC_NOTICE = ['큐빅은 하나하나 손으로 붙여 드려요.', '강한 충격이나 마찰에는 떨어질 수 있어요.'];
 
 // 예상 배송일: 주문일에서 주말을 빼고 5~7일 뒤 (공휴일은 계산하지 않음) — 예: "11.24(화) ~ 11.26(목)"
 const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
