@@ -120,6 +120,8 @@
 
 글자 크기는 14px 이상, 짝수(14·16·18…)만 쓴다. (2026-11-16 정리, `docs/interaction-list.md` 수정 내역)
 
+줄바꿈은 낱말 단위로 한다(`word-break: keep-all`). "각인", "최대" 같은 낱말이 중간에서 끊기지 않게 하고, 칸보다 긴 낱말만 중간에서 끊는다(`overflow-wrap: break-word`). 사이트 전체에 적용(`src/styles/global.css`). (2026-11-18, `docs/interaction-list.md` 수정 내역)
+
 ## 3. 간격
 
 4px 단위. 섹션 사이는 80~96px로 넉넉하게 둔다.

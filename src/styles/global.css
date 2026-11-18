@@ -43,6 +43,9 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* 한국어 낱말("각인", "최대" 등)이 중간에서 끊기지 않게 낱말 단위로 줄바꿈. 칸보다 긴 낱말만 중간에서 끊음 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 a {
