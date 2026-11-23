@@ -736,3 +736,11 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **사용자 테스트 (2026-11-23):** TC-34~TC-38을 사용자가 직접 테스트해 모두 통과 (출처: 사용자 답변)
 - **시안 맞춤 (2026-11-23):** P03 시안(`docs/html/p03-customize.html`)에서 선택된 도구 이름 글자를 #C4513F → #B04634로 바꾸고 `docs/png/p03-customize.png`를 다시 캡처함 (사용자 요청). 시안의 다른 부분(글자 크기 등)은 그대로. 온라인 원본도 맞춤: 시안 캔버스 P03·MP03(휴대폰)의 선택된 도구 글자 #B04634, 디자인 시스템 캔버스의 tokens.json·README.md를 `docs/moa-design-system`과 같게 (06 "디자인 시스템과 이 문서의 내용은 같다")
 - **수정한 파일:** `index.html`, `vite.config.js`, `src/main.jsx`, `src/utils/fonts.js`(새 파일), `src/utils/exportImage.js`, `src/styles/global.css`, `src/styles/tokens.css`(기본 글꼴에 맑은 고딕 추가), `src/pages/CustomizePage.css`, `src/pages/MainPage.css`, `src/pages/MainPage.jsx`, `src/components/Layout.jsx`, `src/assets/fonts/`(새 폴더)
+
+### 2026-11-23 — P06 배송·문의 안내 마침표 맞추기 (데스크탑 포함)
+
+- **문제:** P06 배송·문의 안내 상자에서 첫 문장("…배송해 드려요.")에만 마침표가 있고, 나머지 두 문장에는 없었다.
+- **바꾼 것:** "주문 내용은 입력한 연락처로 문자로 보내드려요." · "주문번호 또는 이름과 연락처로 고객센터에 문의해 주세요."로 끝에 마침표를 붙임 (추천안, 사용자 승인). 다른 배송 안내 문구(P02·P04)는 이미 문장 끝에 마침표가 있어 그대로 둠. 배송비 "무료 (전 상품 무료배송)"와 "(주말 및 공휴일 제외)"는 문장이 아니라 그대로 둠.
+- **레이아웃:** 문구만 바뀌고 화면 구조·순서는 그대로라 데스크탑에도 적용(내용 변경 예외).
+- **시안 맞춤:** `docs/html/p06-complete.html`, 온라인 시안 캔버스 P06·MP06(휴대폰) 같은 문구로 고침. `docs/png/p06-complete.png`를 다시 캡처함(사용자가 캡처해 넣음).
+- **수정한 파일:** `src/pages/CompletePage.jsx`, `docs/html/p06-complete.html`, `docs/png/p06-complete.png`, `docs/02-site-structure.md`, `docs/04-site-wireframe.md`
