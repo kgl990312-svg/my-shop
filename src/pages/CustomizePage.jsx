@@ -586,7 +586,7 @@ export default function CustomizePage() {
     const opening = panel !== key;
     setPanelSwitched(opening && panel !== null); // 터치 기기: 도구를 바꿀 때는 패널을 다시 올리지 않음 (CSS .is-switch)
     setPanel(opening ? key : null);
-    // 스티커 패널을 처음 열면 "드래그해주세요" 안내를 잠깐 보여줌
+    // 스티커 패널을 처음 열면 "드래그해 주세요" 안내를 잠깐 보여줌
     if (opening && ['cubic', 'sticker'].includes(key) && !hintShownRef.current) {
       hintShownRef.current = true;
       setHint('show');
@@ -723,8 +723,8 @@ export default function CustomizePage() {
             )}
           </div>
           <button type="button" className="btn btn-primary cz-done" onClick={complete} disabled={!canComplete}>
-            {/* 67: 장바구니 "수정하기"로 연 디자인이면 "수정완료" (모든 기기, 승인된 예외) */}
-            {design.editingId ? '수정완료' : '완료'}
+            {/* 67: 장바구니 "수정하기"로 연 디자인이면 "수정 완료" (모든 기기, 승인된 예외) */}
+            {design.editingId ? '수정 완료' : '완료'}
           </button>
         </div>
       </header>
@@ -818,7 +818,7 @@ export default function CustomizePage() {
                 {hint !== 'hidden' && (
                   <div className={`cz-hint${hint === 'fade' ? ' is-fade' : ''}`}>
                     <IconHand size={18} />
-                    드래그해주세요
+                    드래그해 주세요
                     <span className="cz-hint-touch">눌러서 붙이고, 끌어서 옮겨요</span>
                   </div>
                 )}

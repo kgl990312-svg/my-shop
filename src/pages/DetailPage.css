@@ -51,6 +51,7 @@
 }
 
 .detail-deco-extra {
+  display: block; /* 괄호 안 추가 요금은 다음 줄에서 시작 (데스크탑에서 "+500원 ·"에서 끊기던 것, 2026-11-23) */
   color: var(--ink-muted);
 }
 

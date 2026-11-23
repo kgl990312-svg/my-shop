@@ -129,7 +129,8 @@ export default function MainPage() {
                 </div>
                 <div className="case-card-info">
                   <span className="case-card-name">
-                    {t.name} ({fmtSize(t.size)})
+                    {/* 크기 "(약 92 × 86mm)"는 중간에서 끊기지 않게 (2026-11-23) */}
+                    {t.name} <span style={{ whiteSpace: 'nowrap' }}>({fmtSize(t.size)})</span>
                   </span>
                   <span className="case-card-price">{fmtPrice(t.price)}원</span>
                 </div>

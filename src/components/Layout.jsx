@@ -170,7 +170,11 @@ export function Footer() {
         <div className="footer-cs">
           <span className="footer-cs-title">고객센터</span>
           <span className="footer-cs-phone">{COMPANY.phone}</span>
-          <span>운영 시간 {COMPANY.hours}</span>
+          {/* 좁은 화면에서 "주말·공휴일"이 중간에서 끊기지 않게 괄호 안은 한 덩어리로 (2026-11-23) */}
+          <span>
+            운영 시간 {COMPANY.hours.split(' (')[0]}{' '}
+            <span style={{ whiteSpace: 'nowrap' }}>({COMPANY.hours.split(' (')[1]}</span>
+          </span>
         </div>
         <nav aria-label="약관" className="footer-links">
           <button type="button" onClick={() => showContent('terms')}>
