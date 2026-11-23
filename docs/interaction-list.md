@@ -732,6 +732,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
   - 배너 빛줄기: `left` 대신 `transform`으로 같은 거리를 움직여 화면 흔들림(CLS)으로 잡히지 않게 함
 - **레이아웃:** 화면 구조·순서·크기는 그대로. 눈에 보이는 변화는 ① 선택된 도구 이름 글자 색이 조금 진해짐 ② 배너 사진이 흐려졌다 나타나지 않고 올라오기만 함 ③ 처음 방문 때 글자가 기본 글꼴로 잠깐 보였다가 바뀜. 데스크탑에도 적용(승인된 예외).
 - **확인 (로컬 빌드, 배포 전):** Lighthouse 접근성 — 데스크탑(1280)·휴대폰(390) 모두 P01~P07, M01·M03·M06에서 걸린 항목 0개. 키보드(Tab·Enter·Space·Esc)만으로 P01 → P06 주문 완료(크롬·엣지). M02 지우기 뒤 종류·색 유지, 태블릿 가로(1024·1180) 가로 넘침 0. 각인 세리프 글꼴이 받아지고, P06 이미지 저장 파일·알림 정상. 글꼴이 다 받아진 뒤 데스크탑 P01·P02는 배포 사이트와 픽셀 차이 0. 성능 — Lighthouse 모바일 LCP 18.5초 → 2.0초(3번 같음), CLS 0.005, 전체 3.9MB → 1.3MB. `npm run build` 통과.
+- **배포 뒤 확인 (2026-11-23):** 배포 뒤 배포 주소에서 다시 측정(2026-11-23, Lighthouse 접근성): 데스크탑(1280)·휴대폰(390) 모두 P01~P07·M01·M03·M06 11개 화면 100점, 걸린 항목 0개 · 배포 뒤 배포 주소에서 다시 측정(2026-11-23, Lighthouse 모바일): LCP 1.75초·1.50초·1.73초(가운데 값 1.73초), CLS 0.005, 전체 1.37MB
 - **사용자 테스트 (2026-11-23):** TC-34~TC-38을 사용자가 직접 테스트해 모두 통과 (출처: 사용자 답변)
 - **시안 맞춤 (2026-11-23):** P03 시안(`docs/html/p03-customize.html`)에서 선택된 도구 이름 글자를 #C4513F → #B04634로 바꾸고 `docs/png/p03-customize.png`를 다시 캡처함 (사용자 요청). 시안의 다른 부분(글자 크기 등)은 그대로
 - **수정한 파일:** `index.html`, `vite.config.js`, `src/main.jsx`, `src/utils/fonts.js`(새 파일), `src/utils/exportImage.js`, `src/styles/global.css`, `src/styles/tokens.css`(기본 글꼴에 맑은 고딕 추가), `src/pages/CustomizePage.css`, `src/pages/MainPage.css`, `src/pages/MainPage.jsx`, `src/components/Layout.jsx`, `src/assets/fonts/`(새 폴더)
