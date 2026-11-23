@@ -127,17 +127,25 @@ export function NavBar({ onBack, guard = false, menu }) {
             </button>
           )}
         </div>
-        <a href={withBase('/')} className="nav-logo" aria-label="모아 메인으로" onClick={go('/')}>
+        {/* 접근성(R-23): 보이는 로고 글자가 이름에 그대로 들어가도록 aria-label 대신 숨은 글자를 덧붙임 */}
+        <a href={withBase('/')} className="nav-logo" onClick={go('/')}>
           <Logo />
+          <span className="sr-only">, 메인으로</span>
         </a>
         <a
           href={withBase('/cart')}
           className="icon-btn nav-cart"
-          aria-label={count ? `장바구니, ${count}개 담김` : '장바구니'}
           onClick={go('/cart')}
         >
           <IconBag />
-          {count > 0 && <span className="nav-badge">{count}</span>}
+          {/* 접근성(R-23): 화면 낭독기 이름에 보이는 숫자가 그대로 들어가도록 aria-label 대신 숨은 글자로 이름을 만듦 */}
+          <span className="sr-only">장바구니</span>
+          {count > 0 && (
+            <span className="nav-badge">
+              {count}
+              <span className="sr-only">개 담김</span>
+            </span>
+          )}
         </a>
       </div>
     </header>

@@ -325,7 +325,8 @@
 /* 선택한 도구: 면 위 포인트 글자는 굵게(700) — 명암 보완 */
 .cz-tool.is-on {
   background: var(--bg-soft);
-  color: var(--accent);
+  /* 접근성(R-23): --accent는 이 배경에서 명도 대비 3.77:1이라 4.5:1을 넘는 --accent-hover(4.60:1)를 씀 */
+  color: var(--accent-hover);
   font-weight: 700;
 }
 

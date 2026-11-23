@@ -25,7 +25,12 @@ function ReviewText({ text }) {
     measure();
     window.addEventListener('resize', measure);
     document.fonts?.ready.then(measure);
-    return () => window.removeEventListener('resize', measure);
+    // 글꼴을 첫 화면 뒤에 받으므로(R-24) 글꼴이 바뀌면 글자 폭을 다시 잼
+    document.fonts?.addEventListener?.('loadingdone', measure);
+    return () => {
+      window.removeEventListener('resize', measure);
+      document.fonts?.removeEventListener?.('loadingdone', measure);
+    };
   }, [text]);
 
   // 흐르는 시간은 전체의 70%, 앞뒤 15%씩 멈춤
@@ -45,6 +50,21 @@ export default function MainPage() {
   const pages = Math.ceil(REVIEWS.length / PER_VIEW);
   const [page, setPage] = useState(0);
   const { showReview } = useUI();
+  const [touch] = useState(isMobile); // 휴대폰·태블릿(터치 기기)인지 — 카드 "꾸민 예시" 사진을 받을지 정함
+  // 로딩 시간(R-24): 후기 사진은 후기 영역이 화면에 200px 이내로 가까워지면 받음 (사진 자리는 1:1로 고정이라 화면이 밀리지 않음)
+  const reviewsRef = useRef(null);
+  const [reviewsNear, setReviewsNear] = useState(() => typeof IntersectionObserver === 'undefined');
+  useEffect(() => {
+    if (reviewsNear || !reviewsRef.current) return undefined;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) setReviewsNear(true);
+      },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(reviewsRef.current);
+    return () => io.disconnect();
+  }, [reviewsNear]);
 
   // 64: 빈 장바구니의 "케이스 꾸미러 가기"(/#types)나 P06 메뉴의 CASE·REVIEW(/#types, /#reviews)로 들어오면
   // 그 영역으로 바로 이동하고, 주소의 #은 지움
@@ -81,8 +101,9 @@ export default function MainPage() {
               모아에서 완성해요
             </h1>
           </div>
+          {/* 로딩 시간(R-24): 배너 사진은 먼저, 화면 아래 카드·후기 사진은 가까워질 때 받음 (2026-11-23) */}
           <div className="main-banner-image">
-            <img src={bannerImage} alt="블러시 핑크 원형 쿠션 케이스에 큐빅, 리본, 각인으로 꾸민 예시 상품" />
+            <img src={bannerImage} fetchpriority="high" alt="블러시 핑크 원형 쿠션 케이스에 큐빅, 리본, 각인으로 꾸민 예시 상품" />
             {/* 빛줄기: 사진이 나타난 뒤 한 번 지나감 (모든 기기) */}
             <span className="main-banner-shine" aria-hidden="true" />
           </div>
@@ -97,11 +118,14 @@ export default function MainPage() {
             {CASE_TYPES.map((t) => (
               <Link key={t.key} to={`/detail?type=${t.key}`} className="case-card">
                 <div className="case-card-media">
-                  <img src={t.card} alt={`꾸미지 않은 ${t.name} 케이스`} />
-                  <div className="case-card-deco">
-                    <span className="badge-on-image">꾸민 예시</span>
-                    <img src={t.hover} alt="" />
-                  </div>
+                  <img src={t.card} loading="lazy" alt={`꾸미지 않은 ${t.name} 케이스`} />
+                  {/* 꾸민 예시는 마우스를 올릴 때만 보여서(터치 기기에서는 안 보임, 19번) 터치 기기에서는 사진을 받지 않음 (R-24) */}
+                  {!touch && (
+                    <div className="case-card-deco">
+                      <span className="badge-on-image">꾸민 예시</span>
+                      <img src={t.hover} loading="lazy" alt="" />
+                    </div>
+                  )}
                 </div>
                 <div className="case-card-info">
                   <span className="case-card-name">
@@ -116,7 +140,7 @@ export default function MainPage() {
       </section>
 
       {/* P01-S04 직접 꾸민 후기 */}
-      <section id="reviews" className="main-section main-reviews">
+      <section id="reviews" ref={reviewsRef} className="main-section main-reviews">
         <div className="container main-section-inner">
           <div className="main-reviews-head">
             <div className="main-reviews-title">
@@ -149,13 +173,13 @@ export default function MainPage() {
               {REVIEWS.map((r, i) => {
                 const hidden = Math.floor(i / PER_VIEW) !== page;
                 return (
-                  <article
+                  // 접근성(R-23): article에는 button 역할을 줄 수 없어 div로 바꿈. 이름은 카드 내용(사진 설명·작성자·날짜·후기)을 그대로 읽음
+                  <div
                     key={r.id}
                     className="rv-card"
                     tabIndex={hidden ? -1 : 0}
                     aria-hidden={hidden}
                     role="button"
-                    aria-label={`${getCaseType(r.type).name} 후기 자세히 보기`}
                     onClick={() => showReview(i)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
@@ -165,7 +189,7 @@ export default function MainPage() {
                     }}
                   >
                     <div className="rv-media">
-                      <img className="rv-img" src={r.img} alt={`${getCaseType(r.type).name} 케이스를 꾸민 후기 사진`} />
+                      <img className="rv-img" src={reviewsNear ? r.img : undefined} loading="lazy" alt={`${getCaseType(r.type).name} 케이스를 꾸민 후기 사진`} />
                       <span className="badge-on-image">예시 후기</span>
                     </div>
                     <div className="rv-body">
@@ -180,7 +204,7 @@ export default function MainPage() {
                       <ReviewText text={r.text} />
                       <span className="tag">{getCaseType(r.type).name}</span>
                     </div>
-                  </article>
+                  </div>
                 );
               })}
             </div>

@@ -1,5 +1,6 @@
 // 꾸민 케이스를 PNG 이미지로 만들어 내려받기 (P06 이미지 저장하기)
 import { CUBIC_SHADOW, getCaseColor, getCaseType, getEngraveStyle, getSticker } from '../data/catalog';
+import { loadFonts } from './fonts';
 
 const loadImage = (src) =>
   new Promise((resolve, reject) => {
@@ -40,6 +41,7 @@ export async function renderDesign(design, size = 1000) {
   ctx.drawImage(tint, pad, pad);
   ctx.globalCompositeOperation = 'source-over';
 
+  await loadFonts(); // 각인 모던 글꼴(Pretendard)이 아직 안 받아졌으면 기다림
   if (document.fonts?.ready) await document.fonts.ready;
 
   for (const it of design.items) {

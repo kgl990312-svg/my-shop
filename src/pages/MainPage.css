@@ -54,7 +54,8 @@
 }
 
 .main-banner-image {
-  animation: banner-in 0.6s ease 0.15s both;
+  /* 로딩 시간(R-24): 사진은 투명하게 시작하면 화면에 늦게 잡혀서, 올라오는 움직임만 남김 (2026-11-23) */
+  animation: banner-rise 0.6s ease 0.15s both;
   flex: 0 1 480px;
   height: 400px;
   border-radius: var(--radius-box);
@@ -68,7 +69,7 @@
   object-fit: cover;
 }
 
-/* 배너 등장 (5단계): 문구가 살짝 올라오며 나타나고, 0.15초 뒤 사진이 이어서 나타남 */
+/* 배너 등장 (5단계): 문구가 살짝 올라오며 나타나고, 0.15초 뒤 사진이 이어서 올라옴 (사진은 처음부터 보임) */
 @keyframes banner-in {
   from {
     opacity: 0;
@@ -76,6 +77,15 @@
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes banner-rise {
+  from {
+    transform: translateY(16px);
+  }
+  to {
     transform: translateY(0);
   }
 }
@@ -428,16 +438,18 @@
   background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0) 100%);
   transform: skewX(-18deg);
   pointer-events: none;
-  /* 배너 사진 등장(0.15초 뒤 시작, 0.6초)이 끝난 뒤에 지나감 */
+  /* 배너 사진 등장(0.15초 뒤 시작, 0.6초)이 끝난 뒤에 지나감.
+     left 대신 transform으로 움직여 화면 흔들림(CLS)으로 잡히지 않게 함 (R-24, 2026-11-23). 움직이는 거리는 같음 */
   animation: banner-shine-sweep 0.8s ease-out 0.8s 1 both;
 }
 
+/* 이전: left -60% → 130% (사진 폭의 190%). 빛줄기 폭이 사진의 45%라 190 ÷ 45 ≈ 422% */
 @keyframes banner-shine-sweep {
   from {
-    left: -60%;
+    transform: translateX(0) skewX(-18deg);
   }
   to {
-    left: 130%;
+    transform: translateX(422.22%) skewX(-18deg);
   }
 }
 

@@ -1,28 +1,5 @@
-/* 글꼴: docs/moa-design-system/fonts 의 Pretendard 4개 굵기 */
-@font-face {
-  font-family: 'Pretendard';
-  font-weight: 400;
-  font-display: swap;
-  src: url('../../docs/moa-design-system/fonts/Pretendard-Regular.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Pretendard';
-  font-weight: 600;
-  font-display: swap;
-  src: url('../../docs/moa-design-system/fonts/Pretendard-SemiBold.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Pretendard';
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../docs/moa-design-system/fonts/Pretendard-Bold.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Pretendard';
-  font-weight: 800;
-  font-display: swap;
-  src: url('../../docs/moa-design-system/fonts/Pretendard-ExtraBold.woff2') format('woff2');
-}
+/* 글꼴: Pretendard 4개 굵기는 src/utils/fonts.js 에서 첫 화면 뒤에 불러옴 (로딩 시간 R-24).
+   받기 전에는 --font-base 의 기본 글꼴(맑은 고딕·애플 SD 고딕 등)로 보임 */
 
 *,
 *::before,
