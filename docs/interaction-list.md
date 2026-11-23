@@ -757,3 +757,11 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **시안 맞춤:** `docs/html`의 m06-help·p02-detail·p03-customize·p06-complete를 같은 문구로 고침. 시안 HTML 14개에 사이트와 같은 낱말 단위 줄바꿈(`word-break: keep-all`, 11-18에 사이트에만 넣었던 것)을 넣음. M06 시안이 "끌어/다", "방/향"처럼 낱말 중간에서 끊기던 것을 이걸로 고침. 시안 이미지 6장(m03·m04·m06·p02·p03·p06) 다시 캡처, 나머지는 바뀐 곳이 없어 그대로. 온라인 시안 캔버스 P02·MP02(추가 요금 줄), P03(첫 안내), M06(마침표·낱말 단위 줄바꿈), P06·MP06(보내 드려요)을 맞춤.
 - **확인:** 로컬에서 P01~P07, M03, M06, P05 입력 오류를 휴대폰(375, 터치)·데스크탑(1440)으로 찍어 확인. `npm run build` 통과.
 - **수정한 파일:** `src/components/Dialogs.jsx`, `src/components/Layout.jsx`, `src/data/catalog.js`, `src/pages/MainPage.jsx`, `src/pages/DetailPage.css`, `src/pages/CustomizePage.jsx`, `src/pages/CustomizePage.css`(주석), `src/pages/CompletePage.jsx`, `docs/html/*.html`, `docs/png/`(6장), `docs/02-site-structure.md`, `docs/04-site-wireframe.md`, `docs/prd.md`, `docs/test-cases.md`, `PROJECT_CONTEXT.md`
+
+### 2026-11-23 — P06 "보내 드려요" 한 덩어리로 (휴대폰)
+
+- **문제:** 배포 사이트를 휴대폰(375)으로 확인해 보니, "보내드려요"를 "보내 드려요"로 띄어 쓴 뒤 "…문자로 보내" / "드려요."로 띄어쓰기 자리에서 줄이 바뀌었다.
+- **바꾼 것:** 띄어쓰기는 그대로 두고 "보내 드려요."를 한 덩어리로 묶어 "…문자로" / "보내 드려요."로 넘어가게 함 (추천안, 사용자 승인 "나은 방향대로"). 데스크탑은 한 줄이라 그대로.
+- **시안 맞춤:** 온라인 시안 캔버스 MP06(휴대폰)도 같게. 데스크탑 시안(`docs/html/p06-complete.html`, P06 캔버스)은 한 줄이라 그대로.
+- **확인:** 로컬에서 휴대폰(375) P06을 찍어 확인. `npm run build` 통과.
+- **수정한 파일:** `src/pages/CompletePage.jsx`

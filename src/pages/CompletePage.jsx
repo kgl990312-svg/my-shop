@@ -122,7 +122,10 @@ export default function CompletePage() {
         <section className="complete-notice">
           <h2>배송·문의 안내</h2>
           <span><ShippingPeriod /></span>
-          <span>주문 내용은 입력한 연락처로 문자로 보내 드려요.</span>
+          {/* "보내 드려요"는 좁은 화면에서도 한 덩어리로 (2026-11-23) */}
+          <span>
+            주문 내용은 입력한 연락처로 문자로 <span style={{ whiteSpace: 'nowrap' }}>보내 드려요.</span>
+          </span>
           <span>주문번호 또는 이름과 연락처로 고객센터에 문의해 주세요.</span>
         </section>
       </div>
