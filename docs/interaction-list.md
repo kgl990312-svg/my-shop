@@ -775,6 +775,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **레이아웃:** 화면 구조·순서는 그대로. 움직임만 추가해서 데스크탑에도 적용.
 - **확인:** `npm run build` 통과.
 - **수정한 파일:** `src/pages/OrderFlow.css`, `docs/06-site-design.md`, `docs/moa-design-system/README.md`, `docs/case-study.md`, `docs/interaction-list.md`
+- **사용자 확인 (2026-11-24):** 배포 뒤 데스크탑에서 완성 이미지에 마우스를 올리면 빛줄기가 다시 지나가는 것을 사용자가 직접 확인함 (출처: 사용자 답변)
 
 ### 2026-11-24 — P06 완료 화면 별은 휴대폰에서도 계속 반짝임 (17 예외)
 
@@ -783,6 +784,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **적용 방법:** `OrderFlow.css` 휴대폰 규칙에서 `.complete-media-wrap .complete-spark`의 반복 횟수를 `1, infinite`(나타나기 1번, 반짝임 반복)로 둬 `global.css`의 `.sparkle` 한 번만 규칙보다 앞서게 함. 데스크탑은 원래 계속 반짝여서 바뀌지 않음.
 - **확인:** `npm run build` 통과.
 - **수정한 파일:** `src/pages/OrderFlow.css`, `docs/interaction-list.md`, `PROJECT_CONTEXT.md`, `docs/06-site-design.md`
+- **사용자 확인 (2026-11-24):** 배포 뒤 휴대폰에서 완료 화면 별이 계속 반짝이는 것을 사용자가 직접 확인함 (출처: 사용자 답변)
 
 ### 2026-11-24 — 테두리 버튼 호버 명도 대비와 약관 마침표 (데스크탑 포함)
 
