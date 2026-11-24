@@ -797,6 +797,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **함께 확인한 것:** 마침표(11-23 기준대로 들어가 있음), 오타(없음), 줄바꿈(메인 케이스 카드 크기 괄호, P02 추가 요금 괄호, 푸터 운영 시간, P06 "보내 드려요" — 휴대폰 375에서 찍어 확인, 정한 대로 나옴).
 - **레이아웃:** 화면 구조·순서는 그대로. 데스크탑에서 테두리 버튼 호버 색과 약관 문구만 바뀌어 데스크탑에도 적용(승인된 예외).
 - **시안 맞춤:** `docs/html/m03-terms.html` 같은 문구로. 디자인 시스템 Button 미리보기에 테두리 버튼 호버 추가.
+- **온라인 원본 맞춤 (2026-11-24):** 디자인 시스템 아티팩트의 README·Button 설명·Button 미리보기·design-system.json(마지막 수정 기록)을 `docs/moa-design-system`과 같게, 시안 캔버스 M03 제7조 문장을 같게 고침. (claude.ai/design이 아니라 Claude 아티팩트로 옮겨져 있어 아티팩트에 직접 올림)
 - **수정한 파일:** `src/styles/global.css`, `src/data/policies.js`, `docs/html/m03-terms.html`, `docs/06-site-design.md`, `docs/moa-design-system/README.md`, `docs/moa-design-system/components/Button/README.md`, `docs/moa-design-system/components/Button/preview.html`, `docs/moa-design-system/design-system.json`, `docs/interaction-list.md`
 
 ### 2026-11-24 — 테스트 케이스 정리 (38개 → 35개)
