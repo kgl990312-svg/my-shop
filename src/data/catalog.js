@@ -2,60 +2,60 @@
 // 출처: PROJECT_CONTEXT.md, docs/04-site-wireframe.md, docs/06-site-design.md
 // 가격·크기는 모두 정해져 있다(2026-11-17). 값이 비어(null) 있을 때만 화면에 [가격]처럼 보여 주는 예비 처리가 남아 있다.
 
-import cardRound from '../assets/site/card/round.jpg';
-import cardSquare from '../assets/site/card/square.jpg';
-import cardHeart from '../assets/site/card/heart.jpg';
-import cardFlower from '../assets/site/card/flower.jpg';
-import hoverRound from '../assets/site/hover/round.jpg';
-import hoverSquare from '../assets/site/hover/square.jpg';
-import hoverHeart from '../assets/site/hover/heart.jpg';
-import hoverFlower from '../assets/site/hover/flower.jpg';
-import mockRound from '../assets/site/mockup/round.jpg';
-import mockSquare from '../assets/site/mockup/square.jpg';
-import mockHeart from '../assets/site/mockup/heart.jpg';
-import mockFlower from '../assets/site/mockup/flower.jpg';
-import detailRound from '../assets/site/detail/round.jpg';
-import detailSquare from '../assets/site/detail/square.jpg';
-import detailHeart from '../assets/site/detail/heart.jpg';
-import detailFlower from '../assets/site/detail/flower.jpg';
-import topRound from '../assets/site/top/round.png';
-import topSquare from '../assets/site/top/square.png';
-import topHeart from '../assets/site/top/heart.png';
-import topFlower from '../assets/site/top/flower.png';
+import cardRound from '../assets/p01-main/card/round.jpg';
+import cardSquare from '../assets/p01-main/card/square.jpg';
+import cardHeart from '../assets/p01-main/card/heart.jpg';
+import cardFlower from '../assets/p01-main/card/flower.jpg';
+import hoverRound from '../assets/p01-main/hover/round.jpg';
+import hoverSquare from '../assets/p01-main/hover/square.jpg';
+import hoverHeart from '../assets/p01-main/hover/heart.jpg';
+import hoverFlower from '../assets/p01-main/hover/flower.jpg';
+import mockRound from '../assets/p02-detail/mockup/round.jpg';
+import mockSquare from '../assets/p02-detail/mockup/square.jpg';
+import mockHeart from '../assets/p02-detail/mockup/heart.jpg';
+import mockFlower from '../assets/p02-detail/mockup/flower.jpg';
+import detailRound from '../assets/p02-detail/detail/round.jpg';
+import detailSquare from '../assets/p02-detail/detail/square.jpg';
+import detailHeart from '../assets/p02-detail/detail/heart.jpg';
+import detailFlower from '../assets/p02-detail/detail/flower.jpg';
+import topRound from '../assets/p03-customize/top/round.png';
+import topSquare from '../assets/p03-customize/top/square.png';
+import topHeart from '../assets/p03-customize/top/heart.png';
+import topFlower from '../assets/p03-customize/top/flower.png';
 
-import cubic1 from '../assets/site/sticker/cubic/cubic_1.png';
-import cubic2 from '../assets/site/sticker/cubic/cubic_2.png';
-import cubic3 from '../assets/site/sticker/cubic/cubic_3.png';
-import cubic4 from '../assets/site/sticker/cubic/cubic_4.png';
-import cubic5 from '../assets/site/sticker/cubic/cubic_5.png';
-import cubic6 from '../assets/site/sticker/cubic/cubic_6.png';
-import cubic7 from '../assets/site/sticker/cubic/cubic_7.png';
-import cubic8 from '../assets/site/sticker/cubic/cubic_8.png';
-import sticker1 from '../assets/site/sticker/sticker/sticker_1.png';
-import sticker2 from '../assets/site/sticker/sticker/sticker_2.png';
-import sticker3 from '../assets/site/sticker/sticker/sticker_3.png';
-import sticker4 from '../assets/site/sticker/sticker/sticker_4.png';
-import sticker5 from '../assets/site/sticker/sticker/sticker_5.png';
-import sticker6 from '../assets/site/sticker/sticker/sticker_6.png';
-import sticker7 from '../assets/site/sticker/sticker/sticker_7.png';
-import sticker8 from '../assets/site/sticker/sticker/sticker_8.png';
+import cubic1 from '../assets/p03-customize/sticker/cubic/cubic_1.png';
+import cubic2 from '../assets/p03-customize/sticker/cubic/cubic_2.png';
+import cubic3 from '../assets/p03-customize/sticker/cubic/cubic_3.png';
+import cubic4 from '../assets/p03-customize/sticker/cubic/cubic_4.png';
+import cubic5 from '../assets/p03-customize/sticker/cubic/cubic_5.png';
+import cubic6 from '../assets/p03-customize/sticker/cubic/cubic_6.png';
+import cubic7 from '../assets/p03-customize/sticker/cubic/cubic_7.png';
+import cubic8 from '../assets/p03-customize/sticker/cubic/cubic_8.png';
+import sticker1 from '../assets/p03-customize/sticker/sticker/sticker_1.png';
+import sticker2 from '../assets/p03-customize/sticker/sticker/sticker_2.png';
+import sticker3 from '../assets/p03-customize/sticker/sticker/sticker_3.png';
+import sticker4 from '../assets/p03-customize/sticker/sticker/sticker_4.png';
+import sticker5 from '../assets/p03-customize/sticker/sticker/sticker_5.png';
+import sticker6 from '../assets/p03-customize/sticker/sticker/sticker_6.png';
+import sticker7 from '../assets/p03-customize/sticker/sticker/sticker_7.png';
+import sticker8 from '../assets/p03-customize/sticker/sticker/sticker_8.png';
 
-import review1 from '../assets/site/review/review_1.jpg';
-import review2 from '../assets/site/review/review_2.jpg';
-import review3 from '../assets/site/review/review_3.jpg';
-import review4 from '../assets/site/review/review_4.jpg';
-import review5 from '../assets/site/review/review_5.jpg';
-import review6 from '../assets/site/review/review_6.jpg';
-import review7 from '../assets/site/review/review_7.jpg';
-import review8 from '../assets/site/review/review_8.jpg';
+import review1 from '../assets/p01-main/review/review_1.jpg';
+import review2 from '../assets/p01-main/review/review_2.jpg';
+import review3 from '../assets/p01-main/review/review_3.jpg';
+import review4 from '../assets/p01-main/review/review_4.jpg';
+import review5 from '../assets/p01-main/review/review_5.jpg';
+import review6 from '../assets/p01-main/review/review_6.jpg';
+import review7 from '../assets/p01-main/review/review_7.jpg';
+import review8 from '../assets/p01-main/review/review_8.jpg';
 
-import step1 from '../assets/site/icon/step_1.png';
-import step2 from '../assets/site/icon/step_2.png';
-import step3 from '../assets/site/icon/step_3.png';
-import step4 from '../assets/site/icon/step_4.png';
-import step5 from '../assets/site/icon/step_5.png';
+import step1 from '../assets/p02-detail/icon/step_1.png';
+import step2 from '../assets/p02-detail/icon/step_2.png';
+import step3 from '../assets/p02-detail/icon/step_3.png';
+import step4 from '../assets/p02-detail/icon/step_4.png';
+import step5 from '../assets/p02-detail/icon/step_5.png';
 
-export { default as bannerImage } from '../assets/site/banner/main.jpg';
+export { default as bannerImage } from '../assets/p01-main/banner/main.jpg';
 
 /*
  * 케이스 크기 (2026-11-17 확정): 가상 사이트라 일반적인 쿠션 팩트 평균값으로 정한 크기.

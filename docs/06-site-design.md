@@ -91,7 +91,7 @@
 ### 글꼴
 
 - 제목·본문: Pretendard v1.3.9 (SIL Open Font License)
-  - 파일: docs/moa-design-system/fonts 의 웹용 woff2 4개 — Pretendard-Regular(400), Pretendard-SemiBold(600), Pretendard-Bold(700), Pretendard-ExtraBold(800) + Pretendard-LICENSE.txt
+  - 파일: docs/design-system/fonts 의 웹용 woff2 4개 — Pretendard-Regular(400), Pretendard-SemiBold(600), Pretendard-Bold(700), Pretendard-ExtraBold(800) + Pretendard-LICENSE.txt
   - 사이트에서는 로딩을 줄이려고 같은 굵기 4개의 공식 서브셋(자주 쓰는 한글 2,350자 + 영문·기호, 각 약 265KB)을 src/assets/fonts 에 두고 쓴다. 첫 화면은 기본 글꼴로 먼저 그리고, 페이지가 다 뜬 뒤 Pretendard와 Google 글꼴로 바꾼다(다시 방문하면 바로). 글꼴이 바뀌어도 화면이 밀리지 않게(CLS 0.005) 확인함 (2026-11-23, PRD R-24)
   - 디자인에서 쓰지 않는 굵기(100, 200, 300, 500, 900)는 넣지 않는다.
 - 포인트: Great Vibes (영문 필기체, Google Fonts에서 불러옴). P01 소개 배너 "Make it yours" 한 줄에만 쓴다.
@@ -187,7 +187,7 @@
 - 반짝이(네 갈래 별)는 모아의 작은 장식이다. 배너, 안내 문구 앞, 완료 이미지 주변에만 한두 개씩 둔다.
 - 로고는 글자 로고로 확정했다 ("MOA" 아래 줄에 "모아", 가운데 정렬). 로고 이미지는 쓰지 않는다.
 - 파비콘: 작은 크기에서도 읽히도록 로고 윗줄 "MOA"만 한 줄로 쓴다 (포인트 코랄, 800, 배경 투명). 파일은 public/favicon.png
-- 이미지는 src/assets/site의 실제 이미지를 쓴다. 이미지가 뜨기 전에는 면 색(#F7E6DF)이 보인다.
+- 이미지는 src/assets의 페이지별 폴더(p01-main·p02-detail·p03-customize) 이미지를 쓴다. 이미지가 뜨기 전에는 면 색(#F7E6DF)이 보인다.
 - P02 상품정보의 상세 이미지는 높이를 고정하지 않고 사진 원래 비율로 보여 준다.
 - P03 케이스는 흰색 케이스 윗면 이미지(배경 투명)에 케이스 색을 곱하기(multiply)로 입힌다.
 - 필요한 이미지: 케이스 목업, 소개 배너 예시 상품, 예시 후기 사진, 스티커, 제작 안내 아이콘, 케이스 종류별 꾸민 예시 이미지(종류마다 1장)

@@ -622,7 +622,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 ### 2026-11-18 — 꽃 케이스 상세 목업 이미지 교체
 
 - **문제:** 메인에서 꽃 케이스 카드를 누르면 상세(P02) 큰 목업이 다른 모양으로 보였다. 메인 카드는 윗면이 평평한 꽃(원본 `base_4`)인데, 상세 목업은 꽃잎이 하나씩 볼록한 다른 디자인(원본 `base_3`)에서 잘라 만든 것이었다. 상세 아래 사진(`detail`), 꾸미기 화면(`top`), 메인 호버(`hover`)는 모두 평평한 꽃이라 목업만 달랐다.
-- **고친 것:** `src/assets/site/mockup/flower.jpg`를 원본 `base_4`(git 기록 146c574)에서 다른 목업과 같은 방식(가운데 768×768을 잘라 960×960으로 저장)으로 다시 만들었다. 코드 변경 없음.
+- **고친 것:** `src/assets/p02-detail/mockup/flower.jpg`를 원본 `base_4`(git 기록 146c574)에서 다른 목업과 같은 방식(가운데 768×768을 잘라 960×960으로 저장)으로 다시 만들었다. 코드 변경 없음.
 - **확인:** `npm run build` 통과.
 
 ### 2026-11-18 — 큐빅이 떨어질 수 있다는 안내 (데스크탑 포함)
@@ -706,7 +706,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 ### 2026-11-18 — 하트 상세 목업 이미지 교체, 다른 종류 이미지 점검
 
 - **점검:** 네 종류 모두 메인 카드(`card`)와 상세 큰 이미지(`mockup`)가 서로 다른 원본 사진에서 나왔다(종류별 원본 2장 중 카드는 한 장, 목업은 다른 한 장). 꽃은 디자인 자체가 달라 앞서 고쳤고, 하트는 같은 하트지만 카드는 윗면이 평평하고 목업은 더 볼록해 사용자가 다르게 느꼈다. 원형·둥근 정사각형은 같은 상품을 다른 장면에서 찍은 정도라 그대로 둠.
-- **고친 것:** `src/assets/site/mockup/heart.jpg`를 카드와 같은 원본(하트 원본 `base_5`, git 기록 146c574)에서 다른 목업과 같은 방식(가운데 768×768을 잘라 960×960)으로 다시 만들었다. 코드 변경 없음.
+- **고친 것:** `src/assets/p02-detail/mockup/heart.jpg`를 카드와 같은 원본(하트 원본 `base_5`, git 기록 146c574)에서 다른 목업과 같은 방식(가운데 768×768을 잘라 960×960)으로 다시 만들었다. 코드 변경 없음.
 - **확인:** `npm run build` 통과.
 
 ### 2026-11-18 — 낱말 단위 줄바꿈 (사이트 전체, 데스크탑 포함)
@@ -735,7 +735,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **확인 (로컬 빌드, 배포 전):** Lighthouse 접근성 — 데스크탑(1280)·휴대폰(390) 모두 P01~P07, M01·M03·M06에서 걸린 항목 0개. 키보드(Tab·Enter·Space·Esc)만으로 P01 → P06 주문 완료(크롬·엣지). M02 지우기 뒤 종류·색 유지, 태블릿 가로(1024·1180) 가로 넘침 0. 각인 세리프 글꼴이 받아지고, P06 이미지 저장 파일·알림 정상. 글꼴이 다 받아진 뒤 데스크탑 P01·P02는 배포 사이트와 픽셀 차이 0. 성능 — Lighthouse 모바일 LCP 18.5초 → 2.0초(3번 같음), CLS 0.005, 전체 3.9MB → 1.3MB. `npm run build` 통과.
 - **배포 뒤 확인 (2026-11-23):** 배포 뒤 배포 주소에서 다시 측정(2026-11-23, Lighthouse 접근성): 데스크탑(1280)·휴대폰(390) 모두 P01~P07·M01·M03·M06 11개 화면 100점, 걸린 항목 0개 · 배포 뒤 배포 주소에서 다시 측정(2026-11-23, Lighthouse 모바일): LCP 1.75초·1.50초·1.73초(가운데 값 1.73초), CLS 0.005, 전체 1.37MB
 - **사용자 테스트 (2026-11-23):** TC-34~TC-38을 사용자가 직접 테스트해 모두 통과 (출처: 사용자 답변)
-- **시안 맞춤 (2026-11-23):** P03 시안(`docs/html/p03-customize.html`)에서 선택된 도구 이름 글자를 #C4513F → #B04634로 바꾸고 `docs/png/p03-customize.png`를 다시 캡처함 (사용자 요청). 시안의 다른 부분(글자 크기 등)은 그대로. 온라인 원본도 맞춤: 시안 캔버스 P03·MP03(휴대폰)의 선택된 도구 글자 #B04634, 디자인 시스템 캔버스의 tokens.json·README.md를 `docs/moa-design-system`과 같게 (06 "디자인 시스템과 이 문서의 내용은 같다")
+- **시안 맞춤 (2026-11-23):** P03 시안(`docs/html/p03-customize.html`)에서 선택된 도구 이름 글자를 #C4513F → #B04634로 바꾸고 `docs/png/p03-customize.png`를 다시 캡처함 (사용자 요청). 시안의 다른 부분(글자 크기 등)은 그대로. 온라인 원본도 맞춤: 시안 캔버스 P03·MP03(휴대폰)의 선택된 도구 글자 #B04634, 디자인 시스템 캔버스의 tokens.json·README.md를 `docs/design-system`과 같게 (06 "디자인 시스템과 이 문서의 내용은 같다")
 - **수정한 파일:** `index.html`, `vite.config.js`, `src/main.jsx`, `src/utils/fonts.js`(새 파일), `src/utils/exportImage.js`, `src/styles/global.css`, `src/styles/tokens.css`(기본 글꼴에 맑은 고딕 추가), `src/pages/CustomizePage.css`, `src/pages/MainPage.css`, `src/pages/MainPage.jsx`, `src/components/Layout.jsx`, `src/assets/fonts/`(새 폴더)
 
 ### 2026-11-23 — P06 배송·문의 안내 마침표 맞추기 (데스크탑 포함)
@@ -775,7 +775,7 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **움직임 줄이기 설정:** 새 효과도 모두 끄고 바로 보여 줌.
 - **레이아웃:** 화면 구조·순서는 그대로. 움직임만 추가해서 데스크탑에도 적용.
 - **확인:** `npm run build` 통과.
-- **수정한 파일:** `src/pages/OrderFlow.css`, `docs/06-site-design.md`, `docs/moa-design-system/README.md`, `docs/case-study.md`, `docs/interaction-list.md`
+- **수정한 파일:** `src/pages/OrderFlow.css`, `docs/06-site-design.md`, `docs/design-system/README.md`, `docs/case-study.md`, `docs/interaction-list.md`
 - **사용자 확인 (2026-11-24):** 배포 뒤 데스크탑에서 완성 이미지에 마우스를 올리면 빛줄기가 다시 지나가는 것을 사용자가 직접 확인함 (출처: 사용자 답변)
 
 ### 2026-11-24 — P06 완료 화면 별은 휴대폰에서도 계속 반짝임 (17 예외)
@@ -797,8 +797,8 @@ hover를 모바일에서 없애면서, hover 안에만 있던 "꾸민 예시" �
 - **함께 확인한 것:** 마침표(11-23 기준대로 들어가 있음), 오타(없음), 줄바꿈(메인 케이스 카드 크기 괄호, P02 추가 요금 괄호, 푸터 운영 시간, P06 "보내 드려요" — 휴대폰 375에서 찍어 확인, 정한 대로 나옴).
 - **레이아웃:** 화면 구조·순서는 그대로. 데스크탑에서 테두리 버튼 호버 색과 약관 문구만 바뀌어 데스크탑에도 적용(승인된 예외).
 - **시안 맞춤:** `docs/html/m03-terms.html` 같은 문구로. 디자인 시스템 Button 미리보기에 테두리 버튼 호버 추가.
-- **온라인 원본 맞춤 (2026-11-24):** 디자인 시스템 아티팩트의 README·Button 설명·Button 미리보기·design-system.json(마지막 수정 기록)을 `docs/moa-design-system`과 같게, 시안 캔버스 M03 제7조 문장을 같게 고침. (claude.ai/design이 아니라 Claude 아티팩트로 옮겨져 있어 아티팩트에 직접 올림)
-- **수정한 파일:** `src/styles/global.css`, `src/data/policies.js`, `docs/html/m03-terms.html`, `docs/06-site-design.md`, `docs/moa-design-system/README.md`, `docs/moa-design-system/components/Button/README.md`, `docs/moa-design-system/components/Button/preview.html`, `docs/moa-design-system/design-system.json`, `docs/interaction-list.md`
+- **온라인 원본 맞춤 (2026-11-24):** 디자인 시스템 아티팩트의 README·Button 설명·Button 미리보기·design-system.json(마지막 수정 기록)을 `docs/design-system`과 같게, 시안 캔버스 M03 제7조 문장을 같게 고침. (claude.ai/design이 아니라 Claude 아티팩트로 옮겨져 있어 아티팩트에 직접 올림)
+- **수정한 파일:** `src/styles/global.css`, `src/data/policies.js`, `docs/html/m03-terms.html`, `docs/06-site-design.md`, `docs/design-system/README.md`, `docs/design-system/components/Button/README.md`, `docs/design-system/components/Button/preview.html`, `docs/design-system/design-system.json`, `docs/interaction-list.md`
 
 ### 2026-11-24 — 테스트 케이스 정리 (38개 → 35개)
 

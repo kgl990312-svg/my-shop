@@ -70,7 +70,7 @@
 - 시각 디자인 시안: Claude Design 캔버스 "모아(MOA) 시각 디자인" https://claude.ai/code/artifact/91e250c0-6355-4eb6-91d9-81de296f63b7 (P01~P07, M01~M07 데스크탑 1440 · 셋째 줄에 P01~P07 휴대폰 375 시안 추가, 6단계 반응형 기준)
   - 내려받은 시안 파일 (데스크탑, 2026-11-17 캔버스 기준): docs/html (p01-main.html ~ p07-cart.html, m01-exit.html ~ m07-preview.html, 캔버스 원본 .dc.html을 이름만 바꿈, 화면을 그리는 support.js·vendor/·assets/(글꼴)가 같은 폴더에 있어야 열림. 브라우저로 볼 때는 docs/html 폴더에서 `python -m http.server`로 띄운 뒤 http://localhost:8000/p01-main.html 처럼 연다), 화면 이미지: docs/png (p01-main.png ~ p07-cart.png, m01-exit.png ~ m07-preview.png). 휴대폰 시안은 내려받지 않음
 - 안쪽 점선(꾸밀 수 있는 범위): 둥근 정사각형은 네모(가장자리에서 13% 안쪽), 원형·하트·꽃은 가운데 원 (출처: 사용자 답변 — 추천안 승인)
-- 디자인 시스템: "모아(MOA)" https://claude.ai/artifact/Kwi1LcyK45R2Kf2EfnbtMZ · 파일은 docs/moa-design-system, 정리 문서는 docs/06-site-design.md (출처: 사용자 답변)
+- 디자인 시스템: "모아(MOA)" https://claude.ai/artifact/Kwi1LcyK45R2Kf2EfnbtMZ · 파일은 docs/design-system, 정리 문서는 docs/06-site-design.md (출처: 사용자 답변)
 
 ## 5. 인터랙션
 (출처: 02-site-structure.md, 04-site-wireframe.md, 사용자 답변)
@@ -134,22 +134,22 @@
 - P02 소재 (가상 사이트용): "케이스: PC·ABS 수지 · 큐빅: 아크릴" (출처: 사용자 답변 — 추천안 승인)
 - P02 상품 설명: 공통 문단 "직접 고른 색과 스티커·큐빅·각인으로 꾸민 디자인을 그대로 담아 만드는 나만의 쿠션 케이스예요. 꾸민 디자인은 케이스에 인쇄·각인하고, 큐빅은 하나하나 손으로 붙여 드려요." + 종류별 한 줄 (원형 "어떤 꾸밈과도 잘 어울리는 기본 동그란 모양이에요." · 둥근 정사각형 "넓은 면에 꾸밈을 여유 있게 놓을 수 있어요." · 하트 "사랑스러운 하트 모양이라 선물하기에도 좋아요." · 꽃 "꽃잎 테두리가 화사한 포인트가 돼요.") (출처: 사용자 답변 — 추천안 승인, 값은 `src/data/catalog.js`)
 - P06 완료 부가 문구: "세상에 하나뿐인 케이스가 곧 찾아갈게요" (출처: 사용자 답변)
-- 이미지: 나노바나나로 만든 이미지를 골라 반짝이 표시를 잘라내고 사이트용으로 가공함 (출처: 사용자 답변). 사이트는 src/assets/site 안의 이미지만 씀
+- 이미지: 나노바나나로 만든 이미지를 골라 반짝이 표시를 잘라내고 사이트용으로 가공함 (출처: 사용자 답변). 사이트는 src/assets 안의 페이지별 폴더(p01-main·p02-detail·p03-customize) 이미지만 씀. 폴더 이름은 docs/html 화면 파일 이름과 같음 · 배너 프롬프트 기록은 docs/image-prompt
   | 폴더 | 쓰는 곳 | 파일 |
   | --- | --- | --- |
-  | banner | P01 소개 배너 (블러시 핑크 원형 케이스) | main.jpg |
-  | card | P01 케이스 종류 카드 (꾸미지 않은 케이스) | round, square, heart, flower .jpg |
-  | hover | P01 카드에 마우스를 올렸을 때 꾸민 예시 | round, square, heart, flower .jpg |
-  | mockup | P02 상품 요약 큰 목업 | round, square, heart, flower .jpg |
-  | detail | P02 상품정보 상세 이미지 (열고 닫은 모습) | round, square, heart, flower .jpg |
-  | top | P03 케이스 윗면 (흰색, 배경 투명, 케이스 색을 입힘) | round, square, heart, flower .png |
-  | review | P01 직접 꾸민 후기 8개 (종류별 2개씩) | review_1 ~ review_8 .jpg |
-  | icon | P02 제작 안내 5단계 아이콘 | step_1 ~ step_5 .png |
-  | sticker/cubic, sticker/sticker | P03 큐빅·스티커 (각 8개, 배경 투명) | cubic_1~8, sticker_1~8 .png |
+  | p01-main/banner | P01 소개 배너 (블러시 핑크 원형 케이스) | main.jpg |
+  | p01-main/card | P01 케이스 종류 카드 (꾸미지 않은 케이스) | round, square, heart, flower .jpg |
+  | p01-main/hover | P01 카드에 마우스를 올렸을 때 꾸민 예시 | round, square, heart, flower .jpg |
+  | p02-detail/mockup | P02 상품 요약 큰 목업 | round, square, heart, flower .jpg |
+  | p02-detail/detail | P02 상품정보 상세 이미지 (열고 닫은 모습) | round, square, heart, flower .jpg |
+  | p03-customize/top | P03 케이스 윗면 (흰색, 배경 투명, 케이스 색을 입힘) | round, square, heart, flower .png |
+  | p01-main/review | P01 직접 꾸민 후기 8개 (종류별 2개씩) | review_1 ~ review_8 .jpg |
+  | p02-detail/icon | P02 제작 안내 5단계 아이콘 | step_1 ~ step_5 .png |
+  | p03-customize/sticker/cubic, sticker/sticker | P03 큐빅·스티커 (각 8개, 배경 투명) | cubic_1~8, sticker_1~8 .png |
 - 글꼴: Pretendard v1.3.9 웹용 woff2 4개 (Regular 400, SemiBold 600, Bold 700, ExtraBold 800) + 라이선스 파일(SIL Open Font License) · Great Vibes는 Google Fonts에서 불러옴 (출처: 사용자 답변)
-- 파일 위치: 글꼴 원본은 docs/moa-design-system/fonts (출처: 사용자 답변). 사이트는 같은 글꼴의 공식 서브셋(pretendard@1.3.9 woff2-subset, 각 약 265KB)을 src/assets/fonts 에서 씀. Pretendard와 Google 글꼴(Great Vibes·각인 글꼴)은 `src/utils/fonts.js`가 첫 화면 뒤(페이지가 다 뜨고 1초 뒤)에 불러오고, 그 전에는 기본 글꼴(맑은 고딕·애플 SD 고딕 등)로 보임. 한 번 받은 뒤 다시 방문하면 바로 불러옴 (출처: 사용자 답변 — 로딩 시간 개선 승인, 2026-11-23) · 이미지는 src/assets/site (출처: 사용자 답변)
+- 파일 위치: 글꼴 원본은 docs/design-system/fonts (출처: 사용자 답변). 사이트는 같은 글꼴의 공식 서브셋(pretendard@1.3.9 woff2-subset, 각 약 265KB)을 src/assets/fonts 에서 씀. Pretendard와 Google 글꼴(Great Vibes·각인 글꼴)은 `src/utils/fonts.js`가 첫 화면 뒤(페이지가 다 뜨고 1초 뒤)에 불러오고, 그 전에는 기본 글꼴(맑은 고딕·애플 SD 고딕 등)로 보임. 한 번 받은 뒤 다시 방문하면 바로 불러옴 (출처: 사용자 답변 — 로딩 시간 개선 승인, 2026-11-23) · 이미지는 src/assets/p01-main·p02-detail·p03-customize (출처: 사용자 답변)
 - 원본 이미지: 쓰지 않는 원본 폴더(main.jpg, base·case·full·hover·icon·review·sticker img)는 삭제함. 커밋된 파일은 git 기록(146c574)에서 되살릴 수 있음 (출처: 사용자 답변)
-- 아직 쓰지 않는 스티커: src/assets/site/sticker/pic(8개), ribbon(8개) · 배경 정리 완료, 나중에 쓸 수 있게 남겨 둠 (출처: 사용자 답변)
+- 아직 쓰지 않는 스티커: src/assets/p03-customize/sticker/pic(8개), ribbon(8개) · 배경 정리 완료, 나중에 쓸 수 있게 남겨 둠 (출처: 사용자 답변)
 
 ## 7. 반응형 기준
 - 모바일 대응 여부: 대응함. 휴대폰·태블릿 = 폭 1024px 이하 터치 기기(`@media (hover: none) and (pointer: coarse) and (max-width: 1024px)`, JS는 `src/utils/device.js`의 `isMobile()`). 휴대폰/태블릿 구분은 폭 768px. 꾸미기가 큰 화면에서 편해서 데스크탑부터 설계했고, 모바일은 그 위에 덧붙임 (출처: 01-site-purpose.md, 사용자 답변 — 추천안 승인)
@@ -167,7 +167,11 @@
   my-shop/
     index.html, package.json, vite.config.js
     public/          favicon.png (파비콘)
-    docs/            기획 문서, 디자인 시스템, 시안(html), 화면 이미지(png)
+    docs/            기획 문서(md)
+      design-system/ 색상, 타이포, 간격, 컴포넌트 등 디자인 규칙
+      html/          완성된 화면의 HTML. 구현의 정답지
+      png/           화면 구조 이미지. HTML과 대조용
+      image-prompt/  배너 이미지를 만들 때 쓴 나노바나나 프롬프트(banner-prompt.txt)와 결과 이미지(banner-result.jpg)
     src/
       main.jsx, App.jsx (주소 → 페이지), router.jsx (페이지 이동·뒤로가기 처리)
       pages/         P01~P07 페이지 (MainPage, DetailPage, CustomizePage, ConfirmPage, OrderPage, CompletePage, CartPage)
@@ -178,8 +182,12 @@
       store/         ShopContext.jsx (꾸민 상태·장바구니 저장)
       styles/        tokens.css (디자인 토큰), global.css (글꼴·공통 스타일)
       utils/         summary.js (선택 요약·합계), exportImage.js (이미지 저장), device.js (터치 기기 판별 isMobile), fonts.js (글꼴을 첫 화면 뒤에 불러오기)
-      assets/site/   사이트에서 쓰는 이미지
-      assets/fonts/  Pretendard 서브셋 글꼴 4개 (불러오기는 utils/fonts.js)
+      assets/
+        logo.svg       글자 로고를 외곽선으로 바꾼 파일 (사이트 화면은 글자로 그림)
+        fonts/         Pretendard 서브셋 글꼴 4개 (불러오기는 utils/fonts.js)
+        p01-main/      P01 이미지: banner · card · hover · review
+        p02-detail/    P02 이미지: mockup · detail · icon
+        p03-customize/ P03 이미지: top · sticker
     .github/workflows/deploy.yml   GitHub Pages 배포
   ```
 - 실행: npm install → npm run dev (출처: 사용자 답변)

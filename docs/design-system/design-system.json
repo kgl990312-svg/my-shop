@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-13T12:30:00+09:00"
+  },
+  "title": "모아(MOA)",
+  "namespace": "MOA",
+  "libraries": [],
+  "sections": {},
+  "groups": [],
+  "assetGroups": {},
+  "blobs": {},
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "lastChange": {
+    "by": "뚠뚠이",
+    "at": "2026-11-26T10:00:00+09:00",
+    "via": "Claude Code",
+    "note": "이미지 위치를 페이지별 폴더(src/assets/p01-main·p02-detail·p03-customize)로 바꿈 · 글자 로고를 외곽선으로 바꾼 src/assets/logo.svg 추가"
+  }
+}
